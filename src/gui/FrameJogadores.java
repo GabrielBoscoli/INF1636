@@ -16,6 +16,10 @@ public class FrameJogadores extends JFrame implements ActionListener {
 	private final int FRAME_LARGURA = 300; 
 	private final int FRAME_ALTURA = 200;
 	
+	//nome dos jogadores
+	private JTextField nomeJogadorUm = new JTextField("Jogador 1");
+	private JTextField nomeJogadorDois = new JTextField("Jogador 2");
+	
 	public FrameJogadores() {
 		
 		//criando componentes
@@ -30,10 +34,10 @@ public class FrameJogadores extends JFrame implements ActionListener {
 		//adicionando componentes em seus paineis
 		Dimension dimensaoComponente = new Dimension(200, 50);
 		painelJogadorUm.add(labelJogadorUm);
-		painelJogadorUm.add(new JTextField());
+		painelJogadorUm.add(nomeJogadorUm);
 		painelJogadorUm.setMaximumSize(dimensaoComponente);
 		painelJogadorDois.add(labelJogadorDois);
-		painelJogadorDois.add(new JTextField());
+		painelJogadorDois.add(nomeJogadorDois);
 		painelJogadorDois.setMaximumSize(dimensaoComponente);
 		
 		//arrumando componentes no frame
@@ -63,13 +67,26 @@ public class FrameJogadores extends JFrame implements ActionListener {
 		setTitle("Seleção de Jogadores");
 		
 		botaoInicio.addActionListener(this);
-		
 		//MenuController.getMenuController().createAndShowGUI(this);
 	}
 	
+	public String getNomeJogadorUm() {
+		return nomeJogadorUm.getText();
+	}
+	
+	public String getNomeJogadorDois() {
+		return nomeJogadorDois.getText();
+	}
+	
+	
 	@Override
 	public void actionPerformed(ActionEvent e) {
-
+		
+		ControleJogo novo = ControleJogo.getMainGamePresenter();
+		
+		
+		novo.closeNaming();
+		novo.showPositioning();
 	}
 	
 }
