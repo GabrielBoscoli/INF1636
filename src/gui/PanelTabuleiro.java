@@ -16,7 +16,7 @@ public class PanelTabuleiro extends JPanel {
 	private int tamanhoQuadrado = 25;
 	private int numColunas = 15;
 	private int numLinhas = 15;
-	private Color[][] MatrizCor = new Color[15][15];
+	private Color[][] MatrizCor = new Color[numLinhas][numColunas];
 	
 	public PanelTabuleiro() {
 		this.setLayout(null);
