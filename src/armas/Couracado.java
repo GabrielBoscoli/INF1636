@@ -13,7 +13,7 @@ public class Couracado extends Arma {
 	 * @param qntdQuadrados qntdQuadrados quantidade de quadrados que a arma ocupa na matriz de posicionamento
 	 * @param qntdRotacoes quantidade de rotações possiveis para a arma
 	 */
-	Couracado() {
+	public Couracado() {
 		
 		this.setQntdQuadrados(5);
 		this.setQntdRotacoes(2);

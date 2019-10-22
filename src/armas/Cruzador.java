@@ -13,7 +13,7 @@ public class Cruzador extends Arma{
 	 * @param qntdQuadrados qntdQuadrados quantidade de quadrados que a arma ocupa na matriz de posicionamento
 	 * @param qntdRotacoes quantidade de rotações possiveis para a arma
 	 */
-	Cruzador() {
+	public Cruzador() {
 		
 		this.setQntdQuadrados(4);
 		this.setQntdRotacoes(2);

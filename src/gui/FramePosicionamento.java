@@ -14,6 +14,9 @@ public class FramePosicionamento extends JFrame  {
 	
 	//Painel do tabuleiro matricial
 	private PanelTabuleiro boardPanel;
+	
+	//Painel das armas a serem posicionadas
+	private PainelArmas painelArmas;
 
 	private Point currentMousePosition = new Point(0,0);
 	
@@ -33,15 +36,20 @@ public class FramePosicionamento extends JFrame  {
 		requestFocusInWindow();
 		
 		//configurando e adicionando tabuleiro ao frame
-		boardPanel = new PanelTabuleiro();
-		boardPanel.setSize((boardPanel.getNumLinhas()+1)*boardPanel.getTamanhoQuadrado(), 
-						(boardPanel.getNumColunas()+1)*boardPanel.getTamanhoQuadrado());
-		basePointX = (int)(tela.screenIntWidth*3/4 - boardPanel.getSize().getWidth()/2);
-		basePointY = (int)(tela.screenIntHeight*1/2 - boardPanel.getSize().getHeight()/2);
-		boardPanel.setLocation(basePointX, basePointY);	
-		getContentPane().add(boardPanel);
+//		boardPanel = new PanelTabuleiro();
+//		boardPanel.setSize((boardPanel.getNumLinhas()+1)*boardPanel.getTamanhoQuadrado(), 
+//						(boardPanel.getNumColunas()+1)*boardPanel.getTamanhoQuadrado());
+//		basePointX = (int)(tela.screenIntWidth*3/4 - boardPanel.getSize().getWidth()/2);
+//		basePointY = (int)(tela.screenIntHeight*1/2 - boardPanel.getSize().getHeight()/2);
+//		boardPanel.setLocation(basePointX, basePointY);	
+//		getContentPane().add(boardPanel);
 		
-		//
+		//configurando e adicionando armas ao frame
+		painelArmas = new PainelArmas();
+		painelArmas.setSize(200, 200);
+		painelArmas.setLocation(basePointX, basePointY);	
+		
+		getContentPane().add(painelArmas);
 		
 	}
 
