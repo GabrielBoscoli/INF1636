@@ -10,7 +10,7 @@ import gui.ControleJogo;
 @SuppressWarnings("serial")
 public class Main extends JFrame {
 	public static void main(String[] args) {
-		//FramePosicionamento frame = new FramePosicionamento();
+		///FramePosicionamento frame = new FramePosicionamento();
 		ControleJogo novo = ControleJogo.getMainGamePresenter();
 		//frame.setSize(450, 450);
 		//frame.setVisible(true);

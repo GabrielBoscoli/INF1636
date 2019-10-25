@@ -1,5 +1,7 @@
 package armas;
 
+import outros.Coordenada;
+
 /**
  * Classe que define a arma Hidroaviao
  * @author Gabriel Boscoli
@@ -17,6 +19,15 @@ public class Hidroaviao extends Arma {
 		
 		this.setQntdQuadrados(3);
 		this.setQntdRotacoes(4);
+		
+		Coordenada[] formato = new Coordenada[this.getQntdQuadrados()];
+		
+		//define o formato inicial do couracado
+		formato[0] = new Coordenada(0, 1);
+		formato[1] = new Coordenada(1, 0);
+		formato[2] = new Coordenada(2, 1);
+
+		this.setFormato(formato);
 		
 	}
 	

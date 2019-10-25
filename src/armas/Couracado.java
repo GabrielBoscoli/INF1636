@@ -1,5 +1,7 @@
 package armas;
 
+import outros.Coordenada;
+
 /**
  * Classe que define a arma Couraçado
  * @author Gabriel Boscoli
@@ -18,6 +20,15 @@ public class Couracado extends Arma {
 		this.setQntdQuadrados(5);
 		this.setQntdRotacoes(2);
 		
+		Coordenada[] formato = new Coordenada[this.getQntdQuadrados()];
+		
+		//define o formato inicial do couracado
+		for(int i = 0; i < formato.length; i++) {
+			
+			formato[i] = new Coordenada(i, 0);
+			
+		}
+		this.setFormato(formato);
 	}
 
 }

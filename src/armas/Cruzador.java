@@ -1,5 +1,7 @@
 package armas;
 
+import outros.Coordenada;
+
 /**
  * Classe que define a arma Cruzador
  * @author Gabriel Boscoli
@@ -17,6 +19,16 @@ public class Cruzador extends Arma{
 		
 		this.setQntdQuadrados(4);
 		this.setQntdRotacoes(2);
+		
+		Coordenada[] formato = new Coordenada[this.getQntdQuadrados()];
+		
+		//define o formato inicial do cruzador
+		for(int i = 0; i < formato.length; i++) {
+			
+			formato[i] = new Coordenada(i, 0);
+			
+		}
+		this.setFormato(formato);
 		
 	}
 	

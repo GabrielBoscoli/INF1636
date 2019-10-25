@@ -31,25 +31,26 @@ public class FramePosicionamento extends JFrame  {
 		setSize(tela.screenIntWidth, tela.screenIntHeight);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setResizable(false);
-		setLayout(null);
+		//setLayout(null);
 		setFocusable(true);
 		requestFocusInWindow();
 		
 		//configurando e adicionando tabuleiro ao frame
-//		boardPanel = new PanelTabuleiro();
-//		boardPanel.setSize((boardPanel.getNumLinhas()+1)*boardPanel.getTamanhoQuadrado(), 
-//						(boardPanel.getNumColunas()+1)*boardPanel.getTamanhoQuadrado());
-//		basePointX = (int)(tela.screenIntWidth*3/4 - boardPanel.getSize().getWidth()/2);
-//		basePointY = (int)(tela.screenIntHeight*1/2 - boardPanel.getSize().getHeight()/2);
-//		boardPanel.setLocation(basePointX, basePointY);	
-//		getContentPane().add(boardPanel);
+		boardPanel = new PanelTabuleiro();
+		boardPanel.setSize((boardPanel.getNumLinhas()+1)*boardPanel.getTamanhoQuadrado(), 
+						(boardPanel.getNumColunas()+1)*boardPanel.getTamanhoQuadrado());
+		basePointX = (int)(tela.screenIntWidth*3/4 - boardPanel.getSize().getWidth()/2);
+		basePointY = (int)(tela.screenIntHeight*1/2 - boardPanel.getSize().getHeight()/2);
+		boardPanel.setLocation(basePointX, basePointY);	
+		getContentPane().add(boardPanel);
 		
 		//configurando e adicionando armas ao frame
 		painelArmas = new PainelArmas();
-		painelArmas.setSize(200, 200);
-		painelArmas.setLocation(basePointX, basePointY);	
-		
+		//painelArmas.setSize(200, 200);
+		//painelArmas.setLocation(tela.screenIntWidth*1/4, basePointY);
 		getContentPane().add(painelArmas);
+		
+		System.out.println(painelArmas.getSize());
 		
 	}
 
