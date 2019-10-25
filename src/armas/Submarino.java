@@ -21,6 +21,8 @@ public class Submarino extends Arma {
 		this.setQntdRotacoes(1);
 		
 		Coordenada[] formato = new Coordenada[this.getQntdQuadrados()];
+		
+		//define o formato inicial do destroyer
 		formato[0] = new Coordenada(0, 0);
 		this.setFormato(formato);
 		

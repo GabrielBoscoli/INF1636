@@ -31,9 +31,9 @@ public class FramePosicionamento extends JFrame  {
 		setSize(tela.screenIntWidth, tela.screenIntHeight);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setResizable(false);
-		//setLayout(null);
-		setFocusable(true);
-		requestFocusInWindow();
+		setLayout(null);
+		//setFocusable(true);
+		//requestFocusInWindow();
 		
 		//configurando e adicionando tabuleiro ao frame
 		boardPanel = new PanelTabuleiro();
@@ -46,8 +46,7 @@ public class FramePosicionamento extends JFrame  {
 		
 		//configurando e adicionando armas ao frame
 		painelArmas = new PainelArmas();
-		//painelArmas.setSize(200, 200);
-		//painelArmas.setLocation(tela.screenIntWidth*1/4, basePointY);
+		painelArmas.setLocation(tela.screenIntWidth*1/7, basePointY);
 		getContentPane().add(painelArmas);
 		
 		System.out.println(painelArmas.getSize());

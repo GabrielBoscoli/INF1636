@@ -40,12 +40,7 @@ public class PainelArmas extends JPanel {
 
 	public PainelArmas() {
 		
-		final DimensaoTela tela = DimensaoTela.getScreenDimensions();
-		int larguraTela = tela.screenIntWidth;
-		int alturaTela = tela.screenIntHeight;
-		setSize(larguraTela, alturaTela);
 		setLayout(null);
-		setFocusable(true);
 		
 		//auxiliares no posicionamento
 		int xPosicionamento = 0;
@@ -95,18 +90,21 @@ public class PainelArmas extends JPanel {
 		tamanhoQuadrado = desenhaArmas(couracados, COURACADO_COR, xPosicionamento, yPosicionamento);
 
 		xPosicionamento = 0;
-		yPosicionamento += couracados[0].getAltura() * tamanhoQuadrado + espacoEntreArmas; 
+		yPosicionamento += couracados[0].getAltura() * tamanhoQuadrado + espacoEntreArmas;
+		
+		//define o tamanho do painel
+		this.setSize(this.getLarguraPainelArmas(tamanhoQuadrado) + 1, yPosicionamento - espacoEntreArmas + 1);
 	}
 	
 	/**
 	 * Desenha as armas, todas na mesma linha.
 	 * Adiciona as armas no painel.
-	 * @param armas vetor com as armas
-	 * @param cor cor das armas
-	 * @param qntdArmas quantidade de armas a serem desenhadas
-	 * @param xInicial coordenada x de onde o desenho deve começar
-	 * @param yInicial coordenada y de onde o desenho deve começar
-	 * @reurn o tamanho dos quadrados desenhados para formar a arma
+	 * @param armas - vetor com as armas
+	 * @param cor - cor das armas
+	 * @param qntdArmas - quantidade de armas a serem desenhadas
+	 * @param xInicial - coordenada x de onde o desenho deve começar
+	 * @param yInicial - coordenada y de onde o desenho deve começar
+	 * @return o tamanho dos quadrados desenhados para formar a arma
 	 */
 	private int desenhaArmas(Arma[] armas, Color cor, int xInicial, int yInicial) {
 		int tamanhoQuadrado = 0;
@@ -117,7 +115,7 @@ public class PainelArmas extends JPanel {
 			PainelArma painelArma = new PainelArma(armas[i], cor);
 			tamanhoQuadrado = painelArma.getTamanhoQuadrado();
 			painelArma.setSize(armas[i].getLargura() * tamanhoQuadrado + 1, armas[i].getAltura() * tamanhoQuadrado + 1);
-			painelArma.setLocation(xPosicionamento, yPosicionamento);//rever localização
+			painelArma.setLocation(xPosicionamento, yPosicionamento);
 			
 			this.add(painelArma);
 			//PainelCouracado.repaint();
@@ -128,20 +126,41 @@ public class PainelArmas extends JPanel {
 		return tamanhoQuadrado;
 	}
 	
-//	@Override
-//	public void paintComponent(Graphics g) {
-//		super.paintComponent(g);
-//		
-//		Graphics2D g2d = (Graphics2D) g;
-//		
-//		for (int i = 0; i < 4; i++){
-//			Rectangle2D retangulo = new Rectangle2D.Double(i * 25, 25, 25, 25);
-//			g2d.setPaint(Color.green);
-//			g2d.fill(retangulo);
-//			g2d.setPaint(Color.black);
-//			g2d.draw(retangulo);
-//		}
-//		
-//	}
+	/**
+	 * Retorna o tamanho da maior linha a ser desenhada.
+	 * @param tamanho do quadrado usado para o desenho das armas
+	 * @return o tamanho da maior linha
+	 */
+	private int getLarguraPainelArmas(int tamanhoQuadrado) {
+		int maiorX = 0;
+		
+		int x = couracados[0].getLargura() * tamanhoQuadrado * COURACADO_QNTD + (espacoEntreArmas * (COURACADO_QNTD - 1));	
+		if (x > maiorX) {
+			maiorX = x;
+		}
+		
+		x = cruzadores[0].getLargura() * tamanhoQuadrado * CRUZADOR_QNTD + (espacoEntreArmas * (CRUZADOR_QNTD - 1));
+		if (x > maiorX) {
+			maiorX = x;
+		}
+		
+		x = destroyers[0].getLargura() * tamanhoQuadrado * DESTROYER_QNTD + (espacoEntreArmas * (DESTROYER_QNTD - 1));
+		if (x > maiorX) {
+			maiorX = x;
+		}
+		
+		x = hidroavioes[0].getLargura() * tamanhoQuadrado * HIDROAVIAO_QNTD + (espacoEntreArmas * (HIDROAVIAO_QNTD - 1));
+		System.out.println(x);
+		if (x > maiorX) {
+			maiorX = x;
+		}
+		
+		x = submarinos[0].getLargura() * tamanhoQuadrado * SUBMARINO_QNTD + (espacoEntreArmas * (SUBMARINO_QNTD - 1));
+		if (x > maiorX) {
+			maiorX = x;
+		}
+		
+		return maiorX;
+	}
 	
 }
