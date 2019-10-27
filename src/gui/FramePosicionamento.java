@@ -17,6 +17,12 @@ public class FramePosicionamento extends JFrame  {
 	
 	//Painel das armas a serem posicionadas
 	private PainelArmas painelArmas;
+	
+	//Painel das instrucoes de jogo
+	private JPanel painelInstrucoes = new JPanel();
+	
+	//Botao de confirmacao do posicionamento
+	private JButton botaoConfirmacao = new JButton("Tabuleiro Pronto!");
 
 	private Point currentMousePosition = new Point(0,0);
 	
@@ -49,7 +55,21 @@ public class FramePosicionamento extends JFrame  {
 		painelArmas.setLocation(tela.screenIntWidth*1/7, basePointY);
 		getContentPane().add(painelArmas);
 		
-		System.out.println(painelArmas.getSize());
+		//adicionando instruções de jogo
+		JLabel instrucoes = new JLabel("O magui eh muito liso meu deus nunca vi igual garay goroy quuentinhas");
+		int larguraInstrucoes = 500;
+		int alturaInstrucoes = 25;
+		painelInstrucoes.add(instrucoes);
+		painelInstrucoes.setSize(larguraInstrucoes, alturaInstrucoes);
+		painelInstrucoes.setLocation((int) (tela.screenIntWidth/2 - painelInstrucoes.getSize().getWidth()/2), tela.screenIntHeight * 4/5);
+		getContentPane().add(painelInstrucoes);
+		
+		//adicionando botao para continuar
+		int larguraBotao = 200;
+		int alturaBotao = 50;
+		botaoConfirmacao.setSize(larguraBotao, alturaBotao);
+		botaoConfirmacao.setLocation((int) (tela.screenIntWidth/2 - botaoConfirmacao.getSize().getWidth()/2), tela.screenIntHeight * 5/6);
+		getContentPane().add(botaoConfirmacao);
 		
 	}
 
