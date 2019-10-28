@@ -43,8 +43,8 @@ public class FramePosicionamento extends JFrame  {
 		
 		//configurando e adicionando tabuleiro ao frame
 		boardPanel = new PainelTabuleiro();
-		boardPanel.setSize((boardPanel.getNumLinhas()+1)*boardPanel.getTamanhoQuadrado(), 
-						(boardPanel.getNumColunas()+1)*boardPanel.getTamanhoQuadrado());
+		boardPanel.setSize((boardPanel.getTabuleiro().getNumLinhas()+1)*boardPanel.getTamanhoQuadrado(), 
+						(boardPanel.getTabuleiro().getNumColunas()+1)*boardPanel.getTamanhoQuadrado());
 		basePointX = (int)(tela.screenIntWidth*3/4 - boardPanel.getSize().getWidth()/2);
 		basePointY = (int)(tela.screenIntHeight*1/2 - boardPanel.getSize().getHeight()/2);
 		boardPanel.setLocation(basePointX, basePointY);	

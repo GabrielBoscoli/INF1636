@@ -2,7 +2,11 @@ package gui;
 
 import javax.swing.*;
 
+import tabuleiro.Tabuleiro;
+
 import java.awt.*;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.geom.*;
 
 /**
@@ -11,27 +15,17 @@ import java.awt.geom.*;
  *
  */
 @SuppressWarnings("serial")
-public class PainelTabuleiro extends JPanel {
+public class PainelTabuleiro extends JPanel implements MouseListener {
 
 	private int tamanhoQuadrado = 25;
-	private int numColunas = 15;
-	private int numLinhas = 15;
-	private Color[][] MatrizCor = new Color[numLinhas][numColunas];
+	Tabuleiro tabuleiro = new Tabuleiro();
 	
 	public PainelTabuleiro() {
 		this.setLayout(null);
-		
-		//define a cor dos quadrados da matriz
-		for (int i = 0; i < numLinhas; i++){
-			for (int j = 0 ; j < numColunas; j++ ){
-				MatrizCor[i][j] = Color.cyan;
-			}
-		}
-		
 		this.setDoubleBuffered(true);
 		
 		//define coordenadas das linhas
-		for (int i = 1 ; i <= numLinhas; i++){
+		for (int i = 1 ; i <= tabuleiro.getNumLinhas(); i++){
 			JPanel coordLinha = new JPanel();
 			Label labelLinha = new Label("" + (char)(i+'A'-1));
 			coordLinha.setSize(tamanhoQuadrado, tamanhoQuadrado);
@@ -41,7 +35,7 @@ public class PainelTabuleiro extends JPanel {
 		}
 		
 		//define coordenadas das colunas
-		for (int i = 1; i <= numColunas; i++) {
+		for (int i = 1; i <= tabuleiro.getNumColunas(); i++) {
 			JPanel coordColuna = new JPanel();
 			Label labelColuna = new Label(String.valueOf(i));
 			coordColuna.setSize(tamanhoQuadrado, tamanhoQuadrado);
@@ -49,6 +43,8 @@ public class PainelTabuleiro extends JPanel {
 			coordColuna.add(labelColuna);
 			this.add(coordColuna);
 		}
+		
+		this.addMouseListener(this);
 		
 	}
 	
@@ -59,10 +55,10 @@ public class PainelTabuleiro extends JPanel {
 		int linha, coluna;
 		
 		//desenhando o tabuleiro
-		for (linha=1; linha <= numLinhas; linha++){
-			for (coluna=1; coluna <= numColunas; coluna++){
+		for (linha=1; linha <= tabuleiro.getNumLinhas(); linha++){
+			for (coluna=1; coluna <= tabuleiro.getNumColunas(); coluna++){
 				Rectangle2D retangulo = new Rectangle2D.Double(tamanhoQuadrado * coluna, tamanhoQuadrado * linha, tamanhoQuadrado, tamanhoQuadrado);
-				g2d.setPaint(MatrizCor[coluna-1][linha-1]);
+				g2d.setPaint(tabuleiro.getMatrizCor()[coluna-1][linha-1]);
 				g2d.fill(retangulo);
 				g2d.setPaint(Color.black);
 				g2d.draw(retangulo);
@@ -70,24 +66,29 @@ public class PainelTabuleiro extends JPanel {
 		}
 	}
 	
-	public void atualizaPainelTabuleiro() {
-		
-	}
-	
-	public int getTamanhoQuadrado(){
+	public int getTamanhoQuadrado() {
 		return tamanhoQuadrado;
 	}
 	
-	public int getNumLinhas(){
-		return numLinhas;
+	public Tabuleiro getTabuleiro() {
+		return tabuleiro;
+	}
+
+	//verificar se essa funcao esta seguindo boas praticas de design pattern
+	public void mouseClicked(MouseEvent e) {
+		int linha = e.getX()/tamanhoQuadrado;
+		int coluna = e.getY()/tamanhoQuadrado;
+		
+		//correção por conta das coordenadas do tabuleiro
+		linha -= 1;
+		coluna -= 1;
+
+		tabuleiro.getMatrizCor()[linha][coluna] = Color.red;
+		this.repaint();
 	}
 	
-	public int getNumColunas(){
-		return numColunas;
-	}
-	
-	public Color[][] getMatrizCor() {
-		return MatrizCor;
-	}
-	
+	public void mouseEntered(MouseEvent e) {}
+	public void mouseExited(MouseEvent e) {}
+	public void mousePressed(MouseEvent e) {}
+	public void mouseReleased(MouseEvent e) {}
 }
