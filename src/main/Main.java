@@ -4,7 +4,7 @@ import javax.swing.JFrame;
 
 import gui.FrameJogadores;
 import gui.FramePosicionamento;
-import gui.PanelTabuleiro;
+import gui.PainelTabuleiro;
 import gui.ControleJogo;
 
 @SuppressWarnings("serial")

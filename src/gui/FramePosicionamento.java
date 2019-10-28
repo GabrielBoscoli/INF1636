@@ -13,7 +13,7 @@ import javax.swing.*;
 public class FramePosicionamento extends JFrame  {
 	
 	//Painel do tabuleiro matricial
-	private PanelTabuleiro boardPanel;
+	private PainelTabuleiro boardPanel;
 	
 	//Painel das armas a serem posicionadas
 	private PainelArmas painelArmas;
@@ -42,7 +42,7 @@ public class FramePosicionamento extends JFrame  {
 		//requestFocusInWindow();
 		
 		//configurando e adicionando tabuleiro ao frame
-		boardPanel = new PanelTabuleiro();
+		boardPanel = new PainelTabuleiro();
 		boardPanel.setSize((boardPanel.getNumLinhas()+1)*boardPanel.getTamanhoQuadrado(), 
 						(boardPanel.getNumColunas()+1)*boardPanel.getTamanhoQuadrado());
 		basePointX = (int)(tela.screenIntWidth*3/4 - boardPanel.getSize().getWidth()/2);
@@ -69,11 +69,12 @@ public class FramePosicionamento extends JFrame  {
 		int alturaBotao = 50;
 		botaoConfirmacao.setSize(larguraBotao, alturaBotao);
 		botaoConfirmacao.setLocation((int) (tela.screenIntWidth/2 - botaoConfirmacao.getSize().getWidth()/2), tela.screenIntHeight * 5/6);
+		botaoConfirmacao.setEnabled(false);
 		getContentPane().add(botaoConfirmacao);
 		
 	}
 
-	public PanelTabuleiro getPanel() {
+	public PainelTabuleiro getPanel() {
 		return boardPanel;
 	}
 

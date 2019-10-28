@@ -11,14 +11,14 @@ import java.awt.geom.*;
  *
  */
 @SuppressWarnings("serial")
-public class PanelTabuleiro extends JPanel {
+public class PainelTabuleiro extends JPanel {
 
 	private int tamanhoQuadrado = 25;
 	private int numColunas = 15;
 	private int numLinhas = 15;
 	private Color[][] MatrizCor = new Color[numLinhas][numColunas];
 	
-	public PanelTabuleiro() {
+	public PainelTabuleiro() {
 		this.setLayout(null);
 		
 		//define a cor dos quadrados da matriz
@@ -68,6 +68,10 @@ public class PanelTabuleiro extends JPanel {
 				g2d.draw(retangulo);
 			}
 		}
+	}
+	
+	public void atualizaPainelTabuleiro() {
+		
 	}
 	
 	public int getTamanhoQuadrado(){
