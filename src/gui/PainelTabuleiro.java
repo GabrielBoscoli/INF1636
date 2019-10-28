@@ -80,10 +80,14 @@ public class PainelTabuleiro extends JPanel implements MouseListener {
 		int coluna = e.getY()/tamanhoQuadrado;
 		
 		//correção por conta das coordenadas do tabuleiro
-		linha -= 1;
-		coluna -= 1;
-
-		tabuleiro.getMatrizCor()[linha][coluna] = Color.red;
+		if(linha > 0 && coluna > 0) {
+			linha -= 1;
+			coluna -= 1;
+		} else {
+			return;
+		}
+		
+		tabuleiro.getMatrizCor()[linha][coluna] = Color.red;			
 		this.repaint();
 	}
 	
