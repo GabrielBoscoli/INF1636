@@ -2,6 +2,9 @@ package gui;
 
 import javax.swing.*;
 
+import controladores.ControladorTabuleiro;
+import observer.IObservado;
+import observer.IObservador;
 import tabuleiro.Tabuleiro;
 
 import java.awt.*;
@@ -15,12 +18,15 @@ import java.awt.geom.*;
  *
  */
 @SuppressWarnings("serial")
-public class PainelTabuleiro extends JPanel implements MouseListener {
+public class PainelTabuleiro extends JPanel implements MouseListener, IObservador {
 
 	private int tamanhoQuadrado = 25;
-	Tabuleiro tabuleiro = new Tabuleiro();
+	Tabuleiro tabuleiro;
+	ControladorTabuleiro controlador = new ControladorTabuleiro();
 	
 	public PainelTabuleiro() {
+		tabuleiro = controlador.getTabuleiro();
+		controlador.add(this);
 		this.setLayout(null);
 		this.setDoubleBuffered(true);
 		
@@ -44,8 +50,7 @@ public class PainelTabuleiro extends JPanel implements MouseListener {
 			this.add(coordColuna);
 		}
 		
-		this.addMouseListener(this);
-		
+		addMouseListener(this);
 	}
 	
 	public void paintComponent(Graphics g) {
@@ -87,12 +92,16 @@ public class PainelTabuleiro extends JPanel implements MouseListener {
 			return;
 		}
 		
-		tabuleiro.getMatrizCor()[linha][coluna] = Color.red;			
-		this.repaint();
+		controlador.TabuleiroClicado(linha, coluna);
 	}
 	
 	public void mouseEntered(MouseEvent e) {}
 	public void mouseExited(MouseEvent e) {}
 	public void mousePressed(MouseEvent e) {}
 	public void mouseReleased(MouseEvent e) {}
+
+	@Override
+	public void notify(IObservado observado) {
+		repaint();
+	}
 }
