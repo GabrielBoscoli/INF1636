@@ -15,6 +15,25 @@ public class Tabuleiro {
 			}
 		}
 	}
+	
+	/**
+	 * Verifica se a casa da linha e coluna especificada está vazia
+	 * @param linha - linha da casa
+	 * @param coluna - coluna da casa
+	 * @return true, se a casa estiver vazia. false, se estiver ocupada
+	 * ou se o tabuleiro nao possui casa na coordenada recebida.
+	 */
+	public boolean CasaEstaVazia(int linha, int coluna) {
+		if(linha >= numLinhas || linha < 0 || coluna >= numColunas || coluna < 0) {
+			return false;
+		}
+		
+		if(MatrizCor[linha][coluna] == Color.cyan) { //essa linha deve mudar depois
+			return true;
+		} else {
+			return false;
+		}
+	}
 
 	public int getNumColunas() {
 		return numColunas;

@@ -61,14 +61,18 @@ public abstract class Arma {
 		}
 		
 		int maior = 0;
+		int menor = 0;
 		
 		for(int i=0; i<formato.length; i++) {
 			if(formato[i].getY() > maior) {
 				maior = formato[i].getY();
 			}
+			if(formato[i].getY() < menor) {
+				menor = formato[i].getY();
+			}
 		}
 		
-		return maior + 1;
+		return maior - menor + 1;
 	}
 	
 	/**
@@ -81,14 +85,18 @@ public abstract class Arma {
 		}
 		
 		int maior = 0;
+		int menor = 0;
 		
 		for(int i=0; i<formato.length; i++) {
 			if(formato[i].getX() > maior) {
 				maior = formato[i].getX();
 			}
+			if(formato[i].getY() < menor) {
+				menor = formato[i].getY();
+			}
 		}
 		
-		return maior + 1;
+		return maior - menor + 1;
 	}
 	
 }

@@ -48,16 +48,60 @@ public class ControladorPosicionamento implements IObservado {
 		if(armaSelecionada == null) {
 			return;
 		}
-		for(int i = 0; i < armaSelecionada.getArma().getQntdQuadrados(); i++) {
-			tabuleiro.getMatrizCor()[linha + armaSelecionada.getArma().getFormato()[i].getX()][coluna + armaSelecionada.getArma().getFormato()[i].getY()] = armaSelecionada.getCor();			
+		
+		if(PosicionaArmaSePossivel(linha, coluna)) {
+			armaSelecionada = null;//Isso aqui vai mudar
+			
+			for(IObservador observador : listaObservadores) {
+				if(observador instanceof PainelTabuleiro) {
+					observador.notify(this);				
+				}
+			}			
 		}
 
-		for(IObservador observador : listaObservadores) {
-			if(observador instanceof PainelTabuleiro) {
-				observador.notify(this);				
+	}
+	
+	private boolean PosicionaArmaSePossivel(int linha, int coluna) {
+		int linhaAjustada = 0;
+		int colunaAjustada = 0;
+		
+		//verifica se a arma pode ser posicionada no tabuleiro
+		for(int i = 0; i < armaSelecionada.getArma().getQntdQuadrados(); i++) {
+			linhaAjustada = linha + armaSelecionada.getArma().getFormato()[i].getX();
+			colunaAjustada = coluna + armaSelecionada.getArma().getFormato()[i].getY();
+			
+			if(!tabuleiro.CasaEstaVazia(linhaAjustada, colunaAjustada)) { //essa linha deve mudar se mudar a matrizCor da classe tabuleiro
+				return false;		
+			} else if(!CasasVizinhasVazias(linhaAjustada, colunaAjustada)) {
+				return false;
 			}
 		}
-		armaSelecionada = null;
+		
+		//posiciona a arma no tabuleiro
+		for(int i = 0; i < armaSelecionada.getArma().getQntdQuadrados(); i++) {
+			linhaAjustada = linha + armaSelecionada.getArma().getFormato()[i].getX();
+			colunaAjustada = coluna + armaSelecionada.getArma().getFormato()[i].getY();
+			tabuleiro.getMatrizCor()[linhaAjustada][colunaAjustada] = armaSelecionada.getCor();			
+		}
+		
+		return true;
+	}
+
+	/**
+	 * Verifica se as casas vizinhas à casa da linha e coluna recebidas estao vazias.
+	 * @param linha - linha da casa central
+	 * @param coluna - coluna da casa central
+	 * @return true, se as casas vizinhas estiverem vazias ou se nao existirem.
+	 * 		   false, se alguma das casas não estiver vazia.
+	 */
+	private boolean CasasVizinhasVazias(int linha, int coluna) {
+		int linhaVizinha = linha + 1;
+		int colunaVizinha = coluna - 1;
+		
+		for(int i = 0; i < 3; i++) {
+			if(true) {}//implementar!
+		}
+		return false;
 	}
 
 	@Override
