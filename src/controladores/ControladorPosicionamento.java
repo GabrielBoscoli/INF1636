@@ -101,7 +101,7 @@ public class ControladorPosicionamento implements IObservado {
 		for(int i = 0; i < 3; i++) {
 			if(true) {}//implementar!
 		}
-		return false;
+		return true;
 	}
 
 	@Override
