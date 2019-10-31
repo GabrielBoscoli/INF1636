@@ -6,6 +6,7 @@ import java.util.List;
 
 import armas.Arma;
 import gui.PainelArma;
+import gui.PainelTabuleiro;
 import observer.IObservado;
 import observer.IObservador;
 import tabuleiro.Tabuleiro;
@@ -15,6 +16,7 @@ public class ControladorPosicionamento implements IObservado {
 	static ControladorPosicionamento controlador = null;
 	
 	PainelArma armaSelecionada = null;
+	PainelArma ultimaArmaPosicionada = null;
 	
 	int numArmas = 15;
 	PainelArma[] armasPosicionadas = new PainelArma[numArmas];
@@ -43,14 +45,19 @@ public class ControladorPosicionamento implements IObservado {
 	}
 	
 	public void TabuleiroClicado(int linha, int coluna) {
-		for(int i = 0; i < armaSelecionada.getArma().getQntdQuadrados(); i++) {
-			tabuleiro.getMatrizCor()[linha + armaSelecionada.getArma().getFormato()[i].getX()][coluna - armaSelecionada.getArma().getFormato()[i].getY()] = armaSelecionada.getCor();			
+		if(armaSelecionada == null) {
+			return;
 		}
-		for(IObservador observador  : listaObservadores) {
-			if(observador instanceof Tabuleiro) {
+		for(int i = 0; i < armaSelecionada.getArma().getQntdQuadrados(); i++) {
+			tabuleiro.getMatrizCor()[linha + armaSelecionada.getArma().getFormato()[i].getX()][coluna + armaSelecionada.getArma().getFormato()[i].getY()] = armaSelecionada.getCor();			
+		}
+
+		for(IObservador observador : listaObservadores) {
+			if(observador instanceof PainelTabuleiro) {
 				observador.notify(this);				
 			}
 		}
+		armaSelecionada = null;
 	}
 
 	@Override
@@ -67,6 +74,8 @@ public class ControladorPosicionamento implements IObservado {
 	public Object get(int i) {
 		if(i == 1)
 			return armaSelecionada;
+		else if (i == 2)
+			return tabuleiro;
 		else
 			return null;
 	}

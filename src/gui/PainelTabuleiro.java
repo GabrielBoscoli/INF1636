@@ -2,6 +2,7 @@ package gui;
 
 import javax.swing.*;
 
+import controladores.ControladorPosicionamento;
 import controladores.ControladorTabuleiro;
 import observer.IObservado;
 import observer.IObservador;
@@ -21,12 +22,11 @@ import java.awt.geom.*;
 public class PainelTabuleiro extends JPanel implements MouseListener, IObservador {
 
 	private int tamanhoQuadrado = 25;
-	Tabuleiro tabuleiro;
-	ControladorTabuleiro controlador = new ControladorTabuleiro();
+	Tabuleiro tabuleiro = new Tabuleiro();
 	
 	public PainelTabuleiro() {
-		tabuleiro = controlador.getTabuleiro();
-		controlador.add(this);
+		tabuleiro = (Tabuleiro) ControladorPosicionamento.getControladorPosicionamento().get(2);
+		ControladorPosicionamento.getControladorPosicionamento().add(this);
 		this.setLayout(null);
 		this.setDoubleBuffered(true);
 		
@@ -92,7 +92,7 @@ public class PainelTabuleiro extends JPanel implements MouseListener, IObservado
 			return;
 		}
 		
-		controlador.TabuleiroClicado(linha, coluna);
+		ControladorPosicionamento.getControladorPosicionamento().TabuleiroClicado(linha, coluna);
 	}
 	
 	public void mouseEntered(MouseEvent e) {}
