@@ -6,11 +6,11 @@ public class Tabuleiro {
 	
 	private int numColunas = 15;
 	private int numLinhas = 15;
-	private Color[][] MatrizCor = new Color[numLinhas][numColunas];
+	private Color[][] MatrizCor = new Color[numColunas][numLinhas];
 	
 	public Tabuleiro() {
-		for (int i = 0; i < numLinhas; i++){
-			for (int j = 0 ; j < numColunas; j++ ){
+		for (int i = 0; i < numColunas; i++){
+			for (int j = 0 ; j < numLinhas; j++ ){
 				MatrizCor[i][j] = Color.cyan;
 			}
 		}
@@ -23,12 +23,12 @@ public class Tabuleiro {
 	 * @return true, se a casa estiver vazia. false, se estiver ocupada
 	 * ou se o tabuleiro nao possui casa na coordenada recebida.
 	 */
-	public boolean CasaEstaVazia(int linha, int coluna) {
+	public boolean CasaEstaVazia(int coluna, int linha) {
 		if(linha >= numLinhas || linha < 0 || coluna >= numColunas || coluna < 0) {
 			return false;
 		}
 		
-		if(MatrizCor[linha][coluna] == Color.cyan) { //essa linha deve mudar depois
+		if(MatrizCor[coluna][linha] == Color.cyan) { //essa linha deve mudar depois
 			return true;
 		} else {
 			return false;

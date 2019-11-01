@@ -3,7 +3,6 @@ package gui;
 import javax.swing.*;
 
 import controladores.ControladorPosicionamento;
-import controladores.ControladorTabuleiro;
 import observer.IObservado;
 import observer.IObservador;
 import tabuleiro.Tabuleiro;
@@ -30,24 +29,24 @@ public class PainelTabuleiro extends JPanel implements MouseListener, IObservado
 		this.setLayout(null);
 		this.setDoubleBuffered(true);
 		
-		//define coordenadas das linhas
-		for (int i = 1 ; i <= tabuleiro.getNumLinhas(); i++){
-			JPanel coordLinha = new JPanel();
-			Label labelLinha = new Label("" + (char)(i+'A'-1));
-			coordLinha.setSize(tamanhoQuadrado, tamanhoQuadrado);
-			coordLinha.setLocation(0, i * tamanhoQuadrado);
-			coordLinha.add(labelLinha);
-			this.add(coordLinha);
-		}
-		
 		//define coordenadas das colunas
-		for (int i = 1; i <= tabuleiro.getNumColunas(); i++) {
+		for (int i = 1 ; i <= tabuleiro.getNumColunas(); i++){
 			JPanel coordColuna = new JPanel();
-			Label labelColuna = new Label(String.valueOf(i));
+			Label labelColuna = new Label("" + (char)(i+'A'-1));
 			coordColuna.setSize(tamanhoQuadrado, tamanhoQuadrado);
-			coordColuna.setLocation(i * tamanhoQuadrado, 0);
+			coordColuna.setLocation(0, i * tamanhoQuadrado);
 			coordColuna.add(labelColuna);
 			this.add(coordColuna);
+		}
+		
+		//define coordenadas das linhas
+		for (int i = 1; i <= tabuleiro.getNumLinhas(); i++) {
+			JPanel coordLinha = new JPanel();
+			Label labelLinha = new Label(String.valueOf(i));
+			coordLinha.setSize(tamanhoQuadrado, tamanhoQuadrado);
+			coordLinha.setLocation(i * tamanhoQuadrado, 0);
+			coordLinha.add(labelLinha);
+			this.add(coordLinha);
 		}
 		
 		addMouseListener(this);
@@ -60,8 +59,8 @@ public class PainelTabuleiro extends JPanel implements MouseListener, IObservado
 		int linha, coluna;
 		
 		//desenhando o tabuleiro
-		for (linha=1; linha <= tabuleiro.getNumLinhas(); linha++){
-			for (coluna=1; coluna <= tabuleiro.getNumColunas(); coluna++){
+		for (coluna=1; coluna <= tabuleiro.getNumColunas(); coluna++){
+			for (linha=1; linha <= tabuleiro.getNumLinhas(); linha++){
 				Rectangle2D retangulo = new Rectangle2D.Double(tamanhoQuadrado * coluna, tamanhoQuadrado * linha, tamanhoQuadrado, tamanhoQuadrado);
 				g2d.setPaint(tabuleiro.getMatrizCor()[coluna-1][linha-1]);
 				g2d.fill(retangulo);
@@ -81,18 +80,18 @@ public class PainelTabuleiro extends JPanel implements MouseListener, IObservado
 
 	//verificar se essa funcao esta seguindo boas praticas de design pattern
 	public void mouseClicked(MouseEvent e) {
-		int linha = e.getX()/tamanhoQuadrado;
-		int coluna = e.getY()/tamanhoQuadrado;
+		int coluna = e.getX()/tamanhoQuadrado;
+		int linha = e.getY()/tamanhoQuadrado;
 		
 		//correção por conta das coordenadas do tabuleiro
-		if(linha > 0 && coluna > 0) {
-			linha -= 1;
+		if(coluna > 0 && linha > 0) {
 			coluna -= 1;
+			linha -= 1;
 		} else {
 			return;
 		}
 		
-		ControladorPosicionamento.getControladorPosicionamento().TabuleiroClicado(linha, coluna);
+		ControladorPosicionamento.getControladorPosicionamento().TabuleiroClicado(coluna, linha);
 	}
 	
 	public void mouseEntered(MouseEvent e) {}

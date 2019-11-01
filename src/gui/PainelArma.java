@@ -13,7 +13,6 @@ import armas.*;
 import controladores.ControladorPosicionamento;
 import observer.IObservado;
 import observer.IObservador;
-import outros.*;
 
 @SuppressWarnings("serial")
 public class PainelArma extends JPanel implements MouseListener, IObservador{
