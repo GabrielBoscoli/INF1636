@@ -31,4 +31,7 @@ public class Hidroaviao extends Arma {
 		
 	}
 	
+	@Override
+	public void rotacionaArma() {}
+	
 }

@@ -32,4 +32,16 @@ public class Cruzador extends Arma{
 		
 	}
 	
+	@Override
+	public void rotacionaArma() {
+		Coordenada[] novoFormato = new Coordenada[this.getQntdQuadrados()];
+		Coordenada[] formatoAntigo = getFormato();
+		
+		for(int i = 0; i < formatoAntigo.length; i++) {
+			novoFormato[i] = new Coordenada(formatoAntigo[i].getY(), formatoAntigo[i].getX());
+		}
+		
+		setFormato(novoFormato);
+	}
+	
 }
