@@ -1,7 +1,10 @@
 package gui;
 
 import java.awt.*;
+import java.awt.event.*;
+
 import javax.swing.*;
+
 
 /**
  * Classe responsável pela tela de posicionamento
@@ -10,7 +13,7 @@ import javax.swing.*;
  */
 
 @SuppressWarnings("serial")
-public class FramePosicionamento extends JFrame  {
+public class FramePosicionamento extends JFrame {
 	
 	//Painel do tabuleiro matricial
 	private PainelTabuleiro boardPanel;
@@ -22,8 +25,8 @@ public class FramePosicionamento extends JFrame  {
 	private JPanel painelInstrucoes = new JPanel();
 	
 	//Botao de confirmacao do posicionamento
-	private JButton botaoConfirmacao = new JButton("Tabuleiro Pronto!");
-
+	private static JButton botaoConfirmacao = new JButton("Tabuleiro Pronto!");
+	
 	private Point currentMousePosition = new Point(0,0);
 	
 	//coordenadas do ponto de origem do tabuleiro
@@ -72,6 +75,11 @@ public class FramePosicionamento extends JFrame  {
 		botaoConfirmacao.setEnabled(false);
 		getContentPane().add(botaoConfirmacao);
 		
+		
+	}
+	
+	static public JButton getBotaoConfirmacao() {
+		return botaoConfirmacao;
 	}
 
 	public PainelTabuleiro getPanel() {
@@ -89,6 +97,5 @@ public class FramePosicionamento extends JFrame  {
 	public Point getPanelPoint(){
 		return boardPanel.getLocation();
 	}
-	
 	
 }

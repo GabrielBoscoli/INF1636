@@ -1,22 +1,27 @@
 package controladores;
 
+import java.awt.event.*;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.*;
 
-import gui.PainelArma;
-import gui.PainelTabuleiro;
+import gui.*;
 import observer.IObservado;
 import observer.IObservador;
 import tabuleiro.Tabuleiro;
 
-public class ControladorPosicionamento implements IObservado {
+
+public class ControladorPosicionamento implements ActionListener , IObservado {
 	List<IObservador> listaObservadores = new ArrayList<IObservador>();
 	static ControladorPosicionamento controlador = null;
 	
 	PainelArma armaSelecionada = null;
 	PainelArma ultimaArmaPosicionada = null;
-	
+			
 	int numArmas = 15;
+	int armasTotal = 0;
+	private JButton confirmar = FramePosicionamento.getBotaoConfirmacao();
+	
 	PainelArma[] armasPosicionadas = new PainelArma[numArmas];
 	
 	Tabuleiro tabuleiro = new Tabuleiro();
@@ -79,9 +84,14 @@ public class ControladorPosicionamento implements IObservado {
 		for(int i = 0; i < armaSelecionada.getArma().getQntdQuadrados(); i++) {
 			colunaAjustada = coluna + armaSelecionada.getArma().getFormato()[i].getX();
 			linhaAjustada = linha + armaSelecionada.getArma().getFormato()[i].getY();
-			tabuleiro.getMatrizCor()[colunaAjustada][linhaAjustada] = armaSelecionada.getCor();			
+			tabuleiro.getMatrizCor()[colunaAjustada][linhaAjustada] = armaSelecionada.getCor();
 		}
 		
+		armasTotal++;
+		if (armasTotal == 15) {
+			confirmar.setEnabled(true);
+			confirmar.addActionListener(this);
+		}
 		return true;
 	}
 
@@ -126,6 +136,7 @@ public class ControladorPosicionamento implements IObservado {
 		}
 		return true;
 	}
+	
 
 	@Override
 	public void add(IObservador observador) {
@@ -146,5 +157,16 @@ public class ControladorPosicionamento implements IObservado {
 		else
 			return null;
 	}
-
+	
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		
+		ControleJogo novo = ControleJogo.getMainGamePresenter();
+		
+		
+		novo.closePositioning();
+		//novo.showPositioning();
+	}
+	
+	
 }

@@ -47,9 +47,20 @@ public class ControleJogo {
 	 */
 	public void showPositioning() {
 		positioningFrame = new FramePosicionamento();
+		positioningFrame.setTitle("Batalha Naval");
 		positioningFrame.setVisible(true);
 	}
 	
+	public void closePositioning() {
+		positioningFrame.setVisible(false);
+	}
 	
+	public void showBattle() {
+		
+	}
+	
+	public FramePosicionamento getFramePosicionamento() {
+		return positioningFrame;
+	}
 	
 }
