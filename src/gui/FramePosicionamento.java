@@ -1,7 +1,12 @@
 package gui;
 
 import java.awt.*;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+
 import javax.swing.*;
+
+import controladores.ControladorPosicionamento;
 
 /**
  * Classe responsável pela tela de posicionamento
@@ -10,7 +15,7 @@ import javax.swing.*;
  */
 
 @SuppressWarnings("serial")
-public class FramePosicionamento extends JFrame  {
+public class FramePosicionamento extends JFrame implements KeyListener {
 	
 	//Painel do tabuleiro matricial
 	private PainelTabuleiro boardPanel;
@@ -72,6 +77,8 @@ public class FramePosicionamento extends JFrame  {
 		botaoConfirmacao.setEnabled(false);
 		getContentPane().add(botaoConfirmacao);
 		
+		addKeyListener(this);
+		
 	}
 
 	public PainelTabuleiro getPanel() {
@@ -89,6 +96,20 @@ public class FramePosicionamento extends JFrame  {
 	public Point getPanelPoint(){
 		return boardPanel.getLocation();
 	}
+
+	@Override
+	public void keyPressed(KeyEvent arg0) {
+		if(arg0.getKeyCode() == KeyEvent.VK_ESCAPE) {
+			ControladorPosicionamento.getControladorPosicionamento().TeclaEscapePressionada();
+		}
+		
+	}
+
+	@Override
+	public void keyReleased(KeyEvent arg0) {}
+
+	@Override
+	public void keyTyped(KeyEvent arg0) {}
 	
 	
 }

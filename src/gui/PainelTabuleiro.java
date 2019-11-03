@@ -79,7 +79,7 @@ public class PainelTabuleiro extends JPanel implements MouseListener, IObservado
 	}
 
 	//verificar se essa funcao esta seguindo boas praticas de design pattern
-	public void mouseClicked(MouseEvent e) {
+	public void mousePressed(MouseEvent e) {
 		int coluna = e.getX()/tamanhoQuadrado;
 		int linha = e.getY()/tamanhoQuadrado;
 		
@@ -91,12 +91,16 @@ public class PainelTabuleiro extends JPanel implements MouseListener, IObservado
 			return;
 		}
 		
-		ControladorPosicionamento.getControladorPosicionamento().TabuleiroClicado(coluna, linha);
+		if(e.getButton() == MouseEvent.BUTTON1) {
+			ControladorPosicionamento.getControladorPosicionamento().TabuleiroClicadoComBotaoEsquerdo(coluna, linha);
+		} else if(e.getButton() == MouseEvent.BUTTON3) {
+			ControladorPosicionamento.getControladorPosicionamento().TabuleiroClicadoComBotaoDireito();
+		}
 	}
 	
 	public void mouseEntered(MouseEvent e) {}
 	public void mouseExited(MouseEvent e) {}
-	public void mousePressed(MouseEvent e) {}
+	public void mouseClicked(MouseEvent e) {}
 	public void mouseReleased(MouseEvent e) {}
 
 	@Override

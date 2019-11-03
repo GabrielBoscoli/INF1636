@@ -99,4 +99,6 @@ public abstract class Arma {
 		return maior - menor + 1;
 	}
 	
+	abstract public void rotacionaArma();
+	
 }

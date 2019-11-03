@@ -7,6 +7,7 @@ import gui.PainelArma;
 import gui.PainelTabuleiro;
 import observer.IObservado;
 import observer.IObservador;
+import outros.Coordenada;
 import tabuleiro.Tabuleiro;
 
 public class ControladorPosicionamento implements IObservado {
@@ -15,6 +16,7 @@ public class ControladorPosicionamento implements IObservado {
 	
 	PainelArma armaSelecionada = null;
 	PainelArma ultimaArmaPosicionada = null;
+	Coordenada coordenadaUltimaArmaPosicionada = new Coordenada(-1, -1);
 	
 	int numArmas = 15;
 	PainelArma[] armasPosicionadas = new PainelArma[numArmas];
@@ -37,24 +39,80 @@ public class ControladorPosicionamento implements IObservado {
 	public void ArmaClicada(PainelArma arma) {
 		if(armaSelecionada == null) {
 			armaSelecionada = arma;
-			for(IObservador observador  : listaObservadores)
-				observador.notify(this);
+			for(IObservador observador  : listaObservadores) {
+				if(observador instanceof PainelArma) {
+					observador.notify(this);					
+				}
+			}
 		}
 	}
 	
-	public void TabuleiroClicado(int coluna, int linha) {
+	public void TeclaEscapePressionada() {
+		if(armaSelecionada != null && armaSelecionada == ultimaArmaPosicionada) {
+			for(IObservador observador : listaObservadores) {
+				if(observador instanceof PainelArma) {
+					observador.notify(this);					
+				}
+			}
+		}
+		armaSelecionada = null;
+	}
+	
+	public void TabuleiroClicadoComBotaoDireito() {
+		if(armaSelecionada == null) {
+			return;
+		}
+
+		int numeroRotacoes = armaSelecionada.getArma().getQntdRotacoes();
+		int coluna = coordenadaUltimaArmaPosicionada.getX();
+		int linha = coordenadaUltimaArmaPosicionada.getY();
+
+		RetiraArma(coluna, linha);
+		for(int i = 0; i < numeroRotacoes; i++) {
+			armaSelecionada.getArma().rotacionaArma();
+			if(PosicionaArmaSePossivel(coluna, linha)) {
+				for(IObservador observador : listaObservadores) {
+					if(observador instanceof PainelTabuleiro) {
+						observador.notify(this);				
+					}
+				}
+				return;
+			}
+		}
+	}
+	
+	private boolean RetiraArma(int coluna, int linha) {
+		int linhaAjustada = 0;
+		int colunaAjustada = 0;
+		
+		//verifica se a arma pode ser posicionada no tabuleiro
+		for(int i = 0; i < armaSelecionada.getArma().getQntdQuadrados(); i++) {
+			colunaAjustada = coluna + armaSelecionada.getArma().getFormato()[i].getX();
+			linhaAjustada = linha + armaSelecionada.getArma().getFormato()[i].getY();
+			tabuleiro.EsvaziaCasa(colunaAjustada, linhaAjustada);
+		}
+		
+		return true;
+	}
+	
+	public void TabuleiroClicadoComBotaoEsquerdo(int coluna, int linha) {
+		boolean reposicionamento = false;
 		if(armaSelecionada == null) {
 			return;
 		}
 		
+		if(armaSelecionada == ultimaArmaPosicionada) {
+			RetiraArma(coordenadaUltimaArmaPosicionada.getX(), coordenadaUltimaArmaPosicionada.getY());
+			reposicionamento = true;
+		}
 		if(PosicionaArmaSePossivel(coluna, linha)) {
-			armaSelecionada = null;//Isso aqui vai mudar
-			
 			for(IObservador observador : listaObservadores) {
 				if(observador instanceof PainelTabuleiro) {
 					observador.notify(this);				
 				}
-			}			
+			}
+		} else if (reposicionamento) {
+			PosicionaArmaSePossivel(coordenadaUltimaArmaPosicionada.getX(), coordenadaUltimaArmaPosicionada.getY());
 		}
 
 	}
@@ -63,25 +121,38 @@ public class ControladorPosicionamento implements IObservado {
 		int linhaAjustada = 0;
 		int colunaAjustada = 0;
 		
+		if(VerificaSePodePosicionarArma(coluna, linha)) {
+			for(int i = 0; i < armaSelecionada.getArma().getQntdQuadrados(); i++) {
+				colunaAjustada = coluna + armaSelecionada.getArma().getFormato()[i].getX();
+				linhaAjustada = linha + armaSelecionada.getArma().getFormato()[i].getY();
+				tabuleiro.getMatrizCor()[colunaAjustada][linhaAjustada] = armaSelecionada.getCor();			
+			}
+		} else {
+			return false;
+		}
+		
+		coordenadaUltimaArmaPosicionada.setX(coluna);
+		coordenadaUltimaArmaPosicionada.setY(linha);
+		ultimaArmaPosicionada = armaSelecionada;
+		return true;
+	}
+	
+	private boolean VerificaSePodePosicionarArma(int coluna, int linha) {
+		int linhaAjustada = 0;
+		int colunaAjustada = 0;
+		
 		//verifica se a arma pode ser posicionada no tabuleiro
 		for(int i = 0; i < armaSelecionada.getArma().getQntdQuadrados(); i++) {
 			colunaAjustada = coluna + armaSelecionada.getArma().getFormato()[i].getX();
 			linhaAjustada = linha + armaSelecionada.getArma().getFormato()[i].getY();
 			
-			if(!tabuleiro.CasaEstaVazia(colunaAjustada, linhaAjustada)) { //essa linha deve mudar se mudar a matrizCor da classe tabuleiro
+			if(!tabuleiro.CasaEstaVazia(colunaAjustada, linhaAjustada)) {
 				return false;		
 			} else if(!CasasVizinhasVazias(colunaAjustada, linhaAjustada)) {
 				return false;
 			}
 		}
-		
-		//posiciona a arma no tabuleiro
-		for(int i = 0; i < armaSelecionada.getArma().getQntdQuadrados(); i++) {
-			colunaAjustada = coluna + armaSelecionada.getArma().getFormato()[i].getX();
-			linhaAjustada = linha + armaSelecionada.getArma().getFormato()[i].getY();
-			tabuleiro.getMatrizCor()[colunaAjustada][linhaAjustada] = armaSelecionada.getCor();			
-		}
-		
+
 		return true;
 	}
 

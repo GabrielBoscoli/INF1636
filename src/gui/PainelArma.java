@@ -80,8 +80,10 @@ public class PainelArma extends JPanel implements MouseListener, IObservador{
 	}
 
 	@Override
-	public void mouseClicked(MouseEvent arg0) {
-		ControladorPosicionamento.getControladorPosicionamento().ArmaClicada(this);
+	public void mousePressed(MouseEvent arg0) {
+		if(arg0.getButton() == MouseEvent.BUTTON1) {
+			ControladorPosicionamento.getControladorPosicionamento().ArmaClicada(this);			
+		}
 	}
 
 	@Override
@@ -89,7 +91,7 @@ public class PainelArma extends JPanel implements MouseListener, IObservador{
 	@Override
 	public void mouseExited(MouseEvent arg0) {}
 	@Override
-	public void mousePressed(MouseEvent arg0) {}
+	public void mouseClicked(MouseEvent arg0) {}
 	@Override
 	public void mouseReleased(MouseEvent arg0) {}
 	
