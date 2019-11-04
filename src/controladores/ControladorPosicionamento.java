@@ -53,10 +53,10 @@ public class ControladorPosicionamento implements ActionListener , IObservado {
 	}
 	
 	public void TeclaEscapePressionada() {
-		if(armaSelecionada != null && armaSelecionada == ultimaArmaPosicionada) {
+		if(armaSelecionada != null && armaSelecionada != ultimaArmaPosicionada) {
 			for(IObservador observador : listaObservadores) {
 				if(observador instanceof PainelArma) {
-					observador.notify(this);					
+					observador.notify(this);
 				}
 			}
 		}

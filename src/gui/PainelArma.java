@@ -70,10 +70,10 @@ public class PainelArma extends JPanel implements MouseListener, IObservador{
 	public void notify(IObservado observado) {
 		PainelArma painelArma = (PainelArma) ControladorPosicionamento.getControladorPosicionamento().get(1);
 		
-		if(painelArma == this) {
+		if(painelArma == this && selecionada == false) {
 			setVisible(false);
 			selecionada = true;
-		} else if (painelArma == null && selecionada == true) {
+		} else if (painelArma == this && selecionada == true) {
 			setVisible(true);
 			selecionada = false;
 		}
