@@ -6,6 +6,8 @@ import java.awt.event.*;
 import javax.swing.*;
 
 import controladores.ControladorPosicionamento;
+import observer.IObservado;
+import observer.IObservador;
 
 
 /**
@@ -16,7 +18,7 @@ import controladores.ControladorPosicionamento;
 
 @SuppressWarnings("serial")
 
-public class FramePosicionamento extends JFrame implements KeyListener {
+public class FramePosicionamento extends JFrame implements KeyListener, IObservador {
 
 	
 	//Painel do tabuleiro matricial
@@ -32,6 +34,8 @@ public class FramePosicionamento extends JFrame implements KeyListener {
 	private static JButton botaoConfirmacao = new JButton("Tabuleiro Pronto!");
 	
 	private Point currentMousePosition = new Point(0,0);
+	
+	boolean tabuleiroPronto = false;
 	
 	//coordenadas do ponto de origem do tabuleiro
 	public int basePointX;
@@ -78,6 +82,7 @@ public class FramePosicionamento extends JFrame implements KeyListener {
 		botaoConfirmacao.setLocation((int) (tela.screenIntWidth/2 - botaoConfirmacao.getSize().getWidth()/2), tela.screenIntHeight * 5/6);
 		botaoConfirmacao.setEnabled(false);
 		getContentPane().add(botaoConfirmacao);
+		ControladorPosicionamento.getControladorPosicionamento().add(this);
 		
 		addKeyListener(this);
 		
@@ -116,5 +121,14 @@ public class FramePosicionamento extends JFrame implements KeyListener {
 
 	@Override
 	public void keyTyped(KeyEvent arg0) {}
+
+	@Override
+	public void notify(IObservado observado) {
+		tabuleiroPronto = (boolean) ControladorPosicionamento.getControladorPosicionamento().get(3);
+		if(tabuleiroPronto == true) {
+			botaoConfirmacao.setEnabled(true);
+		}
+		
+	}
 	
 }

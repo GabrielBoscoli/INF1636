@@ -1,9 +1,7 @@
 package controladores;
 
-import java.awt.event.*;
 import java.util.ArrayList;
 import java.util.List;
-import javax.swing.*;
 
 import gui.*;
 import observer.IObservado;
@@ -12,7 +10,7 @@ import outros.Coordenada;
 import tabuleiro.Tabuleiro;
 
 
-public class ControladorPosicionamento implements ActionListener , IObservado {
+public class ControladorPosicionamento implements IObservado {
 	List<IObservador> listaObservadores = new ArrayList<IObservador>();
 	static ControladorPosicionamento controlador = null;
 	
@@ -22,17 +20,14 @@ public class ControladorPosicionamento implements ActionListener , IObservado {
 	
 	int numArmas = 15;
 	int armasTotal = 0;
-	private JButton confirmar = FramePosicionamento.getBotaoConfirmacao();
 	
-	PainelArma[] armasPosicionadas = new PainelArma[numArmas];
+	List<PainelArma> armasPosicionadas = new ArrayList<PainelArma>();
+	List<Coordenada[]> coordenadaArmasPosicionadas = new ArrayList<Coordenada[]>();
 	
 	Tabuleiro tabuleiro = new Tabuleiro();
+	boolean tabuleiroPronto = false;
 	
-	private ControladorPosicionamento() {
-		for(int i = 0; i < numArmas; i++) {
-			armasPosicionadas[i] = null;
-		}
-	}
+	private ControladorPosicionamento() {}
 	
 	public static ControladorPosicionamento getControladorPosicionamento() {
 		if(controlador == null)
@@ -61,8 +56,21 @@ public class ControladorPosicionamento implements ActionListener , IObservado {
 			}
 		}
 		armaSelecionada = null;
+		if(VerificaTabuleiroPronto() && tabuleiroPronto == false) {
+			tabuleiroPronto = true;
+			for(IObservador observador : listaObservadores) {
+				observador.notify(this);
+			}
+		}
 	}
 	
+	private boolean VerificaTabuleiroPronto() {
+		if(armasPosicionadas.size() == numArmas) {
+			return true;
+		}
+		return false;
+	}
+
 	public void TabuleiroClicadoComBotaoDireito() {
 		if(armaSelecionada == null) {
 			return;
@@ -86,17 +94,22 @@ public class ControladorPosicionamento implements ActionListener , IObservado {
 		}
 	}
 	
+	//adaptar essa funcao para tirar nÃ£o sÃ³ a armaSelecionada, mas qualquer arma
 	private boolean RetiraArma(int coluna, int linha) {
 		int linhaAjustada = 0;
 		int colunaAjustada = 0;
 		
-		//verifica se a arma pode ser posicionada no tabuleiro
 		for(int i = 0; i < armaSelecionada.getArma().getQntdQuadrados(); i++) {
 			colunaAjustada = coluna + armaSelecionada.getArma().getFormato()[i].getX();
 			linhaAjustada = linha + armaSelecionada.getArma().getFormato()[i].getY();
 			tabuleiro.EsvaziaCasa(colunaAjustada, linhaAjustada);
 		}
 		
+		if(armasPosicionadas.contains(armaSelecionada)) {
+			int i = armasPosicionadas.lastIndexOf(armaSelecionada);
+			armasPosicionadas.remove(i);
+			coordenadaArmasPosicionadas.remove(i);
+		}
 		return true;
 	}
 	
@@ -126,11 +139,13 @@ public class ControladorPosicionamento implements ActionListener , IObservado {
 		int linhaAjustada = 0;
 		int colunaAjustada = 0;
 		
+		Coordenada[] coordenada = new Coordenada[armaSelecionada.getArma().getQntdQuadrados()];
 		if(VerificaSePodePosicionarArma(coluna, linha)) {
 			for(int i = 0; i < armaSelecionada.getArma().getQntdQuadrados(); i++) {
 				colunaAjustada = coluna + armaSelecionada.getArma().getFormato()[i].getX();
 				linhaAjustada = linha + armaSelecionada.getArma().getFormato()[i].getY();
-				tabuleiro.getMatrizCor()[colunaAjustada][linhaAjustada] = armaSelecionada.getCor();			
+				tabuleiro.getMatrizCor()[colunaAjustada][linhaAjustada] = armaSelecionada.getCor();
+				coordenada[i] = new Coordenada(colunaAjustada, linhaAjustada);
 			}
 		} else {
 			return false;
@@ -139,6 +154,8 @@ public class ControladorPosicionamento implements ActionListener , IObservado {
 		coordenadaUltimaArmaPosicionada.setX(coluna);
 		coordenadaUltimaArmaPosicionada.setY(linha);
 		ultimaArmaPosicionada = armaSelecionada;
+		armasPosicionadas.add(ultimaArmaPosicionada);
+		coordenadaArmasPosicionadas.add(coordenada);
 		return true;
 	}
 	
@@ -158,21 +175,15 @@ public class ControladorPosicionamento implements ActionListener , IObservado {
 			}
 		}
 
-		armasTotal++;
-		if (armasTotal == 15) {
-			confirmar.setEnabled(true);
-			confirmar.addActionListener(this);
-		}
-
 		return true;
 	}
 
 	/**
-	 * Verifica se as casas vizinhas à casa da linha e coluna recebidas estao vazias.
+	 * Verifica se as casas vizinhas ï¿½ casa da linha e coluna recebidas estao vazias.
 	 * @param linha - linha da casa central
 	 * @param coluna - coluna da casa central
 	 * @return true, se as casas vizinhas estiverem vazias ou se nao existirem.<br>
-	 * 		   false, se alguma das casas não estiver vazia.
+	 * 		   false, se alguma das casas nï¿½o estiver vazia.
 	 */
 	private boolean CasasVizinhasVazias(int coluna, int linha) {
 		int colunaVizinha;
@@ -226,19 +237,10 @@ public class ControladorPosicionamento implements ActionListener , IObservado {
 			return armaSelecionada;
 		else if (i == 2)
 			return tabuleiro;
+		else if (i == 3)
+			return tabuleiroPronto;
 		else
 			return null;
 	}
-	
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		
-		ControleJogo novo = ControleJogo.getMainGamePresenter();
-		
-		
-		novo.closePositioning();
-		//novo.showPositioning();
-	}
-	
 	
 }
