@@ -37,6 +37,7 @@ public class ControladorPosicionamento implements IObservado {
 	}
 	
 	public void ArmaClicada(PainelArma arma) {
+		System.out.println("ArmaClicada");
 		if(armaSelecionada == null) {
 			armaSelecionada = arma;
 			for(IObservador observador  : listaObservadores) {
@@ -48,6 +49,7 @@ public class ControladorPosicionamento implements IObservado {
 	}
 	
 	public void TeclaEscapePressionada() {
+		System.out.println("TeclaEscapePressionada");
 		if(armaSelecionada != null && armaSelecionada != ultimaArmaPosicionada) {
 			for(IObservador observador : listaObservadores) {
 				if(observador instanceof PainelArma) {
@@ -72,7 +74,8 @@ public class ControladorPosicionamento implements IObservado {
 	}
 
 	public void TabuleiroClicadoComBotaoDireito() {
-		if(armaSelecionada == null) {
+		System.out.println("TabuleiroClicadoComBotaoDireito");
+		if(armaSelecionada == null || armaSelecionada != ultimaArmaPosicionada) {
 			return;
 		}
 
@@ -113,10 +116,33 @@ public class ControladorPosicionamento implements IObservado {
 		return true;
 	}
 	
+	private boolean RetiraArma(int i) {
+		if(i >= coordenadaArmasPosicionadas.size() || i < 0) {
+			return false;
+		}
+		Coordenada[] coordenada = coordenadaArmasPosicionadas.get(i);
+		for(int j = 0; j < coordenada.length; j++) {
+			tabuleiro.EsvaziaCasa(coordenada[j].getX(), coordenada[j].getY());
+		}
+		return true;
+	}
+	
 	public void TabuleiroClicadoComBotaoEsquerdo(int coluna, int linha) {
+		System.out.println("TabuleiroClicadoComBotaoEsquerdo");
 		boolean reposicionamento = false;
 		if(armaSelecionada == null) {
-			return;
+			if(tabuleiro.CasaEstaVazia(coluna, linha)) {
+				return;				
+			} else {
+				RetiraArma(AchaArma(coluna, linha));
+				if(VerificaTabuleiroPronto() && tabuleiroPronto == true) {
+					tabuleiroPronto = false;
+				}
+				for(IObservador observador : listaObservadores) {
+					observador.notify(this);
+				}
+				return;
+			}
 		}
 		
 		if(armaSelecionada == ultimaArmaPosicionada) {
@@ -135,6 +161,26 @@ public class ControladorPosicionamento implements IObservado {
 
 	}
 	
+	/**
+	 * Retorna o indice da arma no vetor armasPosicionadas que está na coluna
+	 * e linha especificada.
+	 * @param coluna - coluna da casa que algum quadrado da arma ocupa
+	 * @param linha - linha da casa que algum quadrado da arma ocupa
+	 * @return o indice de onde se encontra a arma no vetor armasPosicionadas
+	 */
+	private int AchaArma(int coluna, int linha) {
+		for(int i = 0; i < coordenadaArmasPosicionadas.size(); i++) {
+			for(int j = 0; j < coordenadaArmasPosicionadas.get(i).length; j++ ) {
+				if(coluna == coordenadaArmasPosicionadas.get(i)[j].getX()) {
+					if(linha == coordenadaArmasPosicionadas.get(i)[j].getY()) {
+						return i;
+					}
+				}
+			}
+		}
+		return -1;
+	}
+
 	private boolean PosicionaArmaSePossivel(int coluna, int linha) {
 		int linhaAjustada = 0;
 		int colunaAjustada = 0;

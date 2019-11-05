@@ -127,6 +127,8 @@ public class FramePosicionamento extends JFrame implements KeyListener, IObserva
 		tabuleiroPronto = (boolean) ControladorPosicionamento.getControladorPosicionamento().get(3);
 		if(tabuleiroPronto == true) {
 			botaoConfirmacao.setEnabled(true);
+		} else {
+			botaoConfirmacao.setEnabled(false);
 		}
 		
 	}
