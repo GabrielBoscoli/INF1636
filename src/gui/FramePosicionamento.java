@@ -1,6 +1,5 @@
 package gui;
 
-import java.awt.*;
 import java.awt.event.*;
 
 import javax.swing.*;
@@ -33,13 +32,7 @@ public class FramePosicionamento extends JFrame implements KeyListener, IObserva
 	//Botao de confirmacao do posicionamento
 	private static JButton botaoConfirmacao = new JButton("Tabuleiro Pronto!");
 	
-	private Point currentMousePosition = new Point(0,0);
-	
 	boolean tabuleiroPronto = false;
-	
-	//coordenadas do ponto de origem do tabuleiro
-	public int basePointX;
-	public int basePointY;
 	
 	public FramePosicionamento() {
 		
@@ -54,20 +47,20 @@ public class FramePosicionamento extends JFrame implements KeyListener, IObserva
 		
 		//configurando e adicionando tabuleiro ao frame
 		boardPanel = new PainelTabuleiro();
-		boardPanel.setSize((boardPanel.getTabuleiro().getNumLinhas()+1)*boardPanel.getTamanhoQuadrado(), 
-						(boardPanel.getTabuleiro().getNumColunas()+1)*boardPanel.getTamanhoQuadrado());
-		basePointX = (int)(tela.screenIntWidth*3/4 - boardPanel.getSize().getWidth()/2);
-		basePointY = (int)(tela.screenIntHeight*1/2 - boardPanel.getSize().getHeight()/2);
-		boardPanel.setLocation(basePointX, basePointY);	
+		boardPanel.setSize((boardPanel.getTabuleiro().getNumLinhas()+1)*boardPanel.getTamanhoQuadrado() + 1, 
+						(boardPanel.getTabuleiro().getNumColunas()+1)*boardPanel.getTamanhoQuadrado() + 1);
+		int x = (int)(tela.screenIntWidth*3/4 - boardPanel.getSize().getWidth()/2);
+		int y = (int)(tela.screenIntHeight*1/2 - boardPanel.getSize().getHeight()/2);
+		boardPanel.setLocation(x, y);	
 		getContentPane().add(boardPanel);
 		
 		//configurando e adicionando armas ao frame
 		painelArmas = new PainelArmas();
-		painelArmas.setLocation(tela.screenIntWidth*1/7, basePointY);
+		painelArmas.setLocation((int) (tela.screenIntWidth*1/4 - painelArmas.getSize().getWidth()/2), y);
 		getContentPane().add(painelArmas);
 		
 		//adicionando instruções de jogo
-		JLabel instrucoes = new JLabel("O magui eh muito liso meu deus nunca vi igual garay goroy quuentinhas");
+		JLabel instrucoes = new JLabel("Jogador1, posicione suas peças no tabuleiro");
 		int larguraInstrucoes = 500;
 		int alturaInstrucoes = 25;
 		painelInstrucoes.add(instrucoes);
@@ -92,28 +85,11 @@ public class FramePosicionamento extends JFrame implements KeyListener, IObserva
 		return botaoConfirmacao;
 	}
 
-	public PainelTabuleiro getPanel() {
-		return boardPanel;
-	}
-
-	public Point getCurrentMousePosition() {
-		return currentMousePosition;
-	}
-	
-	public void setCurrentMousePosition(Point p) {
-		this.currentMousePosition = p;
-	}
-	
-	public Point getPanelPoint(){
-		return boardPanel.getLocation();
-	}
-
 	@Override
 	public void keyPressed(KeyEvent arg0) {
 		if(arg0.getKeyCode() == KeyEvent.VK_ESCAPE) {
 			ControladorPosicionamento.getControladorPosicionamento().TeclaEscapePressionada();
 		}
-		
 	}
 
 	@Override

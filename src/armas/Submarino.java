@@ -31,4 +31,7 @@ public class Submarino extends Arma {
 	@Override
 	public void rotacionaArma() {}
 	
+	@Override
+	public void rotacionaArmaParaPosicaoOriginal() {}
+	
 }

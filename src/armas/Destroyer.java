@@ -43,4 +43,17 @@ public class Destroyer extends Arma {
 		setFormato(novoFormato);
 	}
 	
+	@Override
+	public void rotacionaArmaParaPosicaoOriginal() {
+		Coordenada[] formato = new Coordenada[this.getQntdQuadrados()];
+		
+		for(int i = 0; i < formato.length; i++) {
+			
+			formato[i] = new Coordenada(i, 0);
+			
+		}
+		this.setFormato(formato);
+		
+	}
+	
 }

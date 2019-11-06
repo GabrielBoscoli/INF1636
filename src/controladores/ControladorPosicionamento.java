@@ -41,23 +41,20 @@ public class ControladorPosicionamento implements IObservado {
 		if(armaSelecionada == null) {
 			armaSelecionada = arma;
 			for(IObservador observador  : listaObservadores) {
-				if(observador instanceof PainelArma) {
-					observador.notify(this);					
-				}
+				observador.notify(this);					
 			}
 		}
 	}
 	
 	public void TeclaEscapePressionada() {
 		System.out.println("TeclaEscapePressionada");
-		if(armaSelecionada != null && armaSelecionada != ultimaArmaPosicionada) {
+		PainelArma exArmaSelecionada = armaSelecionada;
+		armaSelecionada = null;
+		if(exArmaSelecionada != null && exArmaSelecionada != ultimaArmaPosicionada) {
 			for(IObservador observador : listaObservadores) {
-				if(observador instanceof PainelArma) {
-					observador.notify(this);
-				}
+				observador.notify(this);
 			}
 		}
-		armaSelecionada = null;
 		if(VerificaTabuleiroPronto() && tabuleiroPronto == false) {
 			tabuleiroPronto = true;
 			for(IObservador observador : listaObservadores) {
@@ -88,9 +85,7 @@ public class ControladorPosicionamento implements IObservado {
 			armaSelecionada.getArma().rotacionaArma();
 			if(PosicionaArmaSePossivel(coluna, linha)) {
 				for(IObservador observador : listaObservadores) {
-					if(observador instanceof PainelTabuleiro) {
-						observador.notify(this);				
-					}
+					observador.notify(this);				
 				}
 				return;
 			}
@@ -124,6 +119,8 @@ public class ControladorPosicionamento implements IObservado {
 		for(int j = 0; j < coordenada.length; j++) {
 			tabuleiro.EsvaziaCasa(coordenada[j].getX(), coordenada[j].getY());
 		}
+		armasPosicionadas.remove(i);
+		coordenadaArmasPosicionadas.remove(i);
 		return true;
 	}
 	
@@ -135,7 +132,7 @@ public class ControladorPosicionamento implements IObservado {
 				return;				
 			} else {
 				RetiraArma(AchaArma(coluna, linha));
-				if(VerificaTabuleiroPronto() && tabuleiroPronto == true) {
+				if(VerificaTabuleiroPronto() == false && tabuleiroPronto == true) {
 					tabuleiroPronto = false;
 				}
 				for(IObservador observador : listaObservadores) {
@@ -151,9 +148,7 @@ public class ControladorPosicionamento implements IObservado {
 		}
 		if(PosicionaArmaSePossivel(coluna, linha)) {
 			for(IObservador observador : listaObservadores) {
-				if(observador instanceof PainelTabuleiro) {
-					observador.notify(this);				
-				}
+				observador.notify(this);				
 			}
 		} else if (reposicionamento) {
 			PosicionaArmaSePossivel(coordenadaUltimaArmaPosicionada.getX(), coordenadaUltimaArmaPosicionada.getY());
@@ -239,7 +234,6 @@ public class ControladorPosicionamento implements IObservado {
 		for(int j = 0; j < 2; j++) {
 			colunaVizinha = coluna - (1 * sinal);
 			linhaVizinha = linha + (1 * sinal);
-			//tabuleiro.getMatrizCor()[colunaVizinha][linhaVizinha] = Color.red;
 			
 			for(int i = 0; i < 3; i++) {
 				if(linhaVizinha < tabuleiro.getNumLinhas() && linhaVizinha >= 0 && colunaVizinha < tabuleiro.getNumColunas() && colunaVizinha >= 0) {
@@ -281,10 +275,12 @@ public class ControladorPosicionamento implements IObservado {
 	public Object get(int i) {
 		if(i == 1)
 			return armaSelecionada;
-		else if (i == 2)
+		else if(i == 2)
 			return tabuleiro;
-		else if (i == 3)
+		else if(i == 3)
 			return tabuleiroPronto;
+		else if(i == 4)
+			return armasPosicionadas;
 		else
 			return null;
 	}

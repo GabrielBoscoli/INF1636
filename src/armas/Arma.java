@@ -101,4 +101,6 @@ public abstract class Arma {
 	
 	abstract public void rotacionaArma();
 	
+	abstract public void rotacionaArmaParaPosicaoOriginal();
+	
 }

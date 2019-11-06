@@ -6,6 +6,7 @@ import java.awt.Graphics2D;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.geom.Rectangle2D;
+import java.util.ArrayList;
 
 import javax.swing.JPanel;
 
@@ -29,10 +30,14 @@ public class PainelArma extends JPanel implements MouseListener, IObservador{
 	//determina se a arma está selecionada ou nao
 	private boolean selecionada;//deve ir para a classe arma?
 	
+	//determina se a arma está posicionada ou nao
+	private boolean posicionada;//deve ir para a classe arma?
+	
 	PainelArma (Arma arma, Color cor) {
 		this.arma = arma;
 		this.cor = cor;
 		selecionada = false;
+		posicionada = false;
 		
 		addMouseListener(this);
 		ControladorPosicionamento.getControladorPosicionamento().add(this);
@@ -66,16 +71,20 @@ public class PainelArma extends JPanel implements MouseListener, IObservador{
 		return cor;
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public void notify(IObservado observado) {
-		PainelArma painelArma = (PainelArma) ControladorPosicionamento.getControladorPosicionamento().get(1);
+		//PainelArma painelArma = (PainelArma) ControladorPosicionamento.getControladorPosicionamento().get(1);
+		selecionada = ((PainelArma) ControladorPosicionamento.getControladorPosicionamento().get(1)) == this;
+		posicionada = ((ArrayList<PainelArma>) ControladorPosicionamento.getControladorPosicionamento().get(4)).contains(this);
 		
-		if(painelArma == this && selecionada == false) {
+		if(selecionada == true) {
 			setVisible(false);
-			selecionada = true;
-		} else if (painelArma == this && selecionada == true) {
+		} else if (selecionada == false && posicionada == true) {
+			setVisible(false);
+		} else {
+			getArma().rotacionaArmaParaPosicaoOriginal();
 			setVisible(true);
-			selecionada = false;
 		}
 	}
 
