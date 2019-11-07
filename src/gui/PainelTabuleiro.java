@@ -5,7 +5,7 @@ import javax.swing.*;
 import controladores.ControladorPosicionamento;
 import observer.IObservado;
 import observer.IObservador;
-import tabuleiro.Tabuleiro;
+import dominio.Tabuleiro;
 
 import java.awt.*;
 import java.awt.event.MouseEvent;

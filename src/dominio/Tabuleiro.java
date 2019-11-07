@@ -1,4 +1,4 @@
-package tabuleiro;
+package dominio;
 
 import java.awt.Color;
 
@@ -47,6 +47,14 @@ public class Tabuleiro {
 		}
 		
 		MatrizCor[coluna][linha] = Color.cyan;
+	}
+	
+	public void ResetaTabuleiro() {
+		for (int i = 0; i < numColunas; i++){
+			for (int j = 0 ; j < numLinhas; j++ ){
+				EsvaziaCasa(i, j);
+			}
+		}
 	}
 
 	public int getNumColunas() {

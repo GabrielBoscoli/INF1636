@@ -4,6 +4,8 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 
+import controladores.ControladorJogo;
+
 /**
  * Classe responsável pela tela de definição de jogadores
  * @author Gabriel Boscoli
@@ -81,12 +83,7 @@ public class FrameJogadores extends JFrame implements ActionListener {
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		
-		ControleJogo novo = ControleJogo.getMainGamePresenter();
-		
-		
-		novo.closeNaming();
-		novo.showPositioning();
+		ControladorJogo.getMainGamePresenter().fecharFrameJogadores();
 	}
 	
 }

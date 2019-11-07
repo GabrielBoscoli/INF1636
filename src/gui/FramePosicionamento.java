@@ -17,7 +17,7 @@ import observer.IObservador;
 
 @SuppressWarnings("serial")
 
-public class FramePosicionamento extends JFrame implements KeyListener, IObservador {
+public class FramePosicionamento extends JFrame implements ActionListener, KeyListener, IObservador {
 
 	
 	//Painel do tabuleiro matricial
@@ -75,8 +75,9 @@ public class FramePosicionamento extends JFrame implements KeyListener, IObserva
 		botaoConfirmacao.setLocation((int) (tela.screenIntWidth/2 - botaoConfirmacao.getSize().getWidth()/2), tela.screenIntHeight * 5/6);
 		botaoConfirmacao.setEnabled(false);
 		getContentPane().add(botaoConfirmacao);
-		ControladorPosicionamento.getControladorPosicionamento().add(this);
+		botaoConfirmacao.addActionListener(this);
 		
+		ControladorPosicionamento.getControladorPosicionamento().add(this);
 		addKeyListener(this);
 		
 	}
@@ -107,6 +108,11 @@ public class FramePosicionamento extends JFrame implements KeyListener, IObserva
 			botaoConfirmacao.setEnabled(false);
 		}
 		
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent arg0) {
+		ControladorPosicionamento.getControladorPosicionamento().BotaoTabuleiroProntoClicado();
 	}
 	
 }

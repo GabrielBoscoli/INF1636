@@ -58,6 +58,12 @@ public class PainelArma extends JPanel implements MouseListener, IObservador{
 			g2d.draw(retangulo);
 		}
 	}
+	
+	public void ResetaArma() {
+		getArma().rotacionaArmaParaPosicaoOriginal();
+		selecionada = false;
+		posicionada = false;
+	}
 
 	public int getTamanhoQuadrado() {
 		return tamanhoQuadrado;

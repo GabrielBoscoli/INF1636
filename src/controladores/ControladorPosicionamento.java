@@ -7,7 +7,7 @@ import gui.*;
 import observer.IObservado;
 import observer.IObservador;
 import outros.Coordenada;
-import tabuleiro.Tabuleiro;
+import dominio.Tabuleiro;
 
 
 public class ControladorPosicionamento implements IObservado {
@@ -19,13 +19,13 @@ public class ControladorPosicionamento implements IObservado {
 	Coordenada coordenadaUltimaArmaPosicionada = new Coordenada(-1, -1);
 	
 	int numArmas = 15;
-	int armasTotal = 0;
-	
 	List<PainelArma> armasPosicionadas = new ArrayList<PainelArma>();
 	List<Coordenada[]> coordenadaArmasPosicionadas = new ArrayList<Coordenada[]>();
 	
 	Tabuleiro tabuleiro = new Tabuleiro();
 	boolean tabuleiroPronto = false;
+	
+	int vez = 1;
 	
 	private ControladorPosicionamento() {}
 	
@@ -40,10 +40,37 @@ public class ControladorPosicionamento implements IObservado {
 		System.out.println("ArmaClicada");
 		if(armaSelecionada == null) {
 			armaSelecionada = arma;
-			for(IObservador observador  : listaObservadores) {
+			for(IObservador observador : listaObservadores) {
 				observador.notify(this);					
 			}
 		}
+	}
+	
+	public void BotaoTabuleiroProntoClicado() {
+		System.out.println("BotaoTabuleiroProntoClicado");
+		if(vez == 1) {
+			ControladorJogo.getMainGamePresenter().setArmasJogador((ArrayList<PainelArma>) armasPosicionadas, vez);
+			ResetaDados();
+			vez++;
+			for(IObservador observador : listaObservadores) {
+				observador.notify(this);					
+			}
+		} else if(vez == 2) {
+			ControladorJogo.getMainGamePresenter().setArmasJogador((ArrayList<PainelArma>) armasPosicionadas, vez);
+			ControladorJogo.getMainGamePresenter().fecharFramePosicionamento();
+		}
+	}
+	
+	private void ResetaDados() {
+		tabuleiro.ResetaTabuleiro();
+		for(int i = 0; i < armasPosicionadas.size(); i++) {
+			armasPosicionadas.get(i).ResetaArma();
+		}
+		armasPosicionadas.clear();
+		coordenadaArmasPosicionadas.clear();
+		armaSelecionada = null;
+		ultimaArmaPosicionada = null;
+		tabuleiroPronto = false;
 	}
 	
 	public void TeclaEscapePressionada() {
