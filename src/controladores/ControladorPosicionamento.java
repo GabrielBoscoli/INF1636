@@ -49,7 +49,7 @@ public class ControladorPosicionamento implements IObservado {
 	public void BotaoTabuleiroProntoClicado() {
 		System.out.println("BotaoTabuleiroProntoClicado");
 		if(vez == 1) {
-			ControladorJogo.getMainGamePresenter().setArmasJogador((ArrayList<PainelArma>) armasPosicionadas, vez);
+			//ControladorJogo.getMainGamePresenter().setArmasJogador((ArrayList<PainelArma>) armasPosicionadas, vez);
 			ResetaDados();
 			vez++;
 			for(IObservador observador : listaObservadores) {
@@ -158,7 +158,11 @@ public class ControladorPosicionamento implements IObservado {
 			if(tabuleiro.CasaEstaVazia(coluna, linha)) {
 				return;				
 			} else {
-				RetiraArma(AchaArma(coluna, linha));
+				int i = AchaArma(coluna, linha);
+				if(armasPosicionadas.get(i) == ultimaArmaPosicionada) {
+					ultimaArmaPosicionada = null;
+				}
+				RetiraArma(i);
 				if(VerificaTabuleiroPronto() == false && tabuleiroPronto == true) {
 					tabuleiroPronto = false;
 				}

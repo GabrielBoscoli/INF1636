@@ -1,6 +1,5 @@
 package controladores;
 
-import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 
 import dominio.Jogador;
@@ -42,7 +41,7 @@ public class ControladorJogo {
 	}
 	
 	public void fecharFramePosicionamento() {
-		framePosicionamento.dispatchEvent(new WindowEvent(framePosicionamento, WindowEvent.WINDOW_CLOSING));
+		framePosicionamento.setVisible(false);
 		frameAtaque = new FrameAtaque();
 		frameAtaque.setTitle("Batalha Naval");
 		frameAtaque.setVisible(true);

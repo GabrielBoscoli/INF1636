@@ -76,6 +76,7 @@ public class FramePosicionamento extends JFrame implements ActionListener, KeyLi
 		botaoConfirmacao.setEnabled(false);
 		getContentPane().add(botaoConfirmacao);
 		botaoConfirmacao.addActionListener(this);
+		botaoConfirmacao.setFocusable(false);
 		
 		ControladorPosicionamento.getControladorPosicionamento().add(this);
 		addKeyListener(this);

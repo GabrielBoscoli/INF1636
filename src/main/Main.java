@@ -11,13 +11,13 @@ import gui.PainelTabuleiro;
 @SuppressWarnings("serial")
 public class Main extends JFrame {
 	public static void main(String[] args) {
-//		///FramePosicionamento frame = new FramePosicionamento();
-//		ControladorJogo novo = ControladorJogo.getMainGamePresenter();
-//		//frame.setSize(450, 450);
-//		//frame.setVisible(true);
-//		novo.iniciarJogo();
-		FrameAtaque frame = new FrameAtaque();
+		///FramePosicionamento frame = new FramePosicionamento();
+		ControladorJogo novo = ControladorJogo.getMainGamePresenter();
+		//frame.setSize(450, 450);
+		//frame.setVisible(true);
+		novo.iniciarJogo();
+			//FrameAtaque frame = new FrameAtaque();
 		//frame.setSize(1800, 1300);
-		frame.setVisible(true);
+			//frame.setVisible(true);
 	}
 }
