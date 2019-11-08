@@ -48,15 +48,15 @@ public class ControladorPosicionamento implements IObservado {
 	
 	public void BotaoTabuleiroProntoClicado() {
 		System.out.println("BotaoTabuleiroProntoClicado");
+		ControladorJogo.getMainGamePresenter().setArmasJogador((ArrayList<PainelArma>) armasPosicionadas, vez);
+		ControladorJogo.getMainGamePresenter().setCoordenadaArmasJogador((ArrayList<Coordenada[]>) coordenadaArmasPosicionadas, vez);
 		if(vez == 1) {
-			//ControladorJogo.getMainGamePresenter().setArmasJogador((ArrayList<PainelArma>) armasPosicionadas, vez);
 			ResetaDados();
 			vez++;
 			for(IObservador observador : listaObservadores) {
 				observador.notify(this);					
 			}
 		} else if(vez == 2) {
-			ControladorJogo.getMainGamePresenter().setArmasJogador((ArrayList<PainelArma>) armasPosicionadas, vez);
 			ControladorJogo.getMainGamePresenter().fecharFramePosicionamento();
 		}
 	}

@@ -7,6 +7,7 @@ import gui.FrameAtaque;
 import gui.FrameJogadores;
 import gui.FramePosicionamento;
 import gui.PainelArma;
+import outros.Coordenada;
 
 public class ControladorJogo {
 
@@ -64,6 +65,14 @@ public class ControladorJogo {
 			jogador1.setArmas(armas);
 		} else if(numJogador == 2) {
 			jogador2.setArmas(armas);
+		}
+	}
+	
+	public void setCoordenadaArmasJogador(ArrayList<Coordenada[]> coordenadaArmas, int numJogador) {
+		if(numJogador == 1) {
+			jogador1.setCoordenadaArmas(coordenadaArmas);
+		} else if(numJogador == 2) {
+			jogador2.setCoordenadaArmas(coordenadaArmas);
 		}
 	}
 	
