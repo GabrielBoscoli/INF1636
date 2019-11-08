@@ -1,14 +1,27 @@
 package gui;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
+
+import controladores.ControladorAtaque;
 
 @SuppressWarnings("serial")
-public class FrameAtaque extends JFrame {
+public class FrameAtaque extends JFrame implements ActionListener {
 	
 	PainelTabuleiro tabuleiroJogador1 = new PainelTabuleiro();
+	JLabel labelTabuleiro1 = new JLabel("Tabuleiro de j1");
+	
 	PainelTabuleiro tabuleiroJogador2 = new PainelTabuleiro();
+	JLabel labelTabuleiro2 = new JLabel("Tabuleiro de j2");
+	
+	JPanel painelInstrucao = new JPanel();
+	
+	JButton botao = new JButton("Desbloquear Visão");
 
 	public FrameAtaque() {
 		final DimensaoTela tela = DimensaoTela.getScreenDimensions();
@@ -27,7 +40,6 @@ public class FrameAtaque extends JFrame {
 		tabuleiroJogador1.setLocation(x, y);	
 		getContentPane().add(tabuleiroJogador1);
 		
-		JLabel labelTabuleiro1 = new JLabel("Tabuleiro de j1");
 		labelTabuleiro1.setSize(500, 25);
 		labelTabuleiro1.setLocation(x, y - 25);
 		this.add(labelTabuleiro1);
@@ -38,24 +50,27 @@ public class FrameAtaque extends JFrame {
 		tabuleiroJogador2.setLocation(x, y);
 		getContentPane().add(tabuleiroJogador2);
 		
-		JLabel labelTabuleiro2 = new JLabel("Tabuleiro de j2");
 		labelTabuleiro2.setSize(500, 25);
 		labelTabuleiro2.setLocation(x, y - 25);
 		this.add(labelTabuleiro2);
 		
 		JLabel instrucao = new JLabel("Visao bloqueada, j1 deve clicar no botao para desbloquear sua visao");
-		instrucao.setSize(500, 25);
-		x = (int)(tela.screenIntWidth * 1/2 - instrucao.getSize().getWidth()/2);
+		painelInstrucao.add(instrucao);
+		painelInstrucao.setSize(500, 25);
+		x = (int)(tela.screenIntWidth * 1/2 - painelInstrucao.getSize().getWidth()/2);
 		y = y + tabuleiroJogador2.getHeight() + 50;
-		instrucao.setLocation(x, y);
-		this.add(instrucao);
+		painelInstrucao.setLocation(x, y);
+		this.add(painelInstrucao);
 		
-		JButton botao = new JButton("Botao");
-		int larguraBotao = 200;
-		int alturaBotao = 50;
-		botao.setSize(larguraBotao, alturaBotao);
+		botao.setSize(200, 50);
 		botao.setLocation((int) (tela.screenIntWidth/2 - botao.getSize().getWidth()/2), y + 50);
 		botao.setEnabled(false);
 		this.add(botao);
+		botao.addActionListener(this);
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent arg0) {
+		ControladorAtaque.getControladorAtaque().botaoClicado();
 	}
 }

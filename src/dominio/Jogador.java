@@ -1,15 +1,14 @@
 package dominio;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import gui.PainelArma;
 import outros.Coordenada;
 
 public class Jogador {
 	String nome;
-	List<PainelArma> armas;
-	List<Coordenada[]> coordenadaArmas;
+	ArrayList<PainelArma> armas;
+	ArrayList<Coordenada[]> coordenadaArmas;
 	
 	public Jogador() {
 		nome = null;
@@ -17,12 +16,24 @@ public class Jogador {
 		coordenadaArmas = new ArrayList<Coordenada[]>();
 	}
 	
+	public String getNome() {
+		return nome;
+	}
+	
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
 	
+	public ArrayList<PainelArma> getArmas() {
+		return armas;
+	}
+	
 	public void setArmas(ArrayList<PainelArma> armas) {
 		this.armas = new ArrayList<>(armas);
+	}
+	
+	public ArrayList<Coordenada[]> getCoordenadaArmas() {
+		return coordenadaArmas;
 	}
 	
 	public void setCoordenadaArmas(ArrayList<Coordenada[]> armas) {

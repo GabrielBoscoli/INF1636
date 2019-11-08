@@ -5,6 +5,7 @@ import java.awt.event.*;
 import javax.swing.*;
 
 import controladores.ControladorPosicionamento;
+import dominio.Tabuleiro;
 import observer.IObservado;
 import observer.IObservador;
 
@@ -17,11 +18,11 @@ import observer.IObservador;
 
 @SuppressWarnings("serial")
 
-public class FramePosicionamento extends JFrame implements ActionListener, KeyListener, IObservador {
+public class FramePosicionamento extends JFrame implements ActionListener, KeyListener, IObservador, MouseListener {
 
 	
 	//Painel do tabuleiro matricial
-	private PainelTabuleiro boardPanel;
+	private PainelTabuleiro painelTabuleiro;
 	
 	//Painel das armas a serem posicionadas
 	private PainelArmas painelArmas;
@@ -42,17 +43,17 @@ public class FramePosicionamento extends JFrame implements ActionListener, KeyLi
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setResizable(false);
 		setLayout(null);
-		//setFocusable(true);
-		//requestFocusInWindow();
 		
 		//configurando e adicionando tabuleiro ao frame
-		boardPanel = new PainelTabuleiro();
-		boardPanel.setSize((boardPanel.getTabuleiro().getNumLinhas()+1)*boardPanel.getTamanhoQuadrado() + 1, 
-						(boardPanel.getTabuleiro().getNumColunas()+1)*boardPanel.getTamanhoQuadrado() + 1);
-		int x = (int)(tela.screenIntWidth*3/4 - boardPanel.getSize().getWidth()/2);
-		int y = (int)(tela.screenIntHeight*1/2 - boardPanel.getSize().getHeight()/2);
-		boardPanel.setLocation(x, y);	
-		getContentPane().add(boardPanel);
+		painelTabuleiro = new PainelTabuleiro();
+		painelTabuleiro.setTabuleiro((Tabuleiro) ControladorPosicionamento.getControladorPosicionamento().get(2));
+		painelTabuleiro.setSize((painelTabuleiro.getTabuleiro().getNumLinhas()+1)*painelTabuleiro.getTamanhoQuadrado() + 1, 
+						(painelTabuleiro.getTabuleiro().getNumColunas()+1)*painelTabuleiro.getTamanhoQuadrado() + 1);
+		int x = (int)(tela.screenIntWidth*3/4 - painelTabuleiro.getSize().getWidth()/2);
+		int y = (int)(tela.screenIntHeight*1/2 - painelTabuleiro.getSize().getHeight()/2);
+		painelTabuleiro.setLocation(x, y);	
+		getContentPane().add(painelTabuleiro);
+		painelTabuleiro.addMouseListener(this);
 		
 		//configurando e adicionando armas ao frame
 		painelArmas = new PainelArmas();
@@ -115,5 +116,30 @@ public class FramePosicionamento extends JFrame implements ActionListener, KeyLi
 	public void actionPerformed(ActionEvent arg0) {
 		ControladorPosicionamento.getControladorPosicionamento().BotaoTabuleiroProntoClicado();
 	}
+	
+	//verificar se essa funcao esta seguindo boas praticas de design pattern
+	public void mousePressed(MouseEvent e) {
+		int coluna = e.getX()/painelTabuleiro.getTamanhoQuadrado();
+		int linha = e.getY()/painelTabuleiro.getTamanhoQuadrado();
+		
+		//correção por conta das coordenadas do tabuleiro
+		if(coluna > 0 && linha > 0) {
+			coluna -= 1;
+			linha -= 1;
+		} else {
+			return;
+		}
+		
+		if(e.getButton() == MouseEvent.BUTTON1) {
+			ControladorPosicionamento.getControladorPosicionamento().TabuleiroClicadoComBotaoEsquerdo(coluna, linha);
+		} else if(e.getButton() == MouseEvent.BUTTON3) {
+			ControladorPosicionamento.getControladorPosicionamento().TabuleiroClicadoComBotaoDireito();
+		}
+	}
+	
+	public void mouseEntered(MouseEvent e) {}
+	public void mouseExited(MouseEvent e) {}
+	public void mouseClicked(MouseEvent e) {}
+	public void mouseReleased(MouseEvent e) {}
 	
 }

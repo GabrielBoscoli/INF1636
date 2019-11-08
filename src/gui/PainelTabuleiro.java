@@ -8,8 +8,6 @@ import observer.IObservador;
 import dominio.Tabuleiro;
 
 import java.awt.*;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.awt.geom.*;
 
 /**
@@ -18,13 +16,12 @@ import java.awt.geom.*;
  *
  */
 @SuppressWarnings("serial")
-public class PainelTabuleiro extends JPanel implements MouseListener, IObservador {
+public class PainelTabuleiro extends JPanel implements IObservador {
 
 	private int tamanhoQuadrado = 25;
 	Tabuleiro tabuleiro = new Tabuleiro();
 	
 	public PainelTabuleiro() {
-		tabuleiro = (Tabuleiro) ControladorPosicionamento.getControladorPosicionamento().get(2);
 		ControladorPosicionamento.getControladorPosicionamento().add(this);
 		this.setLayout(null);
 		this.setDoubleBuffered(true);
@@ -49,7 +46,7 @@ public class PainelTabuleiro extends JPanel implements MouseListener, IObservado
 			this.add(coordLinha);
 		}
 		
-		addMouseListener(this);
+		//addMouseListener(this);
 	}
 	
 	public void paintComponent(Graphics g) {
@@ -77,31 +74,10 @@ public class PainelTabuleiro extends JPanel implements MouseListener, IObservado
 	public Tabuleiro getTabuleiro() {
 		return tabuleiro;
 	}
-
-	//verificar se essa funcao esta seguindo boas praticas de design pattern
-	public void mousePressed(MouseEvent e) {
-		int coluna = e.getX()/tamanhoQuadrado;
-		int linha = e.getY()/tamanhoQuadrado;
-		
-		//correção por conta das coordenadas do tabuleiro
-		if(coluna > 0 && linha > 0) {
-			coluna -= 1;
-			linha -= 1;
-		} else {
-			return;
-		}
-		
-		if(e.getButton() == MouseEvent.BUTTON1) {
-			ControladorPosicionamento.getControladorPosicionamento().TabuleiroClicadoComBotaoEsquerdo(coluna, linha);
-		} else if(e.getButton() == MouseEvent.BUTTON3) {
-			ControladorPosicionamento.getControladorPosicionamento().TabuleiroClicadoComBotaoDireito();
-		}
-	}
 	
-	public void mouseEntered(MouseEvent e) {}
-	public void mouseExited(MouseEvent e) {}
-	public void mouseClicked(MouseEvent e) {}
-	public void mouseReleased(MouseEvent e) {}
+	public void setTabuleiro(Tabuleiro tabuleiro) {
+		this.tabuleiro = tabuleiro;
+	}
 
 	@Override
 	public void notify(IObservado observado) {
