@@ -8,9 +8,11 @@ import java.awt.event.MouseListener;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import controladores.ControladorAtaque;
+import controladores.ControladorJogo;
 import dominio.Tabuleiro;
 import observer.IObservado;
 import observer.IObservador;
@@ -24,9 +26,14 @@ public class FrameAtaque extends JFrame implements MouseListener, ActionListener
 	PainelTabuleiro tabuleiroJogador2 = new PainelTabuleiro();
 	JLabel labelTabuleiro2 = new JLabel("Tabuleiro de j2");
 	
-	JPanel painelInstrucao = new JPanel();
+	JLabel instrucao = new JLabel();
 	
 	JButton botao = new JButton("Desbloquear Visão");
+	
+	boolean visaoBloqueada;
+	boolean rodadaEncerrada;
+	
+	String vencedor = null;
 
 	public FrameAtaque() {
 		final DimensaoTela tela = DimensaoTela.getScreenDimensions();
@@ -34,6 +41,9 @@ public class FrameAtaque extends JFrame implements MouseListener, ActionListener
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setResizable(false);
 		setLayout(null);
+		
+		visaoBloqueada = (boolean) ControladorAtaque.getControladorAtaque().get(3);
+		rodadaEncerrada = (boolean) ControladorAtaque.getControladorAtaque().get(4);
 		
 		int x;
 		int y;
@@ -65,7 +75,8 @@ public class FrameAtaque extends JFrame implements MouseListener, ActionListener
 		labelTabuleiro2.setLocation(x, y - 25);
 		this.add(labelTabuleiro2);
 		
-		JLabel instrucao = new JLabel("Visao bloqueada, j1 deve clicar no botao para desbloquear sua visao");
+		JPanel painelInstrucao = new JPanel();
+		instrucao.setText("Visao bloqueada, j1 deve clicar no botao para desbloquear sua visao");
 		painelInstrucao.add(instrucao);
 		painelInstrucao.setSize(500, 25);
 		x = (int)(tela.screenIntWidth * 1/2 - painelInstrucao.getSize().getWidth()/2);
@@ -89,8 +100,27 @@ public class FrameAtaque extends JFrame implements MouseListener, ActionListener
 
 	@Override
 	public void notify(IObservado observado) {
+		visaoBloqueada = (boolean) ControladorAtaque.getControladorAtaque().get(3);
+		rodadaEncerrada = (boolean) ControladorAtaque.getControladorAtaque().get(4);
+		vencedor = (String) ControladorAtaque.getControladorAtaque().get(5);
+		
 		tabuleiroJogador1.repaint();
 		tabuleiroJogador2.repaint();
+		
+		if(visaoBloqueada) {
+			botao.setText("Desbloquear Visão");
+		} else if(!rodadaEncerrada) {
+			//instrucao.setText("Encerrar Rodada");
+			botao.setEnabled(false);
+			botao.setText("Encerrar Rodada");
+		} else if(rodadaEncerrada ) {
+			botao.setEnabled(true);
+		} 
+
+		if(vencedor != null) {
+			JOptionPane.showMessageDialog(this,vencedor + " é o vencedor");
+			ControladorJogo.getMainGamePresenter().fecharFrameAtaque();
+		}
 	}
 
 	@Override

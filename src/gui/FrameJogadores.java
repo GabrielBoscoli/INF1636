@@ -83,7 +83,7 @@ public class FrameJogadores extends JFrame implements ActionListener {
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		ControladorJogo.getMainGamePresenter().fecharFrameJogadores();
+		ControladorJogo.getMainGamePresenter().fecharFrameJogadores(nomeJogadorUm.getText(), nomeJogadorDois.getText());
 	}
 	
 }
