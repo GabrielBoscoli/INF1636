@@ -22,54 +22,51 @@ public class FrameJogadores extends JFrame implements ActionListener {
 	private JTextField nomeJogadorUm = new JTextField("Jogador 1");
 	private JTextField nomeJogadorDois = new JTextField("Jogador 2");
 	
+	private Menu menu = new Menu();
+	
 	public FrameJogadores() {
-		
-		//criando componentes
+		setLayout(null);
+
+		menu.desativarSalvamento();
+		menu.setLocation(0, 0);
+		menu.setSize(FRAME_LARGURA, 20);
+
 		JPanel painelJogadorUm = new JPanel();
-		painelJogadorUm.setLayout(new BoxLayout(painelJogadorUm, BoxLayout.X_AXIS));
 		JPanel painelJogadorDois = new JPanel();
-		painelJogadorDois.setLayout(new BoxLayout(painelJogadorDois, BoxLayout.X_AXIS));
-		Label labelJogadorUm = new Label("Jogador 1: ");
-		Label labelJogadorDois = new Label("Jogador 2: ");
+		Label labelJogadorUm = new Label("Jogador 1:");
+		Label labelJogadorDois = new Label("Jogador 2:");
 		JButton botaoInicio = new JButton("Iniciar");
-		
-		//adicionando componentes em seus paineis
-		Dimension dimensaoComponente = new Dimension(200, 50);
+
 		painelJogadorUm.add(labelJogadorUm);
+		nomeJogadorUm.setColumns(10);
 		painelJogadorUm.add(nomeJogadorUm);
-		painelJogadorUm.setMaximumSize(dimensaoComponente);
+		painelJogadorUm.setSize(FRAME_LARGURA, 30);
+		painelJogadorUm.setLocation(0, 40);
 		painelJogadorDois.add(labelJogadorDois);
 		painelJogadorDois.add(nomeJogadorDois);
-		painelJogadorDois.setMaximumSize(dimensaoComponente);
+		nomeJogadorDois.setColumns(10);
+		painelJogadorDois.setSize(FRAME_LARGURA, 30);
+		painelJogadorDois.setLocation(0, 80);
 		
-		//arrumando componentes no frame
-		Dimension espacoEntreComponentes = new Dimension(0, 20);
-		getContentPane().add(Box.createRigidArea(espacoEntreComponentes));
+		botaoInicio.setSize(100, 30);
+		botaoInicio.setLocation(FRAME_LARGURA/2 - botaoInicio.getSize().width/2, 125);
+
+		getContentPane().add(menu);
 		getContentPane().add(painelJogadorUm);
-		getContentPane().add(Box.createRigidArea(espacoEntreComponentes));
 		getContentPane().add(painelJogadorDois);
-		getContentPane().add(Box.createRigidArea(espacoEntreComponentes));
 		getContentPane().add(botaoInicio);
-		getContentPane().add(Box.createRigidArea(espacoEntreComponentes));
 		
-		botaoInicio.setAlignmentX(Component.CENTER_ALIGNMENT);
-		
-		setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
-		
-		//centralizando o frame
 		Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
 	    int x = (int) ((dimension.getWidth() - FRAME_LARGURA) / 2);
 	    int y = (int) ((dimension.getHeight() - FRAME_ALTURA) / 2);
 	    setLocation(x, y);
 		
-	    //propriedades do frame
 		setSize(FRAME_LARGURA, FRAME_ALTURA);
 		setResizable(false);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setTitle("Seleção de Jogadores");
 		
 		botaoInicio.addActionListener(this);
-		//MenuController.getMenuController().createAndShowGUI(this);
 	}
 	
 	public String getNomeJogadorUm() {
