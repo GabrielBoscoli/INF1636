@@ -39,4 +39,27 @@ public class Jogador {
 	public void setCoordenadaArmas(ArrayList<Coordenada[]> armas) {
 		this.coordenadaArmas = new ArrayList<>(armas);
 	}
+	
+	public String toString() {
+		String stringJogador = "Nome:\n" + nome + "\n";
+		stringJogador += "\n" + "Armas:" + "\n";
+		stringJogador += coordenadaArmasToString();
+		
+		return stringJogador;
+	}
+	
+	private String coordenadaArmasToString() {
+		String retorno = "";
+		for(int i = 0; i < coordenadaArmas.size(); i++) {
+			Coordenada[] coordenada = coordenadaArmas.get(i);
+			for(int j = 0; j < coordenada.length; j++) {
+				retorno += coordenadaArmas.get(i)[j].getX();
+				retorno += " " + coordenadaArmas.get(i)[j].getY();
+				retorno += ", ";
+			}
+			retorno = retorno.substring(0, retorno.length() - 2);
+			retorno += "\n";
+		}
+		return retorno;
+	}
 }

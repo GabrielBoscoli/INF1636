@@ -30,6 +30,8 @@ public class FrameAtaque extends JFrame implements MouseListener, ActionListener
 	
 	JButton botao = new JButton("Desbloquear Visão");
 	
+	Menu menu = new Menu();
+	
 	boolean visaoBloqueada;
 	boolean rodadaEncerrada;
 	
@@ -89,6 +91,10 @@ public class FrameAtaque extends JFrame implements MouseListener, ActionListener
 		botao.setEnabled(true);
 		this.add(botao);
 		botao.addActionListener(this);
+		
+		menu.setLocation(0, 0);
+		menu.setSize(tela.screenIntWidth, 20);
+		getContentPane().add(menu);
 		
 		ControladorAtaque.getControladorAtaque().add(this);
 	}

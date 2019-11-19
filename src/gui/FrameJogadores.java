@@ -19,15 +19,15 @@ public class FrameJogadores extends JFrame implements ActionListener {
 	private final int FRAME_ALTURA = 200;
 	
 	//nome dos jogadores
-	private JTextField nomeJogadorUm = new JTextField("Jogador 1");
-	private JTextField nomeJogadorDois = new JTextField("Jogador 2");
+	private JTextField nomeJogadorUm = new JTextField("Jogador 1", 10);
+	private JTextField nomeJogadorDois = new JTextField("Jogador 2", 10);
 	
 	private Menu menu = new Menu();
 	
 	public FrameJogadores() {
 		setLayout(null);
 
-		menu.desativarSalvamento();
+		//menu.desativarSalvamento();
 		menu.setLocation(0, 0);
 		menu.setSize(FRAME_LARGURA, 20);
 
@@ -36,17 +36,18 @@ public class FrameJogadores extends JFrame implements ActionListener {
 		Label labelJogadorUm = new Label("Jogador 1:");
 		Label labelJogadorDois = new Label("Jogador 2:");
 		JButton botaoInicio = new JButton("Iniciar");
+		
+		nomeJogadorUm.setPreferredSize(new Dimension(20,30));
+		nomeJogadorDois.setPreferredSize(new Dimension(20,30));
 
 		painelJogadorUm.add(labelJogadorUm);
-		nomeJogadorUm.setColumns(10);
 		painelJogadorUm.add(nomeJogadorUm);
-		painelJogadorUm.setSize(FRAME_LARGURA, 30);
-		painelJogadorUm.setLocation(0, 40);
+		painelJogadorUm.setSize(FRAME_LARGURA, 40);
+		painelJogadorUm.setLocation(0, 35);
 		painelJogadorDois.add(labelJogadorDois);
 		painelJogadorDois.add(nomeJogadorDois);
-		nomeJogadorDois.setColumns(10);
-		painelJogadorDois.setSize(FRAME_LARGURA, 30);
-		painelJogadorDois.setLocation(0, 80);
+		painelJogadorDois.setSize(FRAME_LARGURA, 40);
+		painelJogadorDois.setLocation(0, 75);
 		
 		botaoInicio.setSize(100, 30);
 		botaoInicio.setLocation(FRAME_LARGURA/2 - botaoInicio.getSize().width/2, 125);
@@ -76,7 +77,6 @@ public class FrameJogadores extends JFrame implements ActionListener {
 	public String getNomeJogadorDois() {
 		return nomeJogadorDois.getText();
 	}
-	
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {

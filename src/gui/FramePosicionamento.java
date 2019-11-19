@@ -35,6 +35,8 @@ public class FramePosicionamento extends JFrame implements ActionListener, KeyLi
 	
 	boolean tabuleiroPronto = false;
 	
+	Menu menu = new Menu();
+	
 	public FramePosicionamento() {
 		
 		//propriedades do frame
@@ -78,6 +80,10 @@ public class FramePosicionamento extends JFrame implements ActionListener, KeyLi
 		getContentPane().add(botaoConfirmacao);
 		botaoConfirmacao.addActionListener(this);
 		botaoConfirmacao.setFocusable(false);
+		
+		menu.setLocation(0, 0);
+		menu.setSize(tela.screenIntWidth, 20);
+		getContentPane().add(menu);
 		
 		ControladorPosicionamento.getControladorPosicionamento().add(this);
 		addKeyListener(this);

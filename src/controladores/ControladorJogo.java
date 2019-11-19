@@ -1,7 +1,11 @@
 package controladores;
 
 import java.awt.event.WindowEvent;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
+
+import javax.swing.JFileChooser;
 
 import dominio.Jogador;
 import gui.FrameAtaque;
@@ -90,6 +94,37 @@ public class ControladorJogo {
 			return jogador2;
 		}
 		return null;
+	}
+	
+	public void salvarJogo() throws IOException {
+		JFileChooser chooser = new JFileChooser();
+		FileWriter fileWriter = null;
+		
+	    if (chooser.showSaveDialog(null) == JFileChooser.APPROVE_OPTION) {
+	        try {
+	            fileWriter = new FileWriter(chooser.getSelectedFile() + ".txt");
+	            fileWriter.write(formataSalvamento());
+	        } catch (Exception ex) {
+	            ex.printStackTrace();
+	        } finally {
+	        	if(fileWriter != null) {
+	        		fileWriter.close();
+	        	}
+	        }
+	    }
+	}
+	
+	private String formataSalvamento() {
+		String salvamento = "";
+//		salvamento += formataArmas(jogador1);
+//		salvamento += "\n";
+//		salvamento += formataArmas(jogador2);
+//		salvamento += "\n";
+		salvamento += jogador1.toString();
+		salvamento += "\n";
+		salvamento += jogador2.toString();
+		
+		return salvamento;
 	}
 	
 }

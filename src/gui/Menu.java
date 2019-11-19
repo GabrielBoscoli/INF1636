@@ -1,11 +1,16 @@
 package gui;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 
+import controladores.ControladorJogo;
+
 @SuppressWarnings("serial")
-public class Menu extends JMenuBar {
+public class Menu extends JMenuBar implements ActionListener {
 	
 	JMenu menu;
 	JMenuItem salvar;
@@ -23,6 +28,9 @@ public class Menu extends JMenuBar {
         recarregar = new JMenuItem("Abrir");
         recarregar.setEnabled(true);
         menu.add(recarregar);
+        
+        salvar.addActionListener(this);
+        recarregar.addActionListener(this);
 	}
 	
 	public void desativarSalvamento() {
@@ -39,5 +47,19 @@ public class Menu extends JMenuBar {
 	
 	public void ativarRecarregamento() {
 		recarregar.setEnabled(true);
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent arg0) {
+		if(arg0.getSource() == salvar) {
+			try {
+				ControladorJogo.getMainGamePresenter().salvarJogo();				
+			} catch (Exception ex) {
+	            ex.printStackTrace();
+			}
+		} else {
+			
+		}
+		
 	}
 }
