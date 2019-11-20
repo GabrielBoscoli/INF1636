@@ -1,12 +1,19 @@
 package controladores;
 
 import java.awt.event.WindowEvent;
+import java.io.BufferedReader;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 import javax.swing.JFileChooser;
 
+import java.awt.Color;
+
+import armas.Arma;
+import armas.Submarino;
 import dominio.Jogador;
 import gui.FrameAtaque;
 import gui.FrameJogadores;
@@ -50,6 +57,10 @@ public class ControladorJogo {
 	
 	public void fecharFramePosicionamento() {
 		framePosicionamento.setVisible(false);
+		abrirFrameAtaque();
+	}
+	
+	private void abrirFrameAtaque() {
 		frameAtaque = new FrameAtaque();
 		frameAtaque.setTitle("Batalha Naval");
 		frameAtaque.setVisible(true);
@@ -96,13 +107,73 @@ public class ControladorJogo {
 		return null;
 	}
 	
+	public void recarregarJogo() {
+		JFileChooser fileChooser = new JFileChooser();
+		Scanner scanner = null;
+        
+        if (fileChooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
+        	try {
+        		scanner = new Scanner(new BufferedReader(new FileReader(fileChooser.getSelectedFile())));
+        		leDadosSalvos(scanner);
+        	} catch (Exception ex) {
+        		ex.printStackTrace();
+        	} finally {
+        		if (scanner != null) { 
+        			scanner.close();
+        		}
+        	}
+        }
+        abrirFrameAtaque();
+	}
+	
+	private void leDadosSalvos(Scanner scanner) {
+		leDadosSalvosJogador(scanner, jogador1);
+		leDadosSalvosJogador(scanner, jogador2);		
+	}
+	
+	private void leDadosSalvosJogador(Scanner scanner, Jogador jogador) {
+		String nomeJogador = scanner.nextLine();
+		jogador.setNome(nomeJogador);
+		
+		scanner.nextLine();
+		String linha = scanner.nextLine();
+		int numLinhas = 0;
+		
+		ArrayList<Coordenada[]> arrayCoordenadas = new ArrayList<>();
+		
+		while(!linha.isEmpty()) {
+			String[] stringCoordenadas = linha.split(", ");
+			Coordenada[] coordenadas = new Coordenada[stringCoordenadas.length];
+			for(int i = 0; i < stringCoordenadas.length; i++) {
+				String[] stringCoordenada = stringCoordenadas[i].split(" ");
+				coordenadas[i] = new Coordenada(Integer.valueOf(stringCoordenada[0]), Integer.valueOf(stringCoordenada[1]));
+			}
+			arrayCoordenadas.add(coordenadas);
+			if(scanner.hasNextLine()) {
+				linha = scanner.nextLine();				
+			} else {
+				linha = "";
+			}
+			numLinhas++;
+		}
+		
+		ArrayList<PainelArma> armas = new ArrayList<>();
+		for(int i = 0; i < numLinhas; i++) {
+			Arma arma = new Submarino();
+			armas.add(new PainelArma(arma, Color.BLACK));
+		}
+		
+		jogador.setCoordenadaArmas(arrayCoordenadas);
+		jogador.setArmas(armas);
+	}
+	
 	public void salvarJogo() throws IOException {
-		JFileChooser chooser = new JFileChooser();
+		JFileChooser fileChooser = new JFileChooser();
 		FileWriter fileWriter = null;
 		
-	    if (chooser.showSaveDialog(null) == JFileChooser.APPROVE_OPTION) {
+	    if (fileChooser.showSaveDialog(null) == JFileChooser.APPROVE_OPTION) {
 	        try {
-	            fileWriter = new FileWriter(chooser.getSelectedFile() + ".txt");
+	            fileWriter = new FileWriter(fileChooser.getSelectedFile() + ".txt");
 	            fileWriter.write(formataSalvamento());
 	        } catch (Exception ex) {
 	            ex.printStackTrace();

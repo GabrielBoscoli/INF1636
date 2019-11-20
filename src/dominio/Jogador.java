@@ -41,8 +41,7 @@ public class Jogador {
 	}
 	
 	public String toString() {
-		String stringJogador = "Nome:\n" + nome + "\n";
-		stringJogador += "\n" + "Armas:" + "\n";
+		String stringJogador = nome + "\n\n";
 		stringJogador += coordenadaArmasToString();
 		
 		return stringJogador;

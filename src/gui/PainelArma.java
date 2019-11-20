@@ -33,7 +33,7 @@ public class PainelArma extends JPanel implements MouseListener, IObservador{
 	//determina se a arma está posicionada ou nao
 	private boolean posicionada;//deve ir para a classe arma?
 	
-	PainelArma (Arma arma, Color cor) {
+	public PainelArma (Arma arma, Color cor) {
 		this.arma = arma;
 		this.cor = cor;
 		selecionada = false;

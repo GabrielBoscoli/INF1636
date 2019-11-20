@@ -58,7 +58,7 @@ public class Menu extends JMenuBar implements ActionListener {
 	            ex.printStackTrace();
 			}
 		} else {
-			
+			ControladorJogo.getMainGamePresenter().recarregarJogo();
 		}
 		
 	}
