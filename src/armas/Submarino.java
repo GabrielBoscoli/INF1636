@@ -19,6 +19,7 @@ public class Submarino extends Arma {
 		
 		this.setQntdQuadrados(1);
 		this.setQntdRotacoes(1);
+		this.setTipoArma("submarino");
 		
 		Coordenada[] formato = new Coordenada[this.getQntdQuadrados()];
 		

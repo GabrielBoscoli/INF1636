@@ -19,6 +19,7 @@ public class Hidroaviao extends Arma {
 		
 		this.setQntdQuadrados(3);
 		this.setQntdRotacoes(4);
+		this.setTipoArma("hidroaviao");
 		
 		Coordenada[] formato = new Coordenada[this.getQntdQuadrados()];
 		

@@ -15,11 +15,11 @@ import armas.*;
 public class PainelArmas extends JPanel {
 	
 	//definição das cores das armas
-	private Color COURACADO_COR = Color.green;
-	private Color CRUZADOR_COR = Color.pink;
-	private Color DESTROYER_COR = Color.orange;
-	private Color HIDROAVIAO_COR = Color.gray;
-	private Color SUBMARINO_COR = Color.magenta;
+	public static final Color COURACADO_COR = Color.green;
+	public static final Color CRUZADOR_COR = Color.pink;
+	public static final Color DESTROYER_COR = Color.orange;
+	public static final Color HIDROAVIAO_COR = Color.gray;
+	public static final Color SUBMARINO_COR = Color.magenta;
 	
 	//definicao da quantidade de cada tipo de arma
 	private int COURACADO_QNTD = 1;

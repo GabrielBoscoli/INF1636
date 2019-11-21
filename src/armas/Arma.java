@@ -18,13 +18,14 @@ public abstract class Arma {
 	//formato da arma
 	private Coordenada[] formato;
 	
+	private String tipoArma;
+	
 	/**
 	 * Construtor da classe arma
 	 * @param qntdQuadrados quantidade de quadrados que a arma ocupa na matriz de posicionamento
 	 * @param qntdRotacoes quantidade de rotações possiveis para a arma
 	 */
 	Arma() {
-		
 	}
 
 	public int getQntdQuadrados() {
@@ -102,5 +103,13 @@ public abstract class Arma {
 	abstract public void rotacionaArma();
 	
 	abstract public void rotacionaArmaParaPosicaoOriginal();
+
+	public String getTipoArma() {
+		return tipoArma;
+	}
+
+	public void setTipoArma(String tipoArma) {
+		this.tipoArma = tipoArma;
+	}
 	
 }

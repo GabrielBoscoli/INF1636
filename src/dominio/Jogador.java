@@ -43,10 +43,20 @@ public class Jogador {
 	public String toString() {
 		String stringJogador = nome + "\n\n";
 		stringJogador += coordenadaArmasToString();
+		stringJogador += "\n" + tipoArmaToString();
 		
 		return stringJogador;
 	}
 	
+	private String tipoArmaToString() {
+		String retorno = "";
+		for(int i = 0; i < armas.size(); i++) {
+			retorno += armas.get(i).getArma().getTipoArma();
+			retorno += "\n";
+		}
+		return retorno;
+	}
+
 	private String coordenadaArmasToString() {
 		String retorno = "";
 		for(int i = 0; i < coordenadaArmas.size(); i++) {

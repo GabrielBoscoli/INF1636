@@ -10,15 +10,18 @@ import java.util.Scanner;
 
 import javax.swing.JFileChooser;
 
-import java.awt.Color;
-
 import armas.Arma;
+import armas.Couracado;
+import armas.Cruzador;
+import armas.Destroyer;
+import armas.Hidroaviao;
 import armas.Submarino;
 import dominio.Jogador;
 import gui.FrameAtaque;
 import gui.FrameJogadores;
 import gui.FramePosicionamento;
 import gui.PainelArma;
+import gui.PainelArmas;
 import outros.Coordenada;
 
 public class ControladorJogo {
@@ -137,7 +140,6 @@ public class ControladorJogo {
 		
 		scanner.nextLine();
 		String linha = scanner.nextLine();
-		int numLinhas = 0;
 		
 		ArrayList<Coordenada[]> arrayCoordenadas = new ArrayList<>();
 		
@@ -154,13 +156,29 @@ public class ControladorJogo {
 			} else {
 				linha = "";
 			}
-			numLinhas++;
 		}
 		
+		linha = scanner.nextLine();
 		ArrayList<PainelArma> armas = new ArrayList<>();
-		for(int i = 0; i < numLinhas; i++) {
-			Arma arma = new Submarino();
-			armas.add(new PainelArma(arma, Color.BLACK));
+
+		while(!linha.isEmpty()) {
+			if("couracado".equals(linha)) {
+				armas.add(new PainelArma(new Couracado(), PainelArmas.COURACADO_COR));
+			} else if("cruzador".equals(linha)) {
+				armas.add(new PainelArma(new Cruzador(), PainelArmas.CRUZADOR_COR));
+			} else if("destroyer".equals(linha)) {
+				armas.add(new PainelArma(new Destroyer(), PainelArmas.DESTROYER_COR));
+			} else if("hidroaviao".equals(linha)) {
+				armas.add(new PainelArma(new Hidroaviao(), PainelArmas.HIDROAVIAO_COR));
+			} else if("submarino".equals(linha)) {
+				armas.add(new PainelArma(new Submarino(), PainelArmas.SUBMARINO_COR));
+			} 
+
+			if(scanner.hasNextLine()) {
+				linha = scanner.nextLine();				
+			} else {
+				linha = "";
+			}
 		}
 		
 		jogador.setCoordenadaArmas(arrayCoordenadas);
@@ -187,10 +205,6 @@ public class ControladorJogo {
 	
 	private String formataSalvamento() {
 		String salvamento = "";
-//		salvamento += formataArmas(jogador1);
-//		salvamento += "\n";
-//		salvamento += formataArmas(jogador2);
-//		salvamento += "\n";
 		salvamento += jogador1.toString();
 		salvamento += "\n";
 		salvamento += jogador2.toString();

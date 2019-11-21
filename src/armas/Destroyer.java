@@ -19,6 +19,7 @@ public class Destroyer extends Arma {
 		
 		this.setQntdQuadrados(2);
 		this.setQntdRotacoes(2);
+		this.setTipoArma("destroyer");
 		
 		Coordenada[] formato = new Coordenada[this.getQntdQuadrados()];
 		

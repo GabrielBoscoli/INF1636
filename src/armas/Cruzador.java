@@ -19,6 +19,7 @@ public class Cruzador extends Arma{
 		
 		this.setQntdQuadrados(4);
 		this.setQntdRotacoes(2);
+		this.setTipoArma("cruzador");
 		
 		Coordenada[] formato = new Coordenada[this.getQntdQuadrados()];
 		

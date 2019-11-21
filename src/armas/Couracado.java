@@ -19,6 +19,7 @@ public class Couracado extends Arma {
 		
 		this.setQntdQuadrados(5);
 		this.setQntdRotacoes(2);
+		this.setTipoArma("couracado");
 		
 		Coordenada[] formato = new Coordenada[this.getQntdQuadrados()];
 		
