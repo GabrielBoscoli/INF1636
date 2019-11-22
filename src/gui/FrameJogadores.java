@@ -22,12 +22,12 @@ public class FrameJogadores extends JFrame implements ActionListener {
 	private JTextField nomeJogadorUm = new JTextField("Jogador 1", 10);
 	private JTextField nomeJogadorDois = new JTextField("Jogador 2", 10);
 	
-	private Menu menu = new Menu();
+	private Menu menu;
 	
 	public FrameJogadores() {
 		setLayout(null);
 
-		//menu.desativarSalvamento();
+		menu = ControladorJogo.getMainGamePresenter().getMenu();
 		menu.setLocation(0, 0);
 		menu.setSize(FRAME_LARGURA, 20);
 

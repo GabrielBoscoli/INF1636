@@ -11,8 +11,8 @@ public class Tiro {
 	Coordenada coordenada;
 	
 	public Tiro(String tipo, Coordenada coordenada) {
-		if(tipo != "certeiro" && tipo != "errado") {
-			this.tipo = "errado";
+		if(!"certeiro".equals(tipo) && !"errado".equals(tipo)) {
+			this.tipo = "indefinido";
 		} else {
 			this.tipo = tipo;
 		}

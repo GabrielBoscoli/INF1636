@@ -10,16 +10,17 @@ import java.util.Scanner;
 
 import javax.swing.JFileChooser;
 
-import armas.Arma;
 import armas.Couracado;
 import armas.Cruzador;
 import armas.Destroyer;
 import armas.Hidroaviao;
 import armas.Submarino;
 import dominio.Jogador;
+import dominio.Tiro;
 import gui.FrameAtaque;
 import gui.FrameJogadores;
 import gui.FramePosicionamento;
+import gui.Menu;
 import gui.PainelArma;
 import gui.PainelArmas;
 import outros.Coordenada;
@@ -30,6 +31,7 @@ public class ControladorJogo {
 	private FramePosicionamento framePosicionamento;
 	private FrameJogadores frameJogadores;
 	private FrameAtaque frameAtaque;
+	private Menu menu = new Menu();
 	private Jogador jogador1 = new Jogador();
 	private Jogador jogador2 = new Jogador();
 	
@@ -45,6 +47,8 @@ public class ControladorJogo {
 	
 	public void iniciarJogo() { 
 		frameJogadores = new FrameJogadores();
+		menu.ativarRecarregamento();
+		menu.desativarSalvamento();
 		frameJogadores.setTitle("Batalha Naval"); 
 		frameJogadores.setVisible(true);
 	}
@@ -110,6 +114,10 @@ public class ControladorJogo {
 		return null;
 	}
 	
+	public Menu getMenu() {
+		return menu;
+	}
+	
 	public void recarregarJogo() {
 		JFileChooser fileChooser = new JFileChooser();
 		Scanner scanner = null;
@@ -125,15 +133,41 @@ public class ControladorJogo {
         			scanner.close();
         		}
         	}
+        	abrirFrameAtaque();
+        	if(frameJogadores != null) {
+        		frameJogadores.setVisible(false);
+        	} 
+        	if(framePosicionamento != null) {
+        		framePosicionamento.setVisible(false);
+        	}
         }
-        abrirFrameAtaque();
 	}
 	
 	private void leDadosSalvos(Scanner scanner) {
 		leDadosSalvosJogador(scanner, jogador1);
+		leTirosSalvos(scanner, 1);
 		leDadosSalvosJogador(scanner, jogador2);		
+		leTirosSalvos(scanner, 2);
 	}
 	
+	private void leTirosSalvos(Scanner scanner, int i) {
+		String linha = scanner.nextLine();
+		ArrayList<Tiro> tiros = new ArrayList<>();
+		
+		while(!linha.isEmpty()) {
+			String[] stringTiros = linha.split(" ");
+			Tiro tiro = new Tiro(stringTiros[0], new Coordenada(Integer.valueOf(stringTiros[1]), Integer.valueOf(stringTiros[2])));
+			tiros.add(tiro);
+			if(scanner.hasNextLine()) {
+				linha = scanner.nextLine();				
+			} else {
+				linha = "";
+			}
+		}
+		
+		ControladorAtaque.getControladorAtaque().setTiros(tiros, i);
+	}
+
 	private void leDadosSalvosJogador(Scanner scanner, Jogador jogador) {
 		String nomeJogador = scanner.nextLine();
 		jogador.setNome(nomeJogador);
@@ -203,13 +237,29 @@ public class ControladorJogo {
 	    }
 	}
 	
+	@SuppressWarnings("unchecked")
 	private String formataSalvamento() {
 		String salvamento = "";
 		salvamento += jogador1.toString();
 		salvamento += "\n";
+		salvamento += formataTiros((ArrayList<Tiro>) ControladorAtaque.getControladorAtaque().get(6));
+		salvamento += "\n";
 		salvamento += jogador2.toString();
-		
+		salvamento += "\n";
+		salvamento += formataTiros((ArrayList<Tiro>) ControladorAtaque.getControladorAtaque().get(7));
+
 		return salvamento;
+	}
+	
+	private String formataTiros(ArrayList<Tiro> tiros) {
+		String retorno = "";
+		for(int i = 0; i < tiros.size(); i++) {
+			Tiro tiro = tiros.get(i);
+			retorno += tiro.getTipo() + " ";
+			retorno += tiro.getCoordenada().getX() + " ";
+			retorno += tiro.getCoordenada().getY() + "\n";
+		}
+		return retorno;
 	}
 	
 }

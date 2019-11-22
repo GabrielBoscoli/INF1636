@@ -13,29 +13,34 @@ import javax.swing.JPanel;
 
 import controladores.ControladorAtaque;
 import controladores.ControladorJogo;
+import dominio.Jogador;
 import dominio.Tabuleiro;
 import observer.IObservado;
 import observer.IObservador;
 
 @SuppressWarnings("serial")
 public class FrameAtaque extends JFrame implements MouseListener, ActionListener, IObservador {
+	Jogador jogador1;
+	Jogador jogador2;
 	
 	PainelTabuleiro tabuleiroJogador1 = new PainelTabuleiro();
-	JLabel labelTabuleiro1 = new JLabel("Tabuleiro de j1");
+	JLabel labelTabuleiro1 = new JLabel();
 	
 	PainelTabuleiro tabuleiroJogador2 = new PainelTabuleiro();
-	JLabel labelTabuleiro2 = new JLabel("Tabuleiro de j2");
+	JLabel labelTabuleiro2 = new JLabel();
 	
 	JLabel instrucao = new JLabel();
+	JLabel resultado = new JLabel();
 	
 	JButton botao = new JButton("Desbloquear Visão");
 	
-	Menu menu = new Menu();
+	Menu menu;
 	
 	boolean visaoBloqueada;
 	boolean rodadaEncerrada;
 	
 	String vencedor = null;
+	String nomeJogadorDaVez;
 
 	public FrameAtaque() {
 		final DimensaoTela tela = DimensaoTela.getScreenDimensions();
@@ -46,9 +51,23 @@ public class FrameAtaque extends JFrame implements MouseListener, ActionListener
 		
 		visaoBloqueada = (boolean) ControladorAtaque.getControladorAtaque().get(3);
 		rodadaEncerrada = (boolean) ControladorAtaque.getControladorAtaque().get(4);
+		jogador1 = (Jogador) ControladorAtaque.getControladorAtaque().get(8);
+		jogador2 = (Jogador) ControladorAtaque.getControladorAtaque().get(9);
+		
+		labelTabuleiro1.setText("Tabuleiro de " + jogador1.getNome());
+		labelTabuleiro2.setText("Tabuleiro de " + jogador2.getNome());
 		
 		int x;
 		int y;
+		
+		JPanel painelResultadoAtaque = new JPanel();
+		resultado.setText((String) ControladorAtaque.getControladorAtaque().get(11));
+		painelResultadoAtaque.add(resultado);
+		painelResultadoAtaque.setSize(500, 25);
+		x = (int)(tela.screenIntWidth * 1/2 - painelResultadoAtaque.getSize().getWidth()/2);
+		y = (int)(tela.screenIntHeight * 1/4);
+		painelResultadoAtaque.setLocation(x, y);
+		this.add(painelResultadoAtaque);
 		
 		tabuleiroJogador1 = new PainelTabuleiro();
 		tabuleiroJogador1.setTabuleiro((Tabuleiro) ControladorAtaque.getControladorAtaque().get(1));
@@ -78,7 +97,7 @@ public class FrameAtaque extends JFrame implements MouseListener, ActionListener
 		this.add(labelTabuleiro2);
 		
 		JPanel painelInstrucao = new JPanel();
-		instrucao.setText("Visao bloqueada, j1 deve clicar no botao para desbloquear sua visao");
+		instrucao.setText("Visao bloqueada. " + ControladorAtaque.getControladorAtaque().get(10) + ", clique no botao para desbloquear sua visao");
 		painelInstrucao.add(instrucao);
 		painelInstrucao.setSize(500, 25);
 		x = (int)(tela.screenIntWidth * 1/2 - painelInstrucao.getSize().getWidth()/2);
@@ -92,6 +111,7 @@ public class FrameAtaque extends JFrame implements MouseListener, ActionListener
 		this.add(botao);
 		botao.addActionListener(this);
 		
+		menu = ControladorJogo.getMainGamePresenter().getMenu();
 		menu.setLocation(0, 0);
 		menu.setSize(tela.screenIntWidth, 20);
 		getContentPane().add(menu);
@@ -109,6 +129,7 @@ public class FrameAtaque extends JFrame implements MouseListener, ActionListener
 		visaoBloqueada = (boolean) ControladorAtaque.getControladorAtaque().get(3);
 		rodadaEncerrada = (boolean) ControladorAtaque.getControladorAtaque().get(4);
 		vencedor = (String) ControladorAtaque.getControladorAtaque().get(5);
+		resultado.setText((String) ControladorAtaque.getControladorAtaque().get(11));
 		
 		tabuleiroJogador1.repaint();
 		tabuleiroJogador2.repaint();

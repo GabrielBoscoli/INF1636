@@ -4,6 +4,7 @@ import java.awt.event.*;
 
 import javax.swing.*;
 
+import controladores.ControladorJogo;
 import controladores.ControladorPosicionamento;
 import dominio.Tabuleiro;
 import observer.IObservado;
@@ -28,14 +29,16 @@ public class FramePosicionamento extends JFrame implements ActionListener, KeyLi
 	private PainelArmas painelArmas;
 	
 	//Painel das instrucoes de jogo
-	private JPanel painelInstrucoes = new JPanel();
+	private JLabel instrucoes;
 	
 	//Botao de confirmacao do posicionamento
 	private static JButton botaoConfirmacao = new JButton("Tabuleiro Pronto!");
 	
 	boolean tabuleiroPronto = false;
 	
-	Menu menu = new Menu();
+	Menu menu;
+	
+	String nomeJogadorDaVez;
 	
 	public FramePosicionamento() {
 		
@@ -63,7 +66,9 @@ public class FramePosicionamento extends JFrame implements ActionListener, KeyLi
 		getContentPane().add(painelArmas);
 		
 		//adicionando instruções de jogo
-		JLabel instrucoes = new JLabel("Jogador1, posicione suas peças no tabuleiro");
+		JPanel painelInstrucoes = new JPanel();
+		nomeJogadorDaVez = (String) ControladorPosicionamento.getControladorPosicionamento().get(5);
+		instrucoes = new JLabel(nomeJogadorDaVez + ", posicione suas peças no tabuleiro");
 		int larguraInstrucoes = 500;
 		int alturaInstrucoes = 25;
 		painelInstrucoes.add(instrucoes);
@@ -81,6 +86,7 @@ public class FramePosicionamento extends JFrame implements ActionListener, KeyLi
 		botaoConfirmacao.addActionListener(this);
 		botaoConfirmacao.setFocusable(false);
 		
+		menu = ControladorJogo.getMainGamePresenter().getMenu();
 		menu.setLocation(0, 0);
 		menu.setSize(tela.screenIntWidth, 20);
 		getContentPane().add(menu);
@@ -110,12 +116,15 @@ public class FramePosicionamento extends JFrame implements ActionListener, KeyLi
 	@Override
 	public void notify(IObservado observado) {
 		tabuleiroPronto = (boolean) ControladorPosicionamento.getControladorPosicionamento().get(3);
+		nomeJogadorDaVez = (String) ControladorPosicionamento.getControladorPosicionamento().get(5);
+		
 		if(tabuleiroPronto == true) {
 			botaoConfirmacao.setEnabled(true);
 		} else {
 			botaoConfirmacao.setEnabled(false);
 		}
 		
+		instrucoes.setText(nomeJogadorDaVez + ", posicione suas peças no tabuleiro");
 	}
 
 	@Override

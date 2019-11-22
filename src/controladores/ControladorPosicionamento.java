@@ -27,7 +27,13 @@ public class ControladorPosicionamento implements IObservado {
 	
 	int vez = 1;
 	
-	private ControladorPosicionamento() {}
+	Menu menu;
+	
+	private ControladorPosicionamento() {
+		menu = ControladorJogo.getMainGamePresenter().getMenu();
+		menu.ativarRecarregamento();
+		menu.desativarSalvamento();
+	}
 	
 	public static ControladorPosicionamento getControladorPosicionamento() {
 		if(controlador == null)
@@ -169,6 +175,7 @@ public class ControladorPosicionamento implements IObservado {
 				for(IObservador observador : listaObservadores) {
 					observador.notify(this);
 				}
+				desAtivarRecarregamento();
 				return;
 			}
 		}
@@ -185,6 +192,7 @@ public class ControladorPosicionamento implements IObservado {
 			PosicionaArmaSePossivel(coordenadaUltimaArmaPosicionada.getX(), coordenadaUltimaArmaPosicionada.getY());
 		}
 
+		desAtivarRecarregamento();
 	}
 	
 	/**
@@ -249,6 +257,14 @@ public class ControladorPosicionamento implements IObservado {
 
 		return true;
 	}
+	
+	private void desAtivarRecarregamento() {
+		if(vez == 1 && armasPosicionadas.isEmpty()) {
+			menu.ativarRecarregamento();
+		} else {
+			menu.desativarRecarregamento();
+		}
+	}
 
 	/**
 	 * Verifica se as casas vizinhas � casa da linha e coluna recebidas estao vazias.
@@ -291,6 +307,10 @@ public class ControladorPosicionamento implements IObservado {
 		return true;
 	}
 	
+	private String getNomeJogadorDaVez() {
+		return ControladorJogo.getMainGamePresenter().getJogador(vez).getNome();
+	}
+	
 
 	@Override
 	public void add(IObservador observador) {
@@ -312,6 +332,8 @@ public class ControladorPosicionamento implements IObservado {
 			return tabuleiroPronto;
 		else if(i == 4)
 			return armasPosicionadas;
+		else if(i == 5)
+			return getNomeJogadorDaVez();
 		else
 			return null;
 	}
