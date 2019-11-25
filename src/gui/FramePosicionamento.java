@@ -1,5 +1,7 @@
 package gui;
 
+import java.awt.Dimension;
+import java.awt.Toolkit;
 import java.awt.event.*;
 
 import javax.swing.*;
@@ -43,8 +45,8 @@ public class FramePosicionamento extends JFrame implements ActionListener, KeyLi
 	public FramePosicionamento() {
 		
 		//propriedades do frame
-		final DimensaoTela tela = DimensaoTela.getScreenDimensions();
-		setSize(tela.screenIntWidth, tela.screenIntHeight);
+		final Dimension tela = Toolkit.getDefaultToolkit().getScreenSize();
+		setSize(tela.width, tela.height);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setResizable(false);
 		setLayout(null);
@@ -54,15 +56,15 @@ public class FramePosicionamento extends JFrame implements ActionListener, KeyLi
 		painelTabuleiro.setTabuleiro((Tabuleiro) ControladorPosicionamento.getControladorPosicionamento().get(2));
 		painelTabuleiro.setSize((painelTabuleiro.getTabuleiro().getNumLinhas()+1)*painelTabuleiro.getTamanhoQuadrado() + 1, 
 						(painelTabuleiro.getTabuleiro().getNumColunas()+1)*painelTabuleiro.getTamanhoQuadrado() + 1);
-		int x = (int)(tela.screenIntWidth*3/4 - painelTabuleiro.getSize().getWidth()/2);
-		int y = (int)(tela.screenIntHeight*1/2 - painelTabuleiro.getSize().getHeight()/2);
+		int x = (int)(tela.width*3/4 - painelTabuleiro.getSize().getWidth()/2);
+		int y = (int)(tela.height*1/2 - painelTabuleiro.getSize().getHeight()/2);
 		painelTabuleiro.setLocation(x, y);	
 		getContentPane().add(painelTabuleiro);
 		painelTabuleiro.addMouseListener(this);
 		
 		//configurando e adicionando armas ao frame
 		painelArmas = new PainelArmas();
-		painelArmas.setLocation((int) (tela.screenIntWidth*1/4 - painelArmas.getSize().getWidth()/2), y);
+		painelArmas.setLocation((int) (tela.width*1/4 - painelArmas.getSize().getWidth()/2), y);
 		getContentPane().add(painelArmas);
 		
 		//adicionando instruções de jogo
@@ -73,14 +75,14 @@ public class FramePosicionamento extends JFrame implements ActionListener, KeyLi
 		int alturaInstrucoes = 25;
 		painelInstrucoes.add(instrucoes);
 		painelInstrucoes.setSize(larguraInstrucoes, alturaInstrucoes);
-		painelInstrucoes.setLocation((int) (tela.screenIntWidth/2 - painelInstrucoes.getSize().getWidth()/2), tela.screenIntHeight * 4/5);
+		painelInstrucoes.setLocation((int) (tela.width/2 - painelInstrucoes.getSize().getWidth()/2), tela.height * 4/5);
 		getContentPane().add(painelInstrucoes);
 		
 		//adicionando botao para continuar
 		int larguraBotao = 200;
 		int alturaBotao = 50;
 		botaoConfirmacao.setSize(larguraBotao, alturaBotao);
-		botaoConfirmacao.setLocation((int) (tela.screenIntWidth/2 - botaoConfirmacao.getSize().getWidth()/2), tela.screenIntHeight * 5/6);
+		botaoConfirmacao.setLocation((int) (tela.width/2 - botaoConfirmacao.getSize().getWidth()/2), tela.height * 5/6);
 		botaoConfirmacao.setEnabled(false);
 		getContentPane().add(botaoConfirmacao);
 		botaoConfirmacao.addActionListener(this);
@@ -88,7 +90,7 @@ public class FramePosicionamento extends JFrame implements ActionListener, KeyLi
 		
 		menu = ControladorJogo.getMainGamePresenter().getMenu();
 		menu.setLocation(0, 0);
-		menu.setSize(tela.screenIntWidth, 20);
+		menu.setSize(tela.width, 20);
 		getContentPane().add(menu);
 		
 		ControladorPosicionamento.getControladorPosicionamento().add(this);
