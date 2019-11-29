@@ -3,7 +3,6 @@ package dominio;
 import java.util.ArrayList;
 
 import gui.PainelArma;
-import outros.Coordenada;
 
 public class Jogador {
 	String nome;

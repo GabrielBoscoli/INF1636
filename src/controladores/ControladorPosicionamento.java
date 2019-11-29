@@ -6,11 +6,11 @@ import java.util.List;
 import gui.*;
 import observer.IObservado;
 import observer.IObservador;
-import outros.Coordenada;
+import dominio.Coordenada;
 import dominio.Tabuleiro;
 
 
-public class ControladorPosicionamento implements IObservado {
+class ControladorPosicionamento implements IObservado {
 	List<IObservador> listaObservadores = new ArrayList<IObservador>();
 	static ControladorPosicionamento controlador = null;
 	
@@ -30,19 +30,23 @@ public class ControladorPosicionamento implements IObservado {
 	Menu menu;
 	
 	private ControladorPosicionamento() {
-		menu = ControladorJogo.getMainGamePresenter().getMenu();
+		menu = ControladorJogo.getControladorJogo().getMenu();
 		menu.ativarRecarregamento();
 		menu.desativarSalvamento();
 	}
 	
-	public static ControladorPosicionamento getControladorPosicionamento() {
+	void reiniciarControlador() {
+		controlador = null;
+	}
+	
+	static ControladorPosicionamento getControladorPosicionamento() {
 		if(controlador == null)
 			controlador = new ControladorPosicionamento();
 		
 		return controlador;	
 	}
 	
-	public void ArmaClicada(PainelArma arma) {
+	void ArmaClicada(PainelArma arma) {
 		System.out.println("ArmaClicada");
 		if(armaSelecionada == null) {
 			armaSelecionada = arma;
@@ -52,10 +56,10 @@ public class ControladorPosicionamento implements IObservado {
 		}
 	}
 	
-	public void BotaoTabuleiroProntoClicado() {
+	void BotaoTabuleiroProntoClicado() {
 		System.out.println("BotaoTabuleiroProntoClicado");
-		ControladorJogo.getMainGamePresenter().setArmasJogador((ArrayList<PainelArma>) armasPosicionadas, vez);
-		ControladorJogo.getMainGamePresenter().setCoordenadaArmasJogador((ArrayList<Coordenada[]>) coordenadaArmasPosicionadas, vez);
+		ControladorJogo.getControladorJogo().setArmasJogador((ArrayList<PainelArma>) armasPosicionadas, vez);
+		ControladorJogo.getControladorJogo().setCoordenadaArmasJogador((ArrayList<Coordenada[]>) coordenadaArmasPosicionadas, vez);
 		if(vez == 1) {
 			ResetaDados();
 			vez++;
@@ -63,7 +67,7 @@ public class ControladorPosicionamento implements IObservado {
 				observador.notify(this);					
 			}
 		} else if(vez == 2) {
-			ControladorJogo.getMainGamePresenter().fecharFramePosicionamento();
+			ControladorJogo.getControladorJogo().fecharFramePosicionamento();
 		}
 	}
 	
@@ -79,7 +83,7 @@ public class ControladorPosicionamento implements IObservado {
 		tabuleiroPronto = false;
 	}
 	
-	public void TeclaEscapePressionada() {
+	void TeclaEscapePressionada() {
 		System.out.println("TeclaEscapePressionada");
 		PainelArma exArmaSelecionada = armaSelecionada;
 		armaSelecionada = null;
@@ -103,7 +107,7 @@ public class ControladorPosicionamento implements IObservado {
 		return false;
 	}
 
-	public void TabuleiroClicadoComBotaoDireito() {
+	void TabuleiroClicadoComBotaoDireito() {
 		System.out.println("TabuleiroClicadoComBotaoDireito");
 		if(armaSelecionada == null || armaSelecionada != ultimaArmaPosicionada) {
 			return;
@@ -157,7 +161,7 @@ public class ControladorPosicionamento implements IObservado {
 		return true;
 	}
 	
-	public void TabuleiroClicadoComBotaoEsquerdo(int coluna, int linha) {
+	void TabuleiroClicadoComBotaoEsquerdo(int coluna, int linha) {
 		System.out.println("TabuleiroClicadoComBotaoEsquerdo");
 		boolean reposicionamento = false;
 		if(armaSelecionada == null) {
@@ -308,7 +312,7 @@ public class ControladorPosicionamento implements IObservado {
 	}
 	
 	private String getNomeJogadorDaVez() {
-		return ControladorJogo.getMainGamePresenter().getJogador(vez).getNome();
+		return ControladorJogo.getControladorJogo().getJogador(vez).getNome();
 	}
 	
 

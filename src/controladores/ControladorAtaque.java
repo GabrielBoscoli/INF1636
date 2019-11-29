@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
 
+import dominio.Coordenada;
 import dominio.Jogador;
 import dominio.Tabuleiro;
 import dominio.Tiro;
@@ -11,28 +12,27 @@ import gui.Menu;
 import gui.PainelArma;
 import observer.IObservado;
 import observer.IObservador;
-import outros.Coordenada;
 
-public class ControladorAtaque implements IObservado {
+class ControladorAtaque implements IObservado {
 	List<IObservador> listaObservadores = new ArrayList<IObservador>();
 	static ControladorAtaque controlador = null;
 	
 	final Jogador jogador1;
 	final Jogador jogador2;
-	String nomeVencedor = null;
+	String nomeVencedor;
 	
 	Tabuleiro tabuleiroJogador1;
 	Tabuleiro tabuleiroJogador2;
 	
-	boolean visaoBloqueada = true;
-	boolean rodadaEncerrada = false;
+	boolean visaoBloqueada;
+	boolean rodadaEncerrada;
 	
-	int vez = 1;
+	int vez;
 	
 	Color tiroCerteiro = Color.red;
 	Color tiroErrado = Color.blue;
 	int numTiros = 3;
-	int tiroAtual = 1;
+	int tiroAtual;
 	
 	ArrayList<Tiro> tirosTabuleiro1;
 	ArrayList<Tiro> tirosTabuleiro2;
@@ -48,22 +48,33 @@ public class ControladorAtaque implements IObservado {
 		tirosTabuleiro1 = new ArrayList<>();
 		tirosTabuleiro2 = new ArrayList<>();
 		
-		jogador1 = ControladorJogo.getMainGamePresenter().getJogador(1);
-		jogador2 = ControladorJogo.getMainGamePresenter().getJogador(2);
+		jogador1 = ControladorJogo.getControladorJogo().getJogador(1);
+		jogador2 = ControladorJogo.getControladorJogo().getJogador(2);
 		
-		menu = ControladorJogo.getMainGamePresenter().getMenu();
+		menu = ControladorJogo.getControladorJogo().getMenu();
 		menu.ativarSalvamento();
 		menu.desativarRecarregamento();
+		
+		visaoBloqueada = true;
+		rodadaEncerrada = false;
+		nomeVencedor = null;
+		tiroAtual = 1;
+		
+		vez = 1;
 	}
 	
-	public static ControladorAtaque getControladorAtaque() {
+	void reiniciarControlador() {
+		controlador = null;
+	}
+	
+	static ControladorAtaque getControladorAtaque() {
 		if(controlador == null)
 			controlador = new ControladorAtaque();
 		
 		return controlador;	
 	}
 	
-	public void tabuleiroClicado(Tabuleiro tabuleiro, int coluna, int linha) {
+	void tabuleiroClicado(Tabuleiro tabuleiro, int coluna, int linha) {
 		System.out.println("tabuleiroClicado");
 		if(visaoBloqueada) {
 			return;
@@ -85,7 +96,7 @@ public class ControladorAtaque implements IObservado {
 		return;
 	}
 	
-	public void botaoClicado() {
+	void botaoClicado() {
 		System.out.println("botaoClicado");
 		if(visaoBloqueada) {
 			visaoBloqueada = false;
@@ -105,7 +116,7 @@ public class ControladorAtaque implements IObservado {
 			tabuleiroJogador1.ResetaTabuleiro();
 			tabuleiroJogador2.ResetaTabuleiro();
 		}
-		montaStringResultado(null);
+		montaStringResultado(null, false);
 		desAtivarSalvamento();
 		for(IObservador observador : listaObservadores) {
 			observador.notify(this);
@@ -124,17 +135,31 @@ public class ControladorAtaque implements IObservado {
 			tiros = tirosTabuleiro1;
 		}
 		
+		if(jaFoiDadoTiroNaPosicao(tiros, coluna, linha)) {
+			montaStringResultado(null, true);
+			return;
+		}
+		
 		PainelArma armaAtingida = VerificaSeTemArmaNaPosicao(coluna, linha);
 		tiroAtual++;
 		if(armaAtingida != null) {
 			tabuleiro.getMatrizCor()[coluna][linha] = tiroCerteiro;
 			tiros.add(new Tiro("certeiro", new Coordenada(coluna, linha)));
-			montaStringResultado(armaAtingida.getArma().getTipoArma());
+			montaStringResultado(armaAtingida.getArma().getTipoArma(), false);
 		} else {
 			tabuleiro.getMatrizCor()[coluna][linha] = tiroErrado;
 			tiros.add(new Tiro("errado", new Coordenada(coluna, linha)));
-			montaStringResultado("água");
+			montaStringResultado("água", false);
 		}
+	}
+
+	private boolean jaFoiDadoTiroNaPosicao(ArrayList<Tiro> tiros, int coluna, int linha) {
+		for(Tiro tiro: tiros) {
+			if(tiro.getCoordenada().getX() == coluna && tiro.getCoordenada().getY() == linha) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	private PainelArma VerificaSeTemArmaNaPosicao(int coluna, int linha) {
@@ -260,6 +285,10 @@ public class ControladorAtaque implements IObservado {
 		}
 	}
 	
+	void setVez(int vez) {
+		this.vez = vez;
+	}
+	
 	private void desAtivarSalvamento() {
 		if(visaoBloqueada || tiroAtual == 1) {
 			menu.ativarSalvamento();			
@@ -268,18 +297,20 @@ public class ControladorAtaque implements IObservado {
 		}
 	}
 
-	private void montaStringResultado(String localAtingido) {
+	private void montaStringResultado(String localAtingido, boolean tiroRepetido) {
 		if(visaoBloqueada) {
 			resultado = "";			
 		} else if(tiroAtual == 1) {
 			resultado = numTiros + " tiros restantes.";
+		} else if(tiroRepetido) {
+			resultado = "Você já atirou nesse local. "  + (numTiros - (tiroAtual - 1)) + " tiro(s) restantes.";
 		} else {
-			resultado = "Você atingiu " + localAtingido + ". " + (numTiros - (tiroAtual - 1)) + " tiro(s) restantes";
+			resultado = "Você atingiu " + localAtingido + ". " + (numTiros - (tiroAtual - 1)) + " tiro(s) restantes.";
 		}
 	}
 	
 	private String getNomeJogadorDaVez() {
-		return ControladorJogo.getMainGamePresenter().getJogador(vez).getNome();
+		return ControladorJogo.getControladorJogo().getJogador(vez).getNome();
 	}
 	
 	@Override
@@ -316,6 +347,8 @@ public class ControladorAtaque implements IObservado {
 			return getNomeJogadorDaVez();
 		else if(i == 11)
 			return resultado;
+		else if(i== 12)
+			return vez;
 		else
 			return null;
 	}

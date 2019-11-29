@@ -7,7 +7,7 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 
-import controladores.ControladorJogo;
+import controladores.Fachada;
 
 @SuppressWarnings("serial")
 public class Menu extends JMenuBar implements ActionListener {
@@ -53,12 +53,12 @@ public class Menu extends JMenuBar implements ActionListener {
 	public void actionPerformed(ActionEvent arg0) {
 		if(arg0.getSource() == salvar) {
 			try {
-				ControladorJogo.getMainGamePresenter().salvarJogo();				
+				Fachada.getFachada().salvarJogo();
 			} catch (Exception ex) {
 	            ex.printStackTrace();
 			}
 		} else {
-			ControladorJogo.getMainGamePresenter().recarregarJogo();
+			Fachada.getFachada().recarregarJogo();
 		}
 		
 	}

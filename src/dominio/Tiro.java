@@ -1,7 +1,5 @@
 package dominio;
 
-import outros.Coordenada;
-
 public class Tiro {
 
 	//um tiro pode ser certeiro ou errado

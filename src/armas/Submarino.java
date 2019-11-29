@@ -1,6 +1,7 @@
 package armas;
 
-import outros.Coordenada;
+import dominio.Arma;
+import dominio.Coordenada;
 
 /**
  * Classe que define a arma Submarino

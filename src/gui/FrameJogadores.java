@@ -4,7 +4,7 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 
-import controladores.ControladorJogo;
+import controladores.Fachada;
 
 /**
  * Classe responsável pela tela de definição de jogadores
@@ -27,7 +27,7 @@ public class FrameJogadores extends JFrame implements ActionListener {
 	public FrameJogadores() {
 		setLayout(null);
 
-		menu = ControladorJogo.getMainGamePresenter().getMenu();
+		menu = Fachada.getFachada().getMenu();
 		menu.setLocation(0, 0);
 		menu.setSize(FRAME_LARGURA, 20);
 
@@ -80,7 +80,7 @@ public class FrameJogadores extends JFrame implements ActionListener {
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		ControladorJogo.getMainGamePresenter().fecharFrameJogadores(nomeJogadorUm.getText(), nomeJogadorDois.getText());
+		Fachada.getFachada().fecharFrameJogadores(nomeJogadorUm.getText(), nomeJogadorDois.getText());
 	}
 	
 }

@@ -6,9 +6,7 @@ import java.awt.event.*;
 
 import javax.swing.*;
 
-import controladores.ControladorJogo;
-import controladores.ControladorPosicionamento;
-import dominio.Tabuleiro;
+import controladores.Fachada;
 import observer.IObservado;
 import observer.IObservador;
 
@@ -53,7 +51,7 @@ public class FramePosicionamento extends JFrame implements ActionListener, KeyLi
 		
 		//configurando e adicionando tabuleiro ao frame
 		painelTabuleiro = new PainelTabuleiro();
-		painelTabuleiro.setTabuleiro((Tabuleiro) ControladorPosicionamento.getControladorPosicionamento().get(2));
+		painelTabuleiro.setTabuleiro(Fachada.getFachada().getTabuleiroFasePosicionamento());
 		painelTabuleiro.setSize((painelTabuleiro.getTabuleiro().getNumLinhas()+1)*painelTabuleiro.getTamanhoQuadrado() + 1, 
 						(painelTabuleiro.getTabuleiro().getNumColunas()+1)*painelTabuleiro.getTamanhoQuadrado() + 1);
 		int x = (int)(tela.width*3/4 - painelTabuleiro.getSize().getWidth()/2);
@@ -69,7 +67,7 @@ public class FramePosicionamento extends JFrame implements ActionListener, KeyLi
 		
 		//adicionando instruções de jogo
 		JPanel painelInstrucoes = new JPanel();
-		nomeJogadorDaVez = (String) ControladorPosicionamento.getControladorPosicionamento().get(5);
+		nomeJogadorDaVez = Fachada.getFachada().getNomeJogadorDaVezFasePosicionamento();
 		instrucoes = new JLabel(nomeJogadorDaVez + ", posicione suas peças no tabuleiro");
 		int larguraInstrucoes = 500;
 		int alturaInstrucoes = 25;
@@ -88,12 +86,12 @@ public class FramePosicionamento extends JFrame implements ActionListener, KeyLi
 		botaoConfirmacao.addActionListener(this);
 		botaoConfirmacao.setFocusable(false);
 		
-		menu = ControladorJogo.getMainGamePresenter().getMenu();
+		menu = Fachada.getFachada().getMenu();
 		menu.setLocation(0, 0);
 		menu.setSize(tela.width, 20);
 		getContentPane().add(menu);
 		
-		ControladorPosicionamento.getControladorPosicionamento().add(this);
+		Fachada.getFachada().register(this, "posicionamento");
 		addKeyListener(this);
 		
 	}
@@ -105,7 +103,7 @@ public class FramePosicionamento extends JFrame implements ActionListener, KeyLi
 	@Override
 	public void keyPressed(KeyEvent arg0) {
 		if(arg0.getKeyCode() == KeyEvent.VK_ESCAPE) {
-			ControladorPosicionamento.getControladorPosicionamento().TeclaEscapePressionada();
+			Fachada.getFachada().teclaEscapePressionada();
 		}
 	}
 
@@ -117,8 +115,8 @@ public class FramePosicionamento extends JFrame implements ActionListener, KeyLi
 
 	@Override
 	public void notify(IObservado observado) {
-		tabuleiroPronto = (boolean) ControladorPosicionamento.getControladorPosicionamento().get(3);
-		nomeJogadorDaVez = (String) ControladorPosicionamento.getControladorPosicionamento().get(5);
+		tabuleiroPronto = Fachada.getFachada().getTabuleiroPosicionamentoPronto();
+		nomeJogadorDaVez = Fachada.getFachada().getNomeJogadorDaVezFasePosicionamento();
 		
 		if(tabuleiroPronto == true) {
 			botaoConfirmacao.setEnabled(true);
@@ -131,7 +129,7 @@ public class FramePosicionamento extends JFrame implements ActionListener, KeyLi
 
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
-		ControladorPosicionamento.getControladorPosicionamento().BotaoTabuleiroProntoClicado();
+		Fachada.getFachada().botaoTabuleiroProntoClicado();
 	}
 	
 	//verificar se essa funcao esta seguindo boas praticas de design pattern
@@ -148,9 +146,9 @@ public class FramePosicionamento extends JFrame implements ActionListener, KeyLi
 		}
 		
 		if(e.getButton() == MouseEvent.BUTTON1) {
-			ControladorPosicionamento.getControladorPosicionamento().TabuleiroClicadoComBotaoEsquerdo(coluna, linha);
+			Fachada.getFachada().tabuleiroPosicionamentoClicadoComBotaoEsquerdo(coluna, linha);
 		} else if(e.getButton() == MouseEvent.BUTTON3) {
-			ControladorPosicionamento.getControladorPosicionamento().TabuleiroClicadoComBotaoDireito();
+			Fachada.getFachada().tabuleiroPosicionamentoClicadoComBotaoDireito();
 		}
 	}
 	

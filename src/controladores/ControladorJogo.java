@@ -15,6 +15,7 @@ import armas.Cruzador;
 import armas.Destroyer;
 import armas.Hidroaviao;
 import armas.Submarino;
+import dominio.Coordenada;
 import dominio.Jogador;
 import dominio.Tiro;
 import gui.FrameAtaque;
@@ -23,29 +24,31 @@ import gui.FramePosicionamento;
 import gui.Menu;
 import gui.PainelArma;
 import gui.PainelArmas;
-import outros.Coordenada;
 
-public class ControladorJogo {
+class ControladorJogo {
 
-	private static ControladorJogo gamePresenter = null;
+	private static ControladorJogo controladorJogo = null;
 	private FramePosicionamento framePosicionamento;
 	private FrameJogadores frameJogadores;
 	private FrameAtaque frameAtaque;
-	private Menu menu = new Menu();
-	private Jogador jogador1 = new Jogador();
-	private Jogador jogador2 = new Jogador();
+	private Menu menu;
+	private Jogador jogador1;
+	private Jogador jogador2;
 	
 	private ControladorJogo() {
+		jogador1 = new Jogador();
+		jogador2 = new Jogador();
+		menu = new Menu();
 	}
 	
-	public static ControladorJogo getMainGamePresenter() {
-		if(gamePresenter == null) {
-			gamePresenter = new ControladorJogo();
+	static ControladorJogo getControladorJogo() {
+		if(controladorJogo == null) {
+			controladorJogo = new ControladorJogo();
 		}
-		return gamePresenter;
+		return controladorJogo;
 	}
 	
-	public void iniciarJogo() { 
+	void iniciarJogo() { 
 		frameJogadores = new FrameJogadores();
 		menu.ativarRecarregamento();
 		menu.desativarSalvamento();
@@ -53,7 +56,22 @@ public class ControladorJogo {
 		frameJogadores.setVisible(true);
 	}
 	
-	public void fecharFrameJogadores(String nomeJogador1, String nomeJogador2) {
+	void reiniciarJogo() { 
+		controladorJogo = null;
+		ControladorPosicionamento.getControladorPosicionamento().reiniciarControlador();
+		ControladorAtaque.getControladorAtaque().reiniciarControlador();
+		if(frameAtaque != null) {
+			frameAtaque.setVisible(false);
+		}
+	}
+	
+	void fecharFrameJogadores(String nomeJogador1, String nomeJogador2) {
+		if("".equals(nomeJogador1)) {
+			nomeJogador1 = "Jogador 1";
+		}
+		if("".equals(nomeJogador2)) {
+			nomeJogador2 = "Jogador 2";
+		}
 		setNomeJogador(nomeJogador1, 1);
 		setNomeJogador(nomeJogador2, 2);
 		frameJogadores.setVisible(false);
@@ -62,7 +80,7 @@ public class ControladorJogo {
 		framePosicionamento.setVisible(true);
 	}
 	
-	public void fecharFramePosicionamento() {
+	void fecharFramePosicionamento() {
 		framePosicionamento.setVisible(false);
 		abrirFrameAtaque();
 	}
@@ -73,15 +91,15 @@ public class ControladorJogo {
 		frameAtaque.setVisible(true);
 	}
 	
-	public void fecharFrameAtaque() {
+	void fecharFrameAtaque() {
 		frameAtaque.dispatchEvent(new WindowEvent(frameAtaque, WindowEvent.WINDOW_CLOSING));
 	}
 	
-	public FramePosicionamento getFramePosicionamento() {
+	FramePosicionamento getFramePosicionamento() {
 		return framePosicionamento;
 	}
 	
-	public void setNomeJogador(String nome, int numJogador) {
+	void setNomeJogador(String nome, int numJogador) {
 		if(numJogador == 1) {
 			jogador1.setNome(nome);
 		} else if(numJogador == 2) {
@@ -89,7 +107,7 @@ public class ControladorJogo {
 		}
 	}
 	
-	public void setArmasJogador(ArrayList<PainelArma> armas, int numJogador) {
+	void setArmasJogador(ArrayList<PainelArma> armas, int numJogador) {
 		if(numJogador == 1) {
 			jogador1.setArmas(armas);
 		} else if(numJogador == 2) {
@@ -97,7 +115,7 @@ public class ControladorJogo {
 		}
 	}
 	
-	public void setCoordenadaArmasJogador(ArrayList<Coordenada[]> coordenadaArmas, int numJogador) {
+	void setCoordenadaArmasJogador(ArrayList<Coordenada[]> coordenadaArmas, int numJogador) {
 		if(numJogador == 1) {
 			jogador1.setCoordenadaArmas(coordenadaArmas);
 		} else if(numJogador == 2) {
@@ -105,7 +123,7 @@ public class ControladorJogo {
 		}
 	}
 	
-	public Jogador getJogador(int numJogador) {
+	Jogador getJogador(int numJogador) {
 		if(numJogador == 1) {
 			return jogador1;
 		} else if(numJogador == 2) {
@@ -114,11 +132,11 @@ public class ControladorJogo {
 		return null;
 	}
 	
-	public Menu getMenu() {
+	Menu getMenu() {
 		return menu;
 	}
 	
-	public void recarregarJogo() {
+	void recarregarJogo() {
 		JFileChooser fileChooser = new JFileChooser();
 		Scanner scanner = null;
         
@@ -144,10 +162,13 @@ public class ControladorJogo {
 	}
 	
 	private void leDadosSalvos(Scanner scanner) {
+		String vez = scanner.nextLine();
+		scanner.nextLine();
 		leDadosSalvosJogador(scanner, jogador1);
 		leTirosSalvos(scanner, 1);
 		leDadosSalvosJogador(scanner, jogador2);		
 		leTirosSalvos(scanner, 2);
+		ControladorAtaque.getControladorAtaque().setVez(Integer.valueOf(vez));
 	}
 	
 	private void leTirosSalvos(Scanner scanner, int i) {
@@ -219,7 +240,7 @@ public class ControladorJogo {
 		jogador.setArmas(armas);
 	}
 	
-	public void salvarJogo() throws IOException {
+	void salvarJogo() throws IOException {
 		JFileChooser fileChooser = new JFileChooser();
 		FileWriter fileWriter = null;
 		
@@ -239,7 +260,7 @@ public class ControladorJogo {
 	
 	@SuppressWarnings("unchecked")
 	private String formataSalvamento() {
-		String salvamento = "";
+		String salvamento = ControladorAtaque.getControladorAtaque().get(12) + "\n\n";
 		salvamento += jogador1.toString();
 		salvamento += "\n";
 		salvamento += formataTiros((ArrayList<Tiro>) ControladorAtaque.getControladorAtaque().get(6));

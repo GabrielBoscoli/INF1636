@@ -2,7 +2,7 @@ package gui;
 
 import javax.swing.*;
 
-import controladores.ControladorPosicionamento;
+import controladores.Fachada;
 import observer.IObservado;
 import observer.IObservador;
 import dominio.Tabuleiro;
@@ -22,7 +22,7 @@ public class PainelTabuleiro extends JPanel implements IObservador {
 	Tabuleiro tabuleiro = new Tabuleiro();
 	
 	public PainelTabuleiro() {
-		ControladorPosicionamento.getControladorPosicionamento().add(this);
+		Fachada.getFachada().register(this, "posicionamento");
 		this.setLayout(null);
 		this.setDoubleBuffered(true);
 		

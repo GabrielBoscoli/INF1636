@@ -5,6 +5,7 @@ import java.awt.Color;
 import javax.swing.*;
 
 import armas.*;
+import dominio.Arma;
 
 /**
  * Classe responsável pela apresentação das armas

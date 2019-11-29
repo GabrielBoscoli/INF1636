@@ -6,12 +6,12 @@ import java.awt.Graphics2D;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.geom.Rectangle2D;
-import java.util.ArrayList;
 
 import javax.swing.JPanel;
 
 import armas.*;
-import controladores.ControladorPosicionamento;
+import controladores.Fachada;
+import dominio.Arma;
 import observer.IObservado;
 import observer.IObservador;
 
@@ -40,7 +40,7 @@ public class PainelArma extends JPanel implements MouseListener, IObservador{
 		posicionada = false;
 		
 		addMouseListener(this);
-		ControladorPosicionamento.getControladorPosicionamento().add(this);
+		Fachada.getFachada().register(this, "posicionamento");
 	}
 	
 	@Override
@@ -77,12 +77,10 @@ public class PainelArma extends JPanel implements MouseListener, IObservador{
 		return cor;
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public void notify(IObservado observado) {
-		//PainelArma painelArma = (PainelArma) ControladorPosicionamento.getControladorPosicionamento().get(1);
-		selecionada = ((PainelArma) ControladorPosicionamento.getControladorPosicionamento().get(1)) == this;
-		posicionada = ((ArrayList<PainelArma>) ControladorPosicionamento.getControladorPosicionamento().get(4)).contains(this);
+		selecionada = Fachada.getFachada().getArmaSelecionada() == this;
+		posicionada = Fachada.getFachada().getArmasPosicionadas().contains(this);
 		
 		if(selecionada == true) {
 			setVisible(false);
@@ -97,7 +95,7 @@ public class PainelArma extends JPanel implements MouseListener, IObservador{
 	@Override
 	public void mousePressed(MouseEvent arg0) {
 		if(arg0.getButton() == MouseEvent.BUTTON1) {
-			ControladorPosicionamento.getControladorPosicionamento().ArmaClicada(this);			
+			Fachada.getFachada().armaClicada(this);
 		}
 	}
 

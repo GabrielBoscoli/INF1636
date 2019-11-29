@@ -1,6 +1,4 @@
-package armas;
-
-import outros.Coordenada;
+package dominio;
 
 /**
  * Classe abstrata que define propriedades comuns a todas as armas do jogo
@@ -25,7 +23,7 @@ public abstract class Arma {
 	 * @param qntdQuadrados quantidade de quadrados que a arma ocupa na matriz de posicionamento
 	 * @param qntdRotacoes quantidade de rotações possiveis para a arma
 	 */
-	Arma() {
+	public Arma() {
 	}
 
 	public int getQntdQuadrados() {

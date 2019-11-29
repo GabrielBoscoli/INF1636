@@ -1,4 +1,4 @@
-package outros;
+package dominio;
 
 public class Coordenada {
 
