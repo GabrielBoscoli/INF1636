@@ -66,7 +66,7 @@ public class FrameAtaque extends JFrame implements MouseListener, ActionListener
 		painelResultadoAtaque.add(resultado);
 		painelResultadoAtaque.setSize(500, 25);
 		x = (int)(tela.width * 1/2 - painelResultadoAtaque.getSize().getWidth()/2);
-		y = (int)(tela.height * 1/4);
+		y = (int)(tela.height * 1/9);
 		painelResultadoAtaque.setLocation(x, y);
 		this.add(painelResultadoAtaque);
 		
@@ -75,7 +75,7 @@ public class FrameAtaque extends JFrame implements MouseListener, ActionListener
 		tabuleiroJogador1.setSize((tabuleiroJogador1.getTabuleiro().getNumLinhas() + 1) * tabuleiroJogador1.getTamanhoQuadrado() + 1, 
 						(tabuleiroJogador1.getTabuleiro().getNumColunas() + 1) * tabuleiroJogador1.getTamanhoQuadrado() + 1);
 		x = (int)(tela.width * 1/4 - tabuleiroJogador1.getSize().getWidth()/2);
-		y = (int)(tela.height * 1/2 - tabuleiroJogador1.getSize().getHeight()/2);
+		y = (int)(tela.height * 5/11 - tabuleiroJogador1.getSize().getHeight()/2);
 		tabuleiroJogador1.setLocation(x, y);	
 		getContentPane().add(tabuleiroJogador1);
 		tabuleiroJogador1.addMouseListener(this);

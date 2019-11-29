@@ -172,7 +172,13 @@ class ControladorJogo {
 	}
 	
 	private void leTirosSalvos(Scanner scanner, int i) {
-		String linha = scanner.nextLine();
+		String linha = "";
+		if(scanner.hasNextLine()) {
+			linha = scanner.nextLine();
+		} else {
+			return;
+		}
+		
 		ArrayList<Tiro> tiros = new ArrayList<>();
 		
 		while(!linha.isEmpty()) {
@@ -198,6 +204,7 @@ class ControladorJogo {
 		
 		ArrayList<Coordenada[]> arrayCoordenadas = new ArrayList<>();
 		
+		//le coordenadas da arma
 		while(!linha.isEmpty()) {
 			String[] stringCoordenadas = linha.split(", ");
 			Coordenada[] coordenadas = new Coordenada[stringCoordenadas.length];
@@ -216,18 +223,23 @@ class ControladorJogo {
 		linha = scanner.nextLine();
 		ArrayList<PainelArma> armas = new ArrayList<>();
 
+		//le dados da arma
 		while(!linha.isEmpty()) {
-			if("couracado".equals(linha)) {
-				armas.add(new PainelArma(new Couracado(), PainelArmas.COURACADO_COR));
-			} else if("cruzador".equals(linha)) {
-				armas.add(new PainelArma(new Cruzador(), PainelArmas.CRUZADOR_COR));
-			} else if("destroyer".equals(linha)) {
-				armas.add(new PainelArma(new Destroyer(), PainelArmas.DESTROYER_COR));
-			} else if("hidroaviao".equals(linha)) {
-				armas.add(new PainelArma(new Hidroaviao(), PainelArmas.HIDROAVIAO_COR));
-			} else if("submarino".equals(linha)) {
-				armas.add(new PainelArma(new Submarino(), PainelArmas.SUBMARINO_COR));
-			} 
+			PainelArma arma = null;
+			String[] dadosArma = linha.split(" ");
+			if("couracado".equals(dadosArma[0])) {
+				arma = new PainelArma(new Couracado(), PainelArmas.COURACADO_COR);
+			} else if("cruzador".equals(dadosArma[0])) {
+				arma = new PainelArma(new Cruzador(), PainelArmas.CRUZADOR_COR);
+			} else if("destroyer".equals(dadosArma[0])) {
+				arma = new PainelArma(new Destroyer(), PainelArmas.DESTROYER_COR);
+			} else if("hidroaviao".equals(dadosArma[0])) {
+				arma = new PainelArma(new Hidroaviao(), PainelArmas.HIDROAVIAO_COR);
+			} else if("submarino".equals(dadosArma[0])) {
+				arma = new PainelArma(new Submarino(), PainelArmas.SUBMARINO_COR);
+			}
+			arma.getArma().setQuadradosIntactos(Integer.valueOf(dadosArma[1]));
+			armas.add(arma);
 
 			if(scanner.hasNextLine()) {
 				linha = scanner.nextLine();				

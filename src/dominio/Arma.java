@@ -18,6 +18,10 @@ public abstract class Arma {
 	
 	private String tipoArma;
 	
+	private boolean destruida = false;
+	
+	private int quadradosIntactos;
+	
 	/**
 	 * Construtor da classe arma
 	 * @param qntdQuadrados quantidade de quadrados que a arma ocupa na matriz de posicionamento
@@ -32,6 +36,7 @@ public abstract class Arma {
 
 	public void setQntdQuadrados(int qntdQuadrados) {
 		this.qntdQuadrados = qntdQuadrados;
+		quadradosIntactos = qntdQuadrados;
 	}
 
 	public int getQntdRotacoes() {
@@ -108,6 +113,36 @@ public abstract class Arma {
 
 	public void setTipoArma(String tipoArma) {
 		this.tipoArma = tipoArma;
+	}
+
+	public boolean isDestruida() {
+		return destruida;
+	}
+
+	public void setDestruida(boolean destruida) {
+		this.destruida = destruida;
+	}
+	
+	public int getQuadradosIntactos() {
+		return quadradosIntactos;
+	}
+	
+	public void setQuadradosIntactos(int numQuadradosIntactos) {
+		if(numQuadradosIntactos <= 0) {
+			quadradosIntactos = 0;
+			destruida = true;
+		} else {
+			quadradosIntactos = numQuadradosIntactos;
+			destruida = false;
+		}
+	}
+	
+	public void sofreuTiro() {
+		quadradosIntactos--;
+		if(quadradosIntactos <= 0) {
+			destruida = true;
+			quadradosIntactos = 0;
+		}
 	}
 	
 }

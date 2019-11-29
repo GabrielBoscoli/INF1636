@@ -1,6 +1,6 @@
+/armas/
 /controladores/
+/dominio/
 /gui/
 /main/
-/armas/
-/dominio/
-/outros/
+/observer/

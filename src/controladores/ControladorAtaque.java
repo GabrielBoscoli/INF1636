@@ -104,6 +104,7 @@ class ControladorAtaque implements IObservado {
 			rodadaEncerrada = false;
 			botaArmasNoTabuleiro();
 			botaTirosNosTabuleiros();
+			botaArmasDestruidasNoTabuleiro();
 		} else if(rodadaEncerrada) {
 			rodadaEncerrada = false;
 			visaoBloqueada = true;
@@ -116,13 +117,41 @@ class ControladorAtaque implements IObservado {
 			tabuleiroJogador1.ResetaTabuleiro();
 			tabuleiroJogador2.ResetaTabuleiro();
 		}
-		montaStringResultado(null, false);
+		montaStringResultado(null, false, false);
 		desAtivarSalvamento();
 		for(IObservador observador : listaObservadores) {
 			observador.notify(this);
 		}
 	}
 	
+
+	private void botaArmasDestruidasNoTabuleiro() {
+		ArrayList<Coordenada[]> coordenadaArmas;
+		ArrayList<PainelArma> armas;
+		Tabuleiro tabuleiro;
+		int x;
+		int y;
+		int numJogadores = 2;
+	
+		armas = jogador1.getArmas();
+		tabuleiro = tabuleiroJogador1;
+		coordenadaArmas = jogador1.getCoordenadaArmas();
+		for(int k = 0; k < numJogadores; k++) {
+			for(int i = 0; i < armas.size(); i++) {
+				if(armas.get(i).getArma().isDestruida()) {
+					Coordenada[] coordenada = coordenadaArmas.get(i);
+					for(int j = 0; j < coordenada.length; j++) {
+						x = coordenada[j].getX();
+						y = coordenada[j].getY();
+						tabuleiro.getMatrizCor()[x][y] = Color.BLACK;
+					}				
+				}
+			}
+			armas = jogador2.getArmas();
+			tabuleiro = tabuleiroJogador2;
+			coordenadaArmas = jogador2.getCoordenadaArmas();
+		}
+	}
 
 	private void Atira(int coluna, int linha) {
 		Tabuleiro tabuleiro;
@@ -136,20 +165,26 @@ class ControladorAtaque implements IObservado {
 		}
 		
 		if(jaFoiDadoTiroNaPosicao(tiros, coluna, linha)) {
-			montaStringResultado(null, true);
+			montaStringResultado(null, true, false);
 			return;
 		}
 		
 		PainelArma armaAtingida = VerificaSeTemArmaNaPosicao(coluna, linha);
 		tiroAtual++;
 		if(armaAtingida != null) {
-			tabuleiro.getMatrizCor()[coluna][linha] = tiroCerteiro;
+			armaAtingida.getArma().sofreuTiro();
+			if(armaAtingida.getArma().isDestruida()) {
+				botaArmasDestruidasNoTabuleiro();
+				montaStringResultado(armaAtingida.getArma().getTipoArma(), false, true);
+			} else {
+				tabuleiro.getMatrizCor()[coluna][linha] = tiroCerteiro;
+				montaStringResultado(armaAtingida.getArma().getTipoArma(), false, false);
+			}
 			tiros.add(new Tiro("certeiro", new Coordenada(coluna, linha)));
-			montaStringResultado(armaAtingida.getArma().getTipoArma(), false);
 		} else {
 			tabuleiro.getMatrizCor()[coluna][linha] = tiroErrado;
 			tiros.add(new Tiro("errado", new Coordenada(coluna, linha)));
-			montaStringResultado("água", false);
+			montaStringResultado("água", false, false);
 		}
 	}
 
@@ -206,10 +241,6 @@ class ControladorAtaque implements IObservado {
 				y = coordenada[j].getY();
 				tabuleiro.getMatrizCor()[x][y] = armas.get(i).getCor();
 			}
-		}
-		
-		for(IObservador observador : listaObservadores) {
-			observador.notify(this);
 		}
 	}
 
@@ -297,13 +328,15 @@ class ControladorAtaque implements IObservado {
 		}
 	}
 
-	private void montaStringResultado(String localAtingido, boolean tiroRepetido) {
+	private void montaStringResultado(String localAtingido, boolean tiroRepetido, boolean afundou) {
 		if(visaoBloqueada) {
 			resultado = "";			
 		} else if(tiroAtual == 1) {
 			resultado = numTiros + " tiros restantes.";
 		} else if(tiroRepetido) {
 			resultado = "Você já atirou nesse local. "  + (numTiros - (tiroAtual - 1)) + " tiro(s) restantes.";
+		} else if(afundou) {
+			resultado = "Você afundou " + localAtingido + ". " + (numTiros - (tiroAtual - 1)) + " tiro(s) restantes.";
 		} else {
 			resultado = "Você atingiu " + localAtingido + ". " + (numTiros - (tiroAtual - 1)) + " tiro(s) restantes.";
 		}
