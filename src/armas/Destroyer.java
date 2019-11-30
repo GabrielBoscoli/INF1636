@@ -33,6 +33,15 @@ public class Destroyer extends Arma {
 		this.setFormato(formato);
 	}
 	
+	private Destroyer(Coordenada[] formato, boolean destruida, int numQuadradosIntactos) {
+		qntdQuadrados = 2;
+		qntdRotacoes = 2;
+		this.formato = formato;
+		tipoArma = "destroyer";
+		this.destruida = destruida;
+		quadradosIntactos = numQuadradosIntactos;
+	}
+	
 	@Override
 	public void rotacionaArma() {
 		Coordenada[] novoFormato = new Coordenada[this.getQntdQuadrados()];
@@ -56,6 +65,11 @@ public class Destroyer extends Arma {
 		}
 		this.setFormato(formato);
 		
+	}
+
+	@Override
+	public Arma clonaArma() {
+		return new Destroyer(this.formato, destruida, quadradosIntactos);
 	}
 	
 }

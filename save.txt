@@ -1,95 +1,158 @@
-1
+2
 
-Jogador 1
+glorinha
 
-0 1, 1 0, 2 1
-4 1, 5 0, 6 1
-8 1, 9 0, 10 1
-12 1, 13 0, 14 1
-0 4, 1 3, 2 4
-4 3
-6 3
-8 3
-10 3
-12 3, 13 3
-4 5, 5 5
-7 5, 8 5
-10 5, 11 5, 12 5, 13 5
-10 7, 11 7, 12 7, 13 7
-4 7, 5 7, 6 7, 7 7, 8 7
+1 7, 1 8
+12 2, 13 3, 12 4
+2 2, 1 3, 2 4
+1 11, 1 12, 1 13, 1 14
+6 1, 6 2, 6 3, 6 4, 6 5
+9 4, 10 4
+4 8
+10 1
+14 14
+4 13
+8 8, 9 7, 10 8
+5 10, 6 11, 7 10
+12 7, 12 8
+9 14, 10 13, 11 14
+10 11, 11 11, 12 11, 13 11
 
-hidroaviao 3
-hidroaviao 3
-hidroaviao 2
-hidroaviao 3
-hidroaviao 2
-submarino 1
-submarino 1
-submarino 1
-submarino 1
 destroyer 2
-destroyer 2
-destroyer 2
-cruzador 4
-cruzador 0
-couracado 4
-
-errado 9 5
-errado 8 8
-errado 8 9
-certeiro 12 7
-certeiro 10 7
-certeiro 7 7
-certeiro 10 1
-errado 7 2
-certeiro 1 3
-certeiro 13 7
-certeiro 11 7
-errado 11 10
-
-Jogador 2
-
-0 14, 1 13, 2 14
-4 14, 5 13, 6 14
-8 14, 9 13, 10 14
-12 14, 13 13, 14 14
-0 11, 1 10, 2 11
-4 11
-6 11
-8 11
-10 11
-12 11, 13 11
-4 9, 5 9
-7 9, 8 9
-10 9, 11 9, 12 9, 13 9
-10 7, 11 7, 12 7, 13 7
-4 7, 5 7, 6 7, 7 7, 8 7
-
-hidroaviao 1
 hidroaviao 0
-hidroaviao 3
-hidroaviao 3
-hidroaviao 3
-submarino 1
-submarino 1
-submarino 1
-submarino 1
-destroyer 2
-destroyer 2
-destroyer 2
+hidroaviao 0
 cruzador 4
+couracado 0
+destroyer 0
+submarino 1
+submarino 1
+submarino 0
+submarino 1
+hidroaviao 3
+hidroaviao 0
+destroyer 2
+hidroaviao 3
 cruzador 4
-couracado 4
 
-errado 0 1
-errado 1 0
-errado 2 1
-errado 2 8
+errado 11 2
+errado 8 6
+errado 4 4
+errado 4 9
+errado 1 6
+errado 11 10
+errado 10 3
+errado 11 6
+errado 7 8
+certeiro 12 4
+certeiro 13 3
+errado 14 4
+errado 11 3
+errado 13 5
+certeiro 12 2
+errado 1 2
+certeiro 1 3
+errado 0 4
+certeiro 2 4
+certeiro 2 2
+errado 4 7
+errado 8 3
+certeiro 6 5
+errado 5 5
+errado 14 0
+errado 7 5
+errado 6 6
+certeiro 6 4
+certeiro 6 3
+certeiro 6 2
+certeiro 6 1
+certeiro 7 10
+certeiro 6 11
+errado 8 11
+errado 6 9
+errado 7 12
+certeiro 5 10
+certeiro 10 4
+certeiro 9 4
+errado 13 13
+certeiro 14 14
+errado 12 14
+
+chatão
+
+2 8, 3 9, 2 10
+6 4, 7 5, 8 4
+14 5, 13 6, 14 7
+13 1
+8 9
+9 12, 10 13, 9 14
+6 1, 7 0, 8 1
+8 7
+2 4, 2 5
+3 2, 4 2
+5 6, 5 7, 5 8, 5 9
+11 3, 12 3, 13 3, 14 3
+10 5, 11 5
+2 14
+0 0, 1 0, 2 0, 3 0, 4 0
+
+hidroaviao 3
+hidroaviao 3
+hidroaviao 3
+submarino 1
+submarino 1
+hidroaviao 3
+hidroaviao 3
+submarino 1
+destroyer 2
+destroyer 0
+cruzador 0
+cruzador 0
+destroyer 2
+submarino 1
+couracado 5
+
+errado 3 3
+errado 10 6
+errado 2 11
+errado 5 1
+errado 1 6
+errado 12 10
+errado 8 12
+certeiro 5 8
+errado 6 8
 certeiro 5 7
+certeiro 5 6
+errado 5 5
+certeiro 5 9
+errado 4 13
+errado 11 13
+errado 13 12
+certeiro 13 3
+errado 13 2
+errado 13 4
+certeiro 12 3
+certeiro 11 3
+errado 10 3
+certeiro 14 3
+errado 1 1
+errado 1 8
+errado 1 10
+errado 0 3
+errado 7 1
+errado 9 1
+errado 7 3
+errado 1 13
+errado 6 12
+errado 13 7
+errado 10 10
+errado 9 8
+errado 12 8
+certeiro 3 2
+errado 4 1
+errado 2 3
+certeiro 4 2
+errado 3 10
+errado 7 14
+errado 2 6
 errado 8 5
-certeiro 0 14
-certeiro 1 13
-errado 4 5
-certeiro 4 14
-certeiro 5 13
-certeiro 6 14
+errado 9 11

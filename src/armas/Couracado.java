@@ -32,6 +32,15 @@ public class Couracado extends Arma {
 		}
 		this.setFormato(formato);
 	}
+	
+	private Couracado(Coordenada[] formato, boolean destruida, int numQuadradosIntactos) {
+		qntdQuadrados = 5;
+		qntdRotacoes = 2;
+		this.formato = formato;
+		tipoArma = "couracado";
+		this.destruida = destruida;
+		quadradosIntactos = numQuadradosIntactos;
+	}
 
 	@Override
 	public void rotacionaArma() {
@@ -56,6 +65,11 @@ public class Couracado extends Arma {
 		}
 		this.setFormato(formato);
 		
+	}
+
+	@Override
+	public Arma clonaArma() {
+		return new Couracado(this.formato, destruida, quadradosIntactos);
 	}
 
 }

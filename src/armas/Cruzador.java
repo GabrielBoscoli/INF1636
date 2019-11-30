@@ -34,6 +34,15 @@ public class Cruzador extends Arma{
 		
 	}
 	
+	private Cruzador(Coordenada[] formato, boolean destruida, int numQuadradosIntactos) {
+		qntdQuadrados = 4;
+		qntdRotacoes = 2;
+		this.formato = formato;
+		tipoArma = "cruzador";
+		this.destruida = destruida;
+		quadradosIntactos = numQuadradosIntactos;
+	}
+	
 	@Override
 	public void rotacionaArma() {
 		Coordenada[] novoFormato = new Coordenada[this.getQntdQuadrados()];
@@ -57,6 +66,11 @@ public class Cruzador extends Arma{
 		}
 		this.setFormato(formato);
 		
+	}
+
+	@Override
+	public Arma clonaArma() {
+		return new Cruzador(this.formato, destruida, quadradosIntactos);
 	}
 	
 }

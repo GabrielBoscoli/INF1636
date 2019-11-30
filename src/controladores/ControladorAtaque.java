@@ -331,10 +331,10 @@ class ControladorAtaque implements IObservado {
 	private void montaStringResultado(String localAtingido, boolean tiroRepetido, boolean afundou) {
 		if(visaoBloqueada) {
 			resultado = "";			
-		} else if(tiroAtual == 1) {
-			resultado = numTiros + " tiros restantes.";
 		} else if(tiroRepetido) {
 			resultado = "Você já atirou nesse local. "  + (numTiros - (tiroAtual - 1)) + " tiro(s) restantes.";
+		} else if(tiroAtual == 1) {
+			resultado = numTiros + " tiros restantes.";
 		} else if(afundou) {
 			resultado = "Você afundou " + localAtingido + ". " + (numTiros - (tiroAtual - 1)) + " tiro(s) restantes.";
 		} else {

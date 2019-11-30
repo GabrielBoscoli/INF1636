@@ -8,19 +8,19 @@ package dominio;
 public abstract class Arma {
 
 	//quantidade de quadrados que a arma ocupa na matriz de posicionamento
-	private int qntdQuadrados;
+	protected int qntdQuadrados;
 	
 	//quantidade de rotações possiveis para a arma
-	private int qntdRotacoes;
+	protected int qntdRotacoes;
 	
 	//formato da arma
-	private Coordenada[] formato;
+	protected Coordenada[] formato;
 	
-	private String tipoArma;
+	protected String tipoArma;
 	
-	private boolean destruida = false;
+	protected boolean destruida = false;
 	
-	private int quadradosIntactos;
+	protected int quadradosIntactos;
 	
 	/**
 	 * Construtor da classe arma
@@ -34,7 +34,7 @@ public abstract class Arma {
 		return qntdQuadrados;
 	}
 
-	public void setQntdQuadrados(int qntdQuadrados) {
+	protected void setQntdQuadrados(int qntdQuadrados) {
 		this.qntdQuadrados = qntdQuadrados;
 		quadradosIntactos = qntdQuadrados;
 	}
@@ -43,7 +43,7 @@ public abstract class Arma {
 		return qntdRotacoes;
 	}
 
-	public void setQntdRotacoes(int qntdRotacoes) {
+	protected void setQntdRotacoes(int qntdRotacoes) {
 		this.qntdRotacoes = qntdRotacoes;
 	}
 
@@ -51,7 +51,7 @@ public abstract class Arma {
 		return formato;
 	}
 
-	public void setFormato(Coordenada[] formato) {
+	protected void setFormato(Coordenada[] formato) {
 		this.formato = formato;
 	}
 	
@@ -103,24 +103,22 @@ public abstract class Arma {
 		return maior - menor + 1;
 	}
 	
-	abstract public void rotacionaArma();
+	public abstract void rotacionaArma();
 	
-	abstract public void rotacionaArmaParaPosicaoOriginal();
+	public abstract void rotacionaArmaParaPosicaoOriginal();
+	
+	public abstract Arma clonaArma();
 
 	public String getTipoArma() {
 		return tipoArma;
 	}
 
-	public void setTipoArma(String tipoArma) {
+	protected void setTipoArma(String tipoArma) {
 		this.tipoArma = tipoArma;
 	}
 
 	public boolean isDestruida() {
 		return destruida;
-	}
-
-	public void setDestruida(boolean destruida) {
-		this.destruida = destruida;
 	}
 	
 	public int getQuadradosIntactos() {

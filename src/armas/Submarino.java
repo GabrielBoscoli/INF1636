@@ -30,10 +30,24 @@ public class Submarino extends Arma {
 		
 	}
 	
+	private Submarino(Coordenada[] formato, boolean destruida, int numQuadradosIntactos) {
+		qntdQuadrados = 1;
+		qntdRotacoes = 1;
+		this.formato = formato;
+		tipoArma = "submarino";
+		this.destruida = destruida;
+		quadradosIntactos = numQuadradosIntactos;
+	}
+	
 	@Override
 	public void rotacionaArma() {}
 	
 	@Override
 	public void rotacionaArmaParaPosicaoOriginal() {}
+
+	@Override
+	public Arma clonaArma() {
+		return new Submarino(this.formato, destruida, quadradosIntactos);
+	}
 	
 }

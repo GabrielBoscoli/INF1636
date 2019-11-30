@@ -119,7 +119,6 @@ public class PainelArmas extends JPanel {
 			painelArma.setLocation(xPosicionamento, yPosicionamento);
 			
 			this.add(painelArma);
-			//PainelCouracado.repaint();
 			
 			xPosicionamento += armas[i].getLargura() * tamanhoQuadrado + espacoEntreArmas;
 		}

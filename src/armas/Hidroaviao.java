@@ -33,6 +33,15 @@ public class Hidroaviao extends Arma {
 		
 	}
 	
+	private Hidroaviao(Coordenada[] formato, boolean destruida, int numQuadradosIntactos) {
+		qntdQuadrados = 3;
+		qntdRotacoes = 4;
+		this.formato = formato;
+		tipoArma = "hidroaviao";
+		this.destruida = destruida;
+		quadradosIntactos = numQuadradosIntactos;
+	}
+	
 	@Override
 	public void rotacionaArma() {
 		Coordenada[] formato = getFormato();
@@ -66,6 +75,11 @@ public class Hidroaviao extends Arma {
 		
 		this.setFormato(formato);
 		
+	}
+
+	@Override
+	public Arma clonaArma() {
+		return new Hidroaviao(this.formato, destruida, quadradosIntactos);
 	}
 	
 }

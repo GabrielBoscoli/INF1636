@@ -9,7 +9,6 @@ import java.awt.geom.Rectangle2D;
 
 import javax.swing.JPanel;
 
-import armas.*;
 import controladores.Fachada;
 import dominio.Arma;
 import observer.IObservado;

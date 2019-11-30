@@ -58,6 +58,7 @@ class ControladorPosicionamento implements IObservado {
 	
 	void BotaoTabuleiroProntoClicado() {
 		System.out.println("BotaoTabuleiroProntoClicado");
+		clonaArmas();
 		ControladorJogo.getControladorJogo().setArmasJogador((ArrayList<PainelArma>) armasPosicionadas, vez);
 		ControladorJogo.getControladorJogo().setCoordenadaArmasJogador((ArrayList<Coordenada[]>) coordenadaArmasPosicionadas, vez);
 		if(vez == 1) {
@@ -315,6 +316,12 @@ class ControladorPosicionamento implements IObservado {
 		return ControladorJogo.getControladorJogo().getJogador(vez).getNome();
 	}
 	
+	private void clonaArmas() {
+		for(int i = 0; i < armasPosicionadas.size(); i++) {
+			armasPosicionadas.set(i, new PainelArma(armasPosicionadas.get(i).getArma().clonaArma(), armasPosicionadas.get(i).getCor()));
+		}
+	}
+	
 
 	@Override
 	public void add(IObservador observador) {
@@ -338,6 +345,8 @@ class ControladorPosicionamento implements IObservado {
 			return armasPosicionadas;
 		else if(i == 5)
 			return getNomeJogadorDaVez();
+		else if(i == 6)
+			return vez;
 		else
 			return null;
 	}

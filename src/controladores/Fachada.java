@@ -135,6 +135,10 @@ public class Fachada {
 		ControladorPosicionamento.getControladorPosicionamento().ArmaClicada(arma);
 	}
 	
+	public int getVezFasePosicionamento() {
+		return (int) ControladorPosicionamento.getControladorPosicionamento().vez;
+	}
+	
 	public void register(IObservador o, String fase) {
 		if("ataque".equals(fase)) {
 			ControladorAtaque.getControladorAtaque().add(o);
