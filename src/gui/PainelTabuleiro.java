@@ -45,8 +45,6 @@ public class PainelTabuleiro extends JPanel implements IObservador {
 			coordLinha.add(labelLinha);
 			this.add(coordLinha);
 		}
-		
-		//addMouseListener(this);
 	}
 	
 	public void paintComponent(Graphics g) {

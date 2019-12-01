@@ -130,7 +130,6 @@ class ControladorPosicionamento implements IObservado {
 		}
 	}
 	
-	//adaptar essa funcao para tirar não só a armaSelecionada, mas qualquer arma
 	private boolean RetiraArma(int coluna, int linha) {
 		int linhaAjustada = 0;
 		int colunaAjustada = 0;

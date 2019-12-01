@@ -1,0 +1,35 @@
+Nome dos jogadores:
+
+Deve ser informado o nome do jogador 1 e 2.
+Caso o campo do nome do jogador 1 fique vazio, seu nome será Jogador 1.
+Caso o campo do nome do jogador 2 fique vazio, seu nome será Jogador 2.
+
+Posicionamento das armas:
+
+Clique em cima da arma que deseja posicionar. A arma desaparecerá.
+Se quiser cancelar a seleção, aperte esc. A arma voltará a sua posição original.
+Para posicioná-la, após selecionada, clique em algum quadrado do tabuleiro em que seja possivel o posicionamento.
+Caso não seja possível posicionar, a arma apenas não será colocada no tabuleiro.
+Para que o posicionamento seja possível, não pode haver arma alguma em qualquer quadrado vizinho da arma que deseja ser posicionada.
+Além disso, a arma deve caber no tabuleiro.
+A arma é posicionada a partir do quadrado superior esquerdo.
+Após posicionada, pode-se rotacionar a arma clicando com o botão direito no tabuleiro.
+Caso não seja possivel rotacionar, por quebrar as regras de posicionamento, ela não rotacionará.
+Para confimar a posição de uma arma, aperte esc.
+Para retirar uma arma posicionada, clique sobre ela com o botao esquerdo no tabuleiro. A arma voltará a sua posição original.
+A operação acima só será possivel se não houver armas selecionadas no momento.
+Despois de todas as armas devidamente posicionadas no tabuleiro, o jogador deve clicar no botao para confirmar.
+
+Ataque:
+
+Cada jogador tem 3 tiros por rodada.
+Tiros que atingem a água pintam o local atingido de azul.
+Tiros que acertem uma arma, mas não a afunde, pintam o local atingido de vermelho.
+Tiros que acertem uma arma e a afunda, pintam a arma atingida toda de preto.
+A cada tiro realizado, uma mensagem mostra o resultado da ação.
+Ao acertar uma arma, o tipo da arma acertada deve ser revelado para o jogador.
+Submarino - arma com 1 bloco.
+Destroyer - arma com 2 bloco.
+Hidroaviao - arma com 3 bloco.
+Cruzador - arma com 4 bloco.
+Couracado - arma com 5 bloco.
